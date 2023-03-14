@@ -1,16 +1,16 @@
 # Akelarre
 
-# Presentación
+## Presentación
 Proyecto para la asignatura Desarrollo de Videouegos Web
 
-Autores: Pablo Campo, Carlos Martín, Oriana Aveledo, Daniel Cobos 
-Estudio de desarrollo: Ass.embly Studios
+- **Autores**: Pablo Campo, Carlos Martín, Oriana Aveledo, Daniel Cobos 
+- **Estudio de desarrollo**: Ass.embly Studios
 
 ### 1. BASIC INFO
-Nombre juego: Akelarre
-Género: Aventura, Arcade
-Plataformas: PC Gaming
-Audiencia: Jugadores casuales
+- Nombre juego: Akelarre
+- Género: Aventura, Arcade
+- Plataformas: PC Gaming
+- Audiencia: Jugadores casuales
 
 ### 2. DESCRIPTION
 Las brujas de Zugarramurdi te han capturado para un sacrificio humano! :o Si quieres escapar tendrás que completar una serie de arduas pruebas para conseguir la llave de la entrada, siempre y cuando no mueras en el intento >:)
