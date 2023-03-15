@@ -2,11 +2,11 @@
 
 # Para ejecutar el código en tu ordenador
 
-1. Clonar repositorio en tu ordenador (git clone)
+1. Clonar repositorio en tu ordenador (`git clone`)
 2. Abre la terminal del IDE, con la ruta al proyecto
-3. Ejecuta: npm i
-4. Ejecuta: npm start
-5. Lo podrás visualizar en tu navegador en la ruta: localhost:8080
+3. Ejecuta: `npm i`
+4. Ejecuta: `npm start`
+5. Lo podrás visualizar en tu **navegador** en la ruta: `localhost:8080`
 
 
 ## Presentación
