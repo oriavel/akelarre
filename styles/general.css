@@ -5,10 +5,23 @@ html, body {
   width:100%;
   margin: 0px;
   padding: 0px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Fredericka the Great', 'Roboto', sans-serif;
   font-size: 1em;
 }
+
+body {
+  background: rgb(60 51 45);
+ }
 nav {
+  padding: 0.3em;
+  background: #0b163a;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+
+}
+#links {
     padding: 0.3em;
     background: #0b163a;
     display: flex;
@@ -16,6 +29,7 @@ nav {
     align-items: center;
     flex-direction: row;
     gap: 1em;
+    width: 80%;
 }
 nav a {
     text-decoration: none;
@@ -39,3 +53,13 @@ header{
     margin: 0;
 }
 
+#currentPage {
+  color: #ff72ea;
+  font-weight: 600;
+}
+
+#witch {
+  width: 2em;
+  height: 2em;
+  border-radius: 12%;
+}
