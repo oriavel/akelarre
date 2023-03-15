@@ -63,3 +63,12 @@ header{
   height: 2rem;
   border-radius: 12%;
 }
+/** Layout styles */
+header {
+  position: initial;
+}
+section {
+  position: absolute;
+  color: whitesmoke;
+  padding: 5em 10em;
+}
