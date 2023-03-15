@@ -11,10 +11,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
 
+    <script src="/lib/phaser.min.js"></script>
+
     <title>Akelarre</title>
 </head>
 
 <body>
+   
     <header>
         <nav>
             <img src="assets/witch.webp" alt="witch" id="witch">
@@ -28,10 +31,9 @@
         </nav>
     </header>
     <section>
-
-    </section>
-    <footer>
+        <script src="./src/game.js" type="module"></script>
+        <canvas id="game" style="image-rendering: pixelated; width: 800px; height: 600px"></canvas>
         
-    </footer>
+    </section>
 </body>
 </html>

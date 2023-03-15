@@ -72,3 +72,8 @@ section {
   color: whitesmoke;
   padding: 5em 10em;
 }
+
+
+#game{
+  display:block
+}

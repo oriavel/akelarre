@@ -1,5 +1,14 @@
 # Akelarre
 
+# Para ejecutar el código en tu ordenador
+
+1. Clonar repositorio en tu ordenador (git clone)
+2. Abre la terminal del IDE, con la ruta al proyecto
+3. Ejecuta: npm i
+4. Ejecuta: npm start
+5. Lo podrás visualizar en tu navegador en la ruta: localhost:8080
+
+
 ## Presentación
 Proyecto para la asignatura Desarrollo de Videouegos Web de la complu
 
@@ -51,4 +60,3 @@ hola.com
 
 # UML
 
-# Modificar el código en este repositorio y ejecutar juego en local
