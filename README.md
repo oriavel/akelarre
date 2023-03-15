@@ -1,7 +1,7 @@
 # Akelarre
 
 ## Presentación
-Proyecto para la asignatura Desarrollo de Videouegos Web
+Proyecto para la asignatura Desarrollo de Videouegos Web de la complu
 
 - **Autores**: Pablo Campo, Carlos Martín, Oriana Aveledo, Daniel Cobos 
 - **Estudio de desarrollo**: Ass.embly Studios
@@ -43,3 +43,12 @@ En cada prueba los controles cambian:
 - Esquiva pociones
 
 
+# Enlace a página web con versión de producción del juego
+
+hola.com
+
+# Proceso de diseño
+
+# UML
+
+# Modificar el código en este repositorio y ejecutar juego en local

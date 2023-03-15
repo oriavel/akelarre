@@ -1,0 +1,1 @@
+descripción de los assets, las decisiones de dirección artística y donde se han obtenido. En caso de los assets propios debe indicarse la licencia ya sea propietaria o libre

@@ -1,0 +1,1 @@
+ documentos y diagrama de arquitectura (puede formar parte del README.md)
