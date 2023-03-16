@@ -54,7 +54,7 @@ En cada prueba los controles cambian:
 
 # Enlace a página web con versión de producción del juego
 
-hola.com
+https://oriavel.github.io/akelarre/
 
 # Proceso de diseño
 
