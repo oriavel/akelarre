@@ -1,0 +1,200 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>Akelarre: Goat Run !!</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 500,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 300 },
+                debug: false
+            }
+    },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+    var player;
+    var platforms;
+    var cursors;
+    var goat;
+    var bat;
+
+    function preload ()
+    {
+        this.load.image('cave', 'assets/cave.png');
+        this.load.image('ground', 'assets/platform.png');
+        this.load.spritesheet('amaia', 
+            'assets/amaia_run.png',
+            { frameWidth: 48, frameHeight: 48 }
+        );
+        this.load.spritesheet('goat', 
+            'assets/goat_run.png',
+            { frameWidth: 144, frameHeight: 144 }
+        );
+        this.load.spritesheet('amaia_jump', 
+            'assets/amaia_jump.png',
+            { frameWidth: 48, frameHeight: 48 }
+        );
+        this.load.spritesheet('bat',
+            'assets/bat_spritesheet.png', 
+            { frameWidth: 32, frameHeight: 32}
+        );
+
+    }
+
+    function create ()
+    {
+
+        this.add.image(400, 250, 'cave');
+
+        platforms = this.physics.add.staticGroup();
+        platforms.create(400, 500, 'ground').setScale(2).refreshBody();
+
+        player = this.physics.add.sprite(200, 350, 'amaia').setScale(1.6);
+        goat = this.physics.add.sprite(50, 300, 'goat');
+
+        flying = this.physics.add.staticGroup();
+        bat = flying.create(500, 250, 'bat').setScale(2);
+
+        
+
+        this.anims.create({
+            key: 'right_amaia',
+            frames: this.anims.generateFrameNumbers('amaia', { start: 0, end: 7 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'right_goat',
+            frames: this.anims.generateFrameNumbers('goat', { start: 0, end: 1 }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'stop_amaia',
+            frames: [ { key: 'amaia', frame: 4 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'stop_goat',
+            frames: [ { key: 'goat', frame: 0 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'jump_amaia',
+            frames: [ { key: 'amaia_jump', frame: 0 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'fall_amaia',
+            frames: [ { key: 'amaia_jump', frame: 2 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'still_amaia',
+            frames: [ { key: 'amaia_jump', frame: 1 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'bat',
+            frames: this.anims.generateFrameNumbers('bat', { start: 0, end: 3 }),
+            frameRate: 5,
+            repeat: -1
+        })
+
+
+        cursors = this.input.keyboard.createCursorKeys();
+
+        player.setCollideWorldBounds(true);
+        goat.setCollideWorldBounds(true);
+
+        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(goat, platforms);
+        console.log("Llega aquí por lo menos");
+    }
+
+
+    var jump = false; // para evitar el doble salto
+    var powerup_salto = false; // ¿meto power up para saltar más?
+    function update ()
+    {
+        bat.anims.play('bat', true);
+        bat.setVelocityX(-100);
+        if (cursors.right.isDown)
+        {
+            if(!jump){
+                player.setVelocityX(160);
+                player.anims.play('right_amaia', true);
+            }
+            goat.setVelocityX(120);
+            goat.anims.play('right_goat', true);
+            
+            if (cursors.up.isDown && !jump){
+                player.setVelocityY(-200);
+                jump = true;
+                player.anims.play('jump_amaia', true); 
+            }
+
+            if (jump){
+                if (player.body.velocity.y < 0) {
+                    player.anims.play('jump_amaia', true);
+                    console.log(player.body.velocity.y);
+                } else if (player.body.velocity.y > 0) {
+                    player.anims.play('fall_amaia', true);
+                    console.log("amaia cae");
+                }
+                else{
+                    player.anims.play('still_amaia', true);
+                    console.log("still");
+                }
+            }
+            if (player.body.touching.down){
+                jump = false;
+                console.log("amaia toca suelo");
+            }
+        }
+        else
+        {
+            player.setVelocityX(0);
+            if(!jump){
+                player.anims.play('stop_amaia', true);  
+            }
+            else{
+                player.anims.play('jump_amaia', true);
+            }
+            goat.setVelocityX(0);
+            goat.anims.play('stop_goat', true);
+        }
+    }
+
+</script>
+
+</body>
+</html>
