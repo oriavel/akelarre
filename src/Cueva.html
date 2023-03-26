@@ -1,0 +1,65 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>Cueva</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+
+    var game = new Phaser.Game(config);
+
+    function preload (){
+        //Cargar cueva:
+        this.load.image('tiles', 'assets/Caves.png')
+		this.load.tilemapTiledJSON('tilemap', 'assets/Cueva.json')
+
+        //Cargar prota
+        this.load.spritesheet('amaia', 
+            'assets/amaia_run.png',
+            { frameWidth: 48, frameHeight: 48 }
+        );
+    }
+
+    function create (){
+        //Cueva
+        const map = this.make.tilemap({ key: 'tilemap' })
+		const tileset = map.addTilesetImage('PatronCueva', 'tiles')
+		
+		map.createStaticLayer('suelo', tileset)
+        map.createStaticLayer('obstaculos', tileset)
+        
+        //Prota
+        player = this.physics.add.sprite(200, 350, 'amaia').setScale(1.6);
+
+    }
+
+    function update (){
+       
+    }
+
+
+</script>
+
+</body>
+</html>
