@@ -10,7 +10,7 @@
 
 
 ## Presentación
-Proyecto para la asignatura Desarrollo de Videouegos Web de la complu
+El proyecto es un trabajo universitario para la asignatura "Desarrollo de Videouegos mediante tecnologías Web".
 
 - **Autores**: Pablo Campo, Carlos Martín, Oriana Aveledo, Daniel Cobos 
 - **Estudio de desarrollo**: Ass.embly Studios
@@ -56,7 +56,4 @@ En cada prueba los controles cambian:
 
 https://oriavel.github.io/akelarre/
 
-# Proceso de diseño
-
-# UML
 
