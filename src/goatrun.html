@@ -3,6 +3,7 @@
 <head> 
     <meta charset="UTF-8" />
     <title>Akelarre: Goat Run !!</title>
+    <link rel="preload" as="font" href="assets/ka1.ttf" type="font/ttf" />
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
     <style type="text/css">
         body {
@@ -38,13 +39,17 @@
     var cursors;
     var goat;
     var bat;
+    var rock;
+
+    var distance = 0;
+    var scoreText;
 
     function preload ()
     {
-        this.load.image('cave', 'assets/cave.png');
+        this.load.image('cave', 'assets/cave_long.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.spritesheet('amaia', 
-            'assets/amaia_run.png',
+            'assets/correr_spritesheet.png',
             { frameWidth: 48, frameHeight: 48 }
         );
         this.load.spritesheet('goat', 
@@ -59,24 +64,48 @@
             'assets/bat_spritesheet.png', 
             { frameWidth: 32, frameHeight: 32}
         );
+        this.load.image('rock', 'assets/rock_1.png');
 
     }
 
     function create ()
     {
+        /*
+        background = this.add.tileSprite(400, 250, 'cave');
+        background.setDisplaySize(800, 500);
+        background.setScrollFactor(0.5);
+        */
+        // this.physics.startSystem(Phaser.Physics.ARCADE);
+        // cave = this.add.background(0, 0, 'cave');   
+        // this.physics.enable(cave, Phaser.Physics.ARCADE);
 
-        this.add.image(400, 250, 'cave');
+        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave').setOrigin(0).setScrollFactor(0, 1);
 
         platforms = this.physics.add.staticGroup();
         platforms.create(400, 500, 'ground').setScale(2).refreshBody();
 
-        player = this.physics.add.sprite(200, 350, 'amaia').setScale(1.6);
-        goat = this.physics.add.sprite(50, 300, 'goat');
-
-        flying = this.physics.add.staticGroup();
-        bat = flying.create(500, 250, 'bat').setScale(2);
-
+        player = this.physics.add.sprite(320, 400, 'amaia').setOrigin(0.5, 0.3).setScale(1.6);
+       //  player.setOrigin(0.5, 0.2);
+    
+        rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
+        rock.body.velocity.x = -150;
         
+        rock2 = this.physics.add.sprite(950, 350, 'rock').setScale(0.6);
+        rock2.body.velocity.x = -140;
+        
+        
+        goat = this.physics.add.sprite(50, 280, 'goat');
+
+        bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
+        bat.body.allowGravity = false;
+        bat.body.velocity.x = -150;
+
+        bat2 = this.physics.add.sprite(1200, 300, 'bat').setScale(2);
+        bat2.body.allowGravity = false;
+        bat2.body.velocity.x = -150;
+
+        // 681 x 89
+
 
         this.anims.create({
             key: 'right_amaia',
@@ -135,9 +164,16 @@
         player.setCollideWorldBounds(true);
         goat.setCollideWorldBounds(true);
 
+        bat.anims.play('bat', true);
+        bat2.anims.play('bat', true);
+
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(goat, platforms);
+        this.physics.add.collider(rock, platforms);
+        this.physics.add.collider(rock2, platforms);
         console.log("Llega aquí por lo menos");
+
+        scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
     }
 
 
@@ -145,19 +181,21 @@
     var powerup_salto = false; // ¿meto power up para saltar más?
     function update ()
     {
-        bat.anims.play('bat', true);
-        bat.setVelocityX(-100);
+        this.background.tilePositionX += 0.15;
+        distance += 1;
+        scoreText.setText('Distance: ' + distance + '/20000');
+        console.log(distance)
         if (cursors.right.isDown)
         {
             if(!jump){
-                player.setVelocityX(160);
+                // player.setVelocityX(160);
                 player.anims.play('right_amaia', true);
             }
-            goat.setVelocityX(120);
+            // goat.setVelocityX(120);
             goat.anims.play('right_goat', true);
             
             if (cursors.up.isDown && !jump){
-                player.setVelocityY(-200);
+                player.setVelocityY(-250);
                 jump = true;
                 player.anims.play('jump_amaia', true); 
             }
