@@ -24,9 +24,9 @@
         <nav>
             <div id="links">
                 <a href="https://github.com/oriavel/akelarre" target="_blank">Repositorio</a>
-                <button id="description-btn" onclick="openModal(`description-modal`)">Descripción</button>
+                <button id="description-btn" onclick=openModal(description-modal)>Descripción</button>
                 <h1>Akelarre</h1>
-                <button id="instructions-btn" onclick="openModal(`instructions-modal`)"> Instrucciones</button>
+                <button id="instructions-btn" onclick="openModal('instructions-modal')"> Instrucciones</button>
                 <a href="authors.html">Ass.embly</a>
             </div>
         </nav>
@@ -34,7 +34,7 @@
     <section>
         <div id="instructions-modal" class="modal">
             <div class="modal-content">
-                <button onclick="closeModal(`instructions-modal`)"  class="close">&times;</button>
+                <button onclick="closeModal('instructions-modal')"  class="close">&times;</button>
                 <h3 class="modal-title">Instrucciones</h3>
                 <ul>
                     <li> Para poder explorar la cueva debes usar las <b>flechas del teclado</b></li>
@@ -48,7 +48,7 @@
     <section>
         <div id="description-modal" class="modal">
             <div class="modal-content">
-                <button onclick="closeModal(`description-modal`)" class="close">&times;</button>
+                <button onclick="closeModal('description-modal')" class="close">&times;</button>
                 <h3 class="modal-title">Descripción</h3>
                 <p> Las brujas de Zugarramurdi te han capturado para un sacrificio humano! :o </p>
                 <p> Si quieres escapar tendrás que completar una serie de arduas pruebas para conseguir la llave de la entrada, siempre y cuando no mueras en el intento >:) </p>
