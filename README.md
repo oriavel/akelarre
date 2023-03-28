@@ -51,6 +51,16 @@ En cada prueba los controles cambian:
  Espacio: para saltar
 - Esquiva pociones: Como la mayoria de juegos de esquivar, el jugador podrá mover a su personaje arriba (para saltar) y hacia los lados
 
+### 5. CAPTURAS DEL JUEGO/BOCETOS
+Protagonista dentro de la cueva
+![image](https://user-images.githubusercontent.com/79701191/228315741-d2f071ae-3d8b-43b0-a3f0-52384c78392b.png)
+
+GoatRun!
+![image](https://user-images.githubusercontent.com/79701191/228316353-aaf989c8-25e1-40d8-822b-3fd0c5bffe01.png)
+
+Bocetos de los minijuegos restantes:
+![image](https://user-images.githubusercontent.com/79701191/228317241-2bf213d1-8097-46ff-90f8-2ddd8340dea2.png)
+![image](https://user-images.githubusercontent.com/79701191/228317259-1dd32785-e3e6-4522-93ea-20a3aee1b1dd.png)
 
 # Enlace a página web con versión de producción del juego
 
