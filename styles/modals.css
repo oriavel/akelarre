@@ -13,11 +13,15 @@
 li {
     margin-top: 1em;
 }
+.modal-content p {
+    margin: 2em;
+}
+
 /* Modal Content/Box */
 .modal-content {
     background-color: #0b163a;
-    margin: 15% auto;
-    padding: 1em;
+    margin: 10% auto;
+    padding: 2em;
     border: 1px solid #fdfcd9;
     width: 50%;
     font-size: 0.9em;
@@ -38,6 +42,8 @@ li {
     float: right;
     font-size: 3em;
     font-weight: bold;
+    background: transparent;
+    border: none;
 }
 
 .close:hover,
