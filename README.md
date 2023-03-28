@@ -1,11 +1,11 @@
 # Akelarre
 
-# Para ejecutar el código en tu ordenador
+## Para ejecutar el código en tu ordenador
 
-1. Clonar repositorio en tu ordenador (`git clone`)
-2. Abre la terminal del IDE, con la ruta al proyecto
-3. Ejecuta: `npm i`
-4. Ejecuta: `npm start`
+1. Clonar repositorio en tu ordenador: `git clone https://github.com/oriavel/akelarre.git`
+2. Abre la terminal del IDE, con la ruta donde quieras que esté el proyecto
+3. Ejecuta: `npm i` para instalar las dependencias
+4. Ejecuta: `npm start` para ejecutar el juego. Cada vez que hagas un cambio al código tendrás que reiniciar la ejecución para ver las modificaciones.
 5. Lo podrás visualizar en tu **navegador** en la ruta: `localhost:8080`
 
 
