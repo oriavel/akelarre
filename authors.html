@@ -6,8 +6,12 @@
     <link rel="shortcut icon" href="assets/witch.webp" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <link rel="stylesheet" href="./styles/general.css">
+    <link rel="stylesheet" href="./styles/modals.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+
+    <script src="/src/modals.js" defer></script>
 
     <title>Akelarre - Autores</title>
 </head>
@@ -15,13 +19,12 @@
 <body>
     <header>
         <nav>
-            <img src="assets/witch.webp" alt="witch" id="witch">
             <div id="links">
-                <a href="https://github.com/oriavel/akelarre" target="_blank">Repo</a>
-                <a href="#" target="_blank">DevOps ??</a>
+                <a href="https://github.com/oriavel/akelarre" target="_blank">Repositorio</a>
+                <button id="description-btn" disabled>Descripción</button>
                 <h1><a href="index.html">Akelarre</a></h1>
-                <a href="#">Instrucciones</a>
-                <a href="authors.html" id="currentPage">Autores</a>
+                <button id="instructions-btn" disabled> Instrucciones</button>
+                <a href="authors.html" id="currentPage">Ass.embly</a>
             </div>
         </nav>
     </header>
