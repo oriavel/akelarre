@@ -129,28 +129,30 @@
     function update (){
         if (cursors.right.isDown){
             player.setVelocityX(100);
+            player.setVelocityY(0);
             player.anims.play('right_amaia', true);
             animation = 1;
 
         }
         else if (cursors.left.isDown){
             player.setVelocityX(-100);
+            player.setVelocityY(0);
             player.anims.play('left_amaia', true);
             animation = 2;
 
         }
         else if (cursors.up.isDown){
             player.setVelocityY(-100);
+            player.setVelocityX(0);
             player.anims.play('up_amaia', true);
             animation = 3;
-    
+
         }
         else if (cursors.down.isDown){
             player.setVelocityY(100);
+            player.setVelocityX(0);
             player.anims.play('down_amaia', true);
             animation = 4;
-            
-            
         }
         else{
             player.setVelocityX(0);
