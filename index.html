@@ -6,18 +6,20 @@
     <link rel="shortcut icon" href="assets/witch.webp" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <link rel="stylesheet" href="./styles/general.css">
+    <link rel="stylesheet" href="./styles/modals.css">
     <link rel="stylesheet" href="./styles/game.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
 
     <script src="/lib/phaser.min.js"></script>
+    <script src="/src/modals.js" defer></script>
 
     <title>Akelarre</title>
 </head>
 
 <body>
-   
+
     <header>
         <nav>
             <img src="assets/witch.webp" alt="witch" id="witch">
@@ -25,19 +27,32 @@
                 <a href="https://github.com/oriavel/akelarre" target="_blank">Repositorio</a>
                 <a href="#" target="_blank">Descripcion</a>
                 <h1>Akelarre</h1>
-                <a href="#" target="_blank">Instrucciones</a>
+                <button id="instructionsBtn">Instrucciones</button>
                 <a href="authors.html">Ass.embly</a>
             </div>
         </nav>
     </header>
+    <section >
+        <div id="instructionsModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3 class="modal-title">Instrucciones</h3>
+                <ul>
+                    <li> Para poder explorar la cueva debes usar las <b>flechas del teclado</b></li>
+                    <li> Para interactuar con un elemento pulsa la tecla <i>espacio</i></li>
+                    <li> Para empezar un minijuego interactúa con cualquiera de los 3 portales </li>
+                </ul>
+            </div>
+        </div>
+    </section>
     <section>
-        <iframe src="./src/Cueva.html" class="game" width="670" height="630"></iframe>
-        
+        <!-- <iframe src="./src/Cueva.html" class="game" width="670" height="630"></iframe> -->
     </section>
 
     <section>
-    	
+
 
     </section>
 </body>
+
 </html>
