@@ -1,9 +1,12 @@
 /**
  * Clase Game de Phaser: crear e iniciar juego
  */
+import Cueva from './scenes/cueva.js';
+
 let config = {
     type: Phaser.CANVAS,
     canvas: document.getElementById("game"),
+    parent: "juego",
     width:  800,
     height: 600,
     pixelArt: true,
@@ -24,7 +27,7 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: false
+            debug: true
         },
         checkCollision: {
             up: true,
@@ -33,6 +36,7 @@ let config = {
             right: true
         }
     },
+    scene: [Cueva],
     title: "Akelarre",
     version: "0.0.1"
 };
