@@ -110,7 +110,7 @@ export default class Cueva extends Phaser.Scene {
 
         this.cameras.main.startFollow(this.player, true);
 
-        this.player.setCollideWorldBounds(true);
+        this.player.setCollideWorldBounds(false);
 
     }
 
