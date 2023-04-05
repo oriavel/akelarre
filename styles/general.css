@@ -36,7 +36,16 @@ nav a {
     color: #fcf400 ;
 }
 
-nav a:hover {
+nav button {
+  background-color: transparent;
+  border: none;
+  font-family: 'Fredericka the Great', 'Roboto', sans-serif;
+  text-decoration: none;
+  color: #fcf400 ;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+nav a:hover, nav button:hover {
   color: rgb(126, 227, 249) ;
 }
 
