@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bilbo+Swash+Caps&display=swap" rel="stylesheet">
 
     <title>Akelarre - Autores</title>
 </head>
@@ -17,29 +18,53 @@
 <body>
     <header>
         <nav>
-            <div id="links">
-                <a href="https://github.com/oriavel/akelarre" target="_blank">Repositorio</a>
-                <button id="description-btn" disabled>Descripción</button>
-                <h1><a href="index.html">Akelarre</a></h1>
-                <button id="instructions-btn" disabled> Instrucciones</button>
-                <a href="authors.html" id="currentPage">Ass.embly</a>
+            <div id="authors-links">
+                <div>
+                    <a href="./">
+                        <h1>Akelarre</h1>
+                    </a>
+                </div>
+                <div id="authors-right">
+                    <a href="https://github.com/oriavel/akelarre" target="_blank">Repositorio</a>
+                    <p id="currentPage">Ass.embly</p>
+                </div>
             </div>
         </nav>
     </header>
     <section>
         <div>
-            <h2>Autores</h2>
-            <p>Este proyecto ha sido desarrollado por:</p>
-            <ul>
-                <li>Oriana Verónica Aveledo Gallego</li>
-                <li>Pablo Campo Gómez</li>
-                <li>Daniel Cobos</li>
-                <li>Carlos Martín</li>
-            </ul>
+            <div class="author-container">
+                <div class="author-box">
+                    <img src="assets/oriana.jpg" alt="Oriana Aveledo ">
+                    <h3>Oriana Aveledo </h3>
+                    <p>Estudiante de Ingeniería Informática. Aficionada al desarrollo de software y videojuegos.</p>
+                </div>
+                <div class="author-box">
+                    <img src="assets/pablo.jpg" alt="Pablo Campo Gómez">
+                    <h3>Pablo Campo</h3>
+                    <p>Estudiante de Ingeniería Informática. Apasionado por el desarrollo de software y los videojuegos.
+                    </p>
+                </div>
+                <div class="author-box">
+                    <img src="assets/daniel.jpg" alt="Daniel Cobos">
+                    <h3>Daniel Cobos</h3>
+                    <p>Estudiante de Ingeniería Informática. Interesado en el desarrollo de software y la inteligencia
+                        artificial.</p>
+                </div>
+                <div class="author-box">
+                    <img src="assets/carlos.jpg" alt="Carlos Martín">
+                    <h3>Carlos Martín</h3>
+                    <p>Estudiante de Ingeniería Informática. Entusiasta de la programación y el desarrollo de
+                        videojuegos.</p>
+
+                </div>
+            </div>
         </div>
     </section>
+
     <footer>
 
     </footer>
 </body>
+
 </html>

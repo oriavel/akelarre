@@ -32,7 +32,7 @@ nav {
     width: 80%;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
-nav a, nav button {
+nav a, nav button, nav p {
     font-family: 'Bilbo Swash Caps', serif;
     text-decoration: none;
     color: #B1B1D1 ;
@@ -50,11 +50,12 @@ nav a:hover, nav button:hover {
   font-size: 1.7em;
 }
 
-nav h1, nav h1 a {
+h1 {
   font-weight: 600;
   color: #a3ff00;
   text-shadow: 11px 11px 4px rgb(0 0 0 / 54%);
   font-size: xx-large;
+  font-family: 'Fredericka the Great', 'Roboto', sans-serif;
 }
 
 header{
@@ -65,7 +66,7 @@ header{
 }
 
 #currentPage {
-  color: #ff72ea;
+  color: #e1cde1;
   font-weight: 600;
 }
 
@@ -74,6 +75,76 @@ header{
   height: 2rem;
   border-radius: 12%;
 }
+
+
+
+
+/** Authors **/
+
+#authors-links { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 80%;
+}
+#authors-right {
+  display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    gap: 5rem;
+    align-items: center;
+}
+.author-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.author-box {
+  display: inline-block;
+  width: 350px;
+  height: 350px;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: #4d4646;
+  color: #fff;
+}
+
+.author-box:nth-child(2n) {
+  background-color: #784848;
+}
+
+.author-box:nth-child(3n) {
+  background-color: #b08860;
+}
+
+.author-box:nth-child(4n) {
+  background-color: #d1bfa7;
+  color:#4d4646;
+}
+
+  .author-box img {
+    width: 6em;
+    height: 6em;
+    border-radius: 50%;
+    margin: 1.2rem auto 0rem;
+}
+
+.author-box h3 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.author-box p {
+  font-size: 18px;
+  line-height: 1.4;
+  font-family: 'Bilbo Swash Caps', serif;
+}
+
 /** Layout styles */
 header {
   position: initial;
