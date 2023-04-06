@@ -10,7 +10,8 @@ html, body {
 }
 
 body {
-  background: #080022; ;
+  background-image: url("/assets/cave.jpg");
+  background-size: cover;
  }
 nav {
   background: linear-gradient(to bottom, #2a2a2a, #600086);;
