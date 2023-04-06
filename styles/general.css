@@ -10,49 +10,51 @@ html, body {
 }
 
 body {
-  background: rgb(60 51 45);
+  background: #080022; ;
  }
 nav {
-  background: #0b163a;
+  background: linear-gradient(to bottom, #2a2a2a, #600086);;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-direction: row;
   font-size: 1.1rem;
   font-weight: 600;
+  box-shadow: 0 10px 10px black;
   
 }
-#links {
-    background: #0b163a;
+#links { 
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: row;
     gap: 1em;
     width: 80%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
-nav a {
+nav a, nav button {
+    font-family: 'Bilbo Swash Caps', cursive;
     text-decoration: none;
-    color: #fcf400 ;
+    color: #B1B1D1 ;
+    text-shadow: 11px 11px 4px rgb(0 0 0 / 54%);
+    font-weight: 500;
+    font-size: 1.5em;
 }
 
 nav button {
   background-color: transparent;
   border: none;
-  font-family: 'Fredericka the Great', 'Roboto', sans-serif;
-  text-decoration: none;
-  color: #fcf400 ;
-  font-size: 1.1rem;
-  font-weight: 600;
 }
 nav a:hover, nav button:hover {
-  color: rgb(126, 227, 249) ;
+  color: #71bf2d;
+  font-size: 1.7em;
 }
 
 nav h1, nav h1 a {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #fdfcd9;
+  font-weight: 600;
+  color: #a3ff00;
+  text-shadow: 11px 11px 4px rgb(0 0 0 / 54%);
+  font-size: xx-large;
 }
 
 header{
