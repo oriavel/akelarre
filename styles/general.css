@@ -33,7 +33,7 @@ nav {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 nav a, nav button {
-    font-family: 'Bilbo Swash Caps', cursive;
+    font-family: 'Bilbo Swash Caps', serif;
     text-decoration: none;
     color: #B1B1D1 ;
     text-shadow: 11px 11px 4px rgb(0 0 0 / 54%);

@@ -11,36 +11,38 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 li {
-    margin-top: 1em;
+    margin-top: 1rem;
 }
 .modal-content p {
-    margin: 2em;
+    margin: 2rem;
 }
 
 /* Modal Content/Box */
 .modal-content {
-    background-color: #0b163a;
-    margin: 10% auto;
-    padding: 2em;
-    border: 1px solid #fdfcd9;
+    background-color: #414729;
+    margin: 2% auto;
+    padding: 0.7em;
+    border: 1px solid #000000;
     width: 50%;
-    font-size: 0.9em;
-    color: whitesmoke;
-    font-family: sans-serif;
+    font-size: 1.6rem;
+    color: #f8f8f8;
+    font-family: 'Bilbo Swash Caps', serif;
+
 }
 
 .modal-title {
     font-family: 'Fredericka the Great', 'Roboto', sans-serif;
-    color: #fdfcd9;
+    color: #cde0f6;
     margin-left: 2em;
     margin-top: 1em;
+    text-shadow: 7px 14px 6px #000827;
 }
 
 /* The Close Button */
 .close {
-    color: #ce1515;
+    color: #8f0000;
     float: right;
-    font-size: 3em;
+    font-size: 3rem;
     font-weight: bold;
     background: transparent;
     border: none;
@@ -48,7 +50,8 @@ li {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: #ba0202;
     text-decoration: none;
     cursor: pointer;
+    text-shadow: 3px 6px 10px #0000008a;
 }
