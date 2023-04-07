@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Bilbo+Swash+Caps&display=swap" rel="stylesheet">
     <script src="./lib/phaser.min.js"></script>
     <script src="./modals.js" defer></script>
 
@@ -34,12 +34,15 @@
     <section>
         <div id="instructions-modal" class="modal">
             <div class="modal-content">
-                <button onclick="closeModal('instructions-modal')"  class="close">&times;</button>
+                <button onclick="closeModal('instructions-modal')" class="close">&times;</button>
                 <h3 class="modal-title">Instrucciones</h3>
                 <ul>
-                    <li> Para poder explorar la cueva debes usar las <b>flechas del teclado</b></li>
-                    <li> Para interactuar con un elemento pulsa la tecla <i>espacio</i></li>
-                    <li> Para empezar un minijuego interactúa con cualquiera de los 3 portales </li>
+                    <li> Para poder explorar la cueva debes usar las <b>flechas del teclado</b>
+                    <img src="/assets/Instructions/flechas.png" class="instr-pic"></li>
+                    <li> Para interactuar con un elemento pulsa la tecla <i>espacio</i>
+                        <img src="/assets/Instructions/space.png" class="instr-pic">
+                    </li>
+                    <li> Para empezar un minijuego interactúa con cualquiera de los <b>3</b> portales </li>
                 </ul>
             </div>
         </div>
@@ -51,21 +54,20 @@
                 <button onclick="closeModal('description-modal')" class="close">&times;</button>
                 <h3 class="modal-title">Descripción</h3>
                 <p> Las brujas de Zugarramurdi te han capturado para un sacrificio humano! :o </p>
-                <p> Si quieres escapar tendrás que completar una serie de arduas pruebas para conseguir la llave de la entrada, siempre y cuando no mueras en el intento >:) </p>
-                <p>Con este juego pretendemos hacer un homenaje al folklore vasco y a la leyenda de las brujas de Zugarramurdi.</p>
+                <p> Si quieres escapar tendrás que completar una serie de arduas pruebas para conseguir la llave de la
+                    entrada, siempre y cuando no mueras en el intento >:) </p>
+                <p>Completa los retos propuestos por las brujas y pueden que decidan perdonarte la vida...</p>
             </div>
         </div>
     </section>
 
     <section>
-        <div id="juego"><script id="script"src="src/js/game.js" type="module" ></script></div>
+        <div id="juego">
+            <script id="script" src="src/js/game.js" type="module"></script>
+        </div>
 
     </section>
 
-    <section>
-
-
-    </section>
 </body>
 
 </html>
