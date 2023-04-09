@@ -40,8 +40,16 @@ export default class GoatRun extends Phaser.Scene {
 	/**
 	* Creación de los elementos de la escena principal de juego
 	*/
+
+    
 	create(){
 
+        var rocks;
+        var timer_rocks;
+        var bats;
+        var timer_bats;
+        // var deltaTime = 0; CREARLA FUERA
+    
         this.background = this.add.tileSprite(0, 0, 800, 500, 'cave').setOrigin(0).setScrollFactor(0, 1);
 
         platforms = this.physics.add.staticGroup();
@@ -68,6 +76,53 @@ export default class GoatRun extends Phaser.Scene {
         bat2.body.velocity.x = -150;
 
         // 681 x 89
+
+        rocks = this.physics.add.group();
+        timer_rocks = this.time.addEvent({
+            delay: Phaser.Math.Between(2000, 5000),
+            loop: true,
+            callback: function() {
+                // Crear un objeto dentro del grupo y define su posición inicial
+                var objeto = rocks.create(900, 350, 'rock');
+                objeto.setScale(0.6);
+
+                // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
+                objeto.body.velocity.x = -100;
+                console.log("mitad del callback");
+
+                // Eliminar el objeto cuando salga de la pantalla
+                objeto.outOfBoundsKill = true;
+                objeto.checkWorldBounds = true;
+            }
+        });
+
+        // this.start = this.getTime();
+        bats = this.physics.add.group();
+        timer_bats = this.time.addEvent({
+            delay: Phaser.Math.Between(1000, 4000),
+            loop: true,
+            callback: function() {
+                // Crear un objeto dentro del grupo y define su posición inicial
+                var objeto = bats.create(900, 250, 'bat');
+                objeto.setScale(2);
+                objeto.anims.play('bat', true);
+                objeto.body.allowGravity = false;
+
+                objeto.body.x += objeto.body.velocity.x * deltaTime;
+
+                // Mover el objeto verticalmente utilizando una onda sinusoidal
+                objeto.body.y = 1000 + 2000 * Math.sin(0.02 * objeto.x);
+
+
+                // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
+                objeto.body.velocity.x = -80;
+                console.log("mitad del callback de bats");
+
+                // Eliminar el objeto cuando salga de la pantalla
+                objeto.outOfBoundsKill = true;
+                objeto.checkWorldBounds = true;
+            }
+        });
 
 
         this.anims.create({
@@ -134,6 +189,8 @@ export default class GoatRun extends Phaser.Scene {
         this.physics.add.collider(goat, platforms);
         this.physics.add.collider(rock, platforms);
         this.physics.add.collider(rock2, platforms);
+        this.physics.add.collider(rocks, platforms);
+        this.physics.add.collider(bats, platforms);
         console.log("Llega aquí por lo menos");
 
         scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
@@ -150,7 +207,8 @@ export default class GoatRun extends Phaser.Scene {
         this.background.tilePositionX += 0.15;
         distance += 1;
         scoreText.setText('Distance: ' + distance + '/20000');
-        console.log(distance)
+        deltaTime = this.time.elapsed/1000;
+        console.log(distance);
         if (cursors.right.isDown)
         {
             if(!jump){
