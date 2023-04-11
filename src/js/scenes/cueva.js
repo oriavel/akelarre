@@ -1,3 +1,4 @@
+import GoatRun from './goatrun.js';
 /**
  * Escena de Título.
  * @extends Phaser.Scene
@@ -48,6 +49,10 @@ export default class Cueva extends Phaser.Scene {
         this.player.setSize(15, 15);
         this.player.body.offset.y = 16;
         this.physics.add.collider(this.player, layer);
+
+
+        // Entrada de teclado
+        this.input.keyboard.on('keydown', this.onKeyDown, this);
         
         //Movimientos
         this.anims.create({
@@ -114,6 +119,16 @@ export default class Cueva extends Phaser.Scene {
 
     }
 
+    // Función que se llamará cada vez que se presione una tecla
+    onKeyDown(event) {
+        if (event.code === 'Space') {
+            console.log('La barra espaciadora fue presionada');
+            this.nextScene();
+        }
+    }
+
+   
+
 	/**
 	* Loop del juego
 	*/
@@ -162,5 +177,13 @@ export default class Cueva extends Phaser.Scene {
                 this.player.anims.play('stop_down_amaia', true);
             }
         }
+
+    }
+
+
+    nextScene(){
+        console.log('1');
+        this.scene.stop('Cueva');
+        this.scene.start('goatrun');
     }
 }

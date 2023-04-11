@@ -9,7 +9,14 @@ export default class GoatRun extends Phaser.Scene {
 	 */
 	constructor() {
 		super({ key: 'goatrun' });
+        this.physicsPlugin = null;
 	}
+
+    initPhysics(){
+        this.physicsPlugin = this.physics.add;
+        this.physicsPlugin.world.gravity.y = 300;
+        this.physicsPlugin.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
+    }
 
 	/**
 	 * Cargamos todos los assets que vamos a necesitar
@@ -17,7 +24,7 @@ export default class GoatRun extends Phaser.Scene {
 	preload(){
         this.load.image('cave', 'src/assets/cave_long.png');
         this.load.image('ground', 'src/assets/platform.png');
-        this.load.spritesheet('amaia', 
+        this.load.spritesheet('amaia_goatrun', 
             'src/assets/correr_spritesheet.png',
             { frameWidth: 48, frameHeight: 48 }
         );
@@ -43,7 +50,7 @@ export default class GoatRun extends Phaser.Scene {
 
     
 	create(){
-
+        this.initPhysics();
         var rocks;
         var timer_rocks;
         var bats;
@@ -52,28 +59,29 @@ export default class GoatRun extends Phaser.Scene {
     
         this.background = this.add.tileSprite(0, 0, 800, 500, 'cave').setOrigin(0).setScrollFactor(0, 1);
 
-        platforms = this.physics.add.staticGroup();
-        platforms.create(400, 500, 'ground').setScale(2).refreshBody();
+        this.platforms = this.physics.add.staticGroup();
+        this.platforms.create(400, 500, 'ground').setScale(2).refreshBody();
 
-        player = this.physics.add.sprite(320, 400, 'amaia').setOrigin(0.5, 0.3).setScale(1.6);
+        this.playerr = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
+        this.playerr.setSize(15,35);
        //  player.setOrigin(0.5, 0.2);
     
-        rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
-        rock.body.velocity.x = -150;
+        this.rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
+        this.rock.body.velocity.x = -150;
         
-        rock2 = this.physics.add.sprite(950, 350, 'rock').setScale(0.6);
-        rock2.body.velocity.x = -140;
+        this.rock2 = this.physics.add.sprite(950, 350, 'rock').setScale(0.6);
+        this.rock2.body.velocity.x = -140;
         
         
-        goat = this.physics.add.sprite(50, 280, 'goat');
+        this.goat = this.physics.add.sprite(50, 280, 'goat');
 
-        bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
-        bat.body.allowGravity = false;
-        bat.body.velocity.x = -150;
+        this.bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
+        this.bat.body.allowGravity = false;
+        this.bat.body.velocity.x = -150;
 
-        bat2 = this.physics.add.sprite(1200, 300, 'bat').setScale(2);
-        bat2.body.allowGravity = false;
-        bat2.body.velocity.x = -150;
+        this.bat2 = this.physics.add.sprite(1200, 300, 'bat').setScale(2);
+        this.bat2.body.allowGravity = false;
+        this.bat2.body.velocity.x = -150;
 
         // 681 x 89
 
@@ -93,6 +101,7 @@ export default class GoatRun extends Phaser.Scene {
                 // Eliminar el objeto cuando salga de la pantalla
                 objeto.outOfBoundsKill = true;
                 objeto.checkWorldBounds = true;
+                
             }
         });
 
@@ -108,10 +117,10 @@ export default class GoatRun extends Phaser.Scene {
                 objeto.anims.play('bat', true);
                 objeto.body.allowGravity = false;
 
-                objeto.body.x += objeto.body.velocity.x * deltaTime;
+                //objeto.body.x += objeto.body.velocity.x * deltaTime;
 
                 // Mover el objeto verticalmente utilizando una onda sinusoidal
-                objeto.body.y = 1000 + 2000 * Math.sin(0.02 * objeto.x);
+                //objeto.body.y = 1000 + 2000 * Math.sin(0.02 * objeto.x);
 
 
                 // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
@@ -126,8 +135,8 @@ export default class GoatRun extends Phaser.Scene {
 
 
         this.anims.create({
-            key: 'right_amaia',
-            frames: this.anims.generateFrameNumbers('amaia', { start: 0, end: 7 }),
+            key: 'right_amaia_goats',
+            frames: this.anims.generateFrameNumbers('amaia_goatrun', { start: 0, end: 7 }),
             frameRate: 10,
             repeat: -1
         });
@@ -141,7 +150,7 @@ export default class GoatRun extends Phaser.Scene {
 
         this.anims.create({
             key: 'stop_amaia',
-            frames: [ { key: 'amaia', frame: 4 } ],
+            frames: [ { key: 'amaia_goatrun', frame: 4 } ],
             frameRate: 20
         });
 
@@ -177,23 +186,23 @@ export default class GoatRun extends Phaser.Scene {
         })
 
 
-        cursors = this.input.keyboard.createCursorKeys();
+        this.cursors = this.input.keyboard.createCursorKeys();
 
-        player.setCollideWorldBounds(true);
-        goat.setCollideWorldBounds(true);
+        this.playerr.setCollideWorldBounds(true);
+        this.goat.setCollideWorldBounds(true);
 
-        bat.anims.play('bat', true);
-        bat2.anims.play('bat', true);
+        this.bat.anims.play('bat', true);
+        this.bat2.anims.play('bat', true);
 
-        this.physics.add.collider(player, platforms);
-        this.physics.add.collider(goat, platforms);
-        this.physics.add.collider(rock, platforms);
-        this.physics.add.collider(rock2, platforms);
-        this.physics.add.collider(rocks, platforms);
-        this.physics.add.collider(bats, platforms);
+        this.physics.add.collider(this.playerr, this.platforms);
+        this.physics.add.collider(this.goat, this.platforms);
+        this.physics.add.collider(this.rock, this.platforms);
+        this.physics.add.collider(this.rock2, this.platforms);
+        this.physics.add.collider(rocks, this.platforms);
+        this.physics.add.collider(bats, this.platforms);
         console.log("Llega aquí por lo menos");
 
-        scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
+        this.scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
 
         // Def variables para el update
         var jump = false; // para evitar el doble salto
@@ -205,54 +214,54 @@ export default class GoatRun extends Phaser.Scene {
 	*/
     update(){
         this.background.tilePositionX += 0.15;
-        distance += 1;
-        scoreText.setText('Distance: ' + distance + '/20000');
-        deltaTime = this.time.elapsed/1000;
-        console.log(distance);
-        if (cursors.right.isDown)
+        this.distance += 1;
+        this.scoreText.setText('Distance: ' + this.distance + '/20000');
+        // deltaTime = this.time.elapsed/1000;
+        console.log(this.distance);
+        if (this.cursors.right.isDown)
         {
-            if(!jump){
+            if(!this.jump){
                 // player.setVelocityX(160);
-                player.anims.play('right_amaia', true);
+                this.playerr.anims.play('right_amaia_goats', true);
             }
             // goat.setVelocityX(120);
-            goat.anims.play('right_goat', true);
+            this.goat.anims.play('right_goat', true);
             
-            if (cursors.up.isDown && !jump){
-                player.setVelocityY(-250);
-                jump = true;
-                player.anims.play('jump_amaia', true); 
+            if (this.cursors.up.isDown && !this.jump){
+                this.playerr.setVelocityY(-250);
+                this.jump = true;
+                this.playerr.anims.play('jump_amaia', true); 
             }
 
-            if (jump){
-                if (player.body.velocity.y < 0) {
-                    player.anims.play('jump_amaia', true);
-                    console.log(player.body.velocity.y);
-                } else if (player.body.velocity.y > 0) {
-                    player.anims.play('fall_amaia', true);
+            if (this.jump){
+                if (this.playerr.body.velocity.y < 0) {
+                    this.playerr.anims.play('jump_amaia', true);
+                    console.log(this.playerr.body.velocity.y);
+                } else if (this.playerr.body.velocity.y > 0) {
+                    this.playerr.anims.play('fall_amaia', true);
                     console.log("amaia cae");
                 }
                 else{
-                    player.anims.play('still_amaia', true);
+                    this.playerr.anims.play('still_amaia', true);
                     console.log("still");
                 }
             }
-            if (player.body.touching.down){
-                jump = false;
+            if (this.playerr.body.touching.down){
+                this.jump = false;
                 console.log("amaia toca suelo");
             }
         }
         else
         {
-            player.setVelocityX(0);
-            if(!jump){
-                player.anims.play('stop_amaia', true);  
+            this.playerr.setVelocityX(0);
+            if(!this.jump){
+                this.playerr.anims.play('stop_amaia', true);  
             }
             else{
-                player.anims.play('jump_amaia', true);
+                this.playerr.anims.play('jump_amaia', true);
             }
-            goat.setVelocityX(0);
-            goat.anims.play('stop_goat', true);
+            this.goat.setVelocityX(0);
+            this.goat.anims.play('stop_goat', true);
         }
     }
 }
