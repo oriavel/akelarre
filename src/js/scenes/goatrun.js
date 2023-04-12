@@ -92,7 +92,6 @@ export default class GoatRun extends Phaser.Scene {
         this.bat2.body.velocity.x = -150;
 
         // 681 x 89
-
         rocks = this.physics.add.group();
         timer_rocks = this.time.addEvent({
             delay: Phaser.Math.Between(2000, 5000),
@@ -197,7 +196,7 @@ export default class GoatRun extends Phaser.Scene {
             key: 'amaia_death',
             frames: this.anims.generateFrameNumbers('amaia_death', { start: 0, end: 4 }),
             frameRate: 5,
-            repeat: -1
+            repeat: 0
         });
 
         this.anims.create({
@@ -229,6 +228,8 @@ export default class GoatRun extends Phaser.Scene {
         // Def variables para el update
         this.jump = false; // para evitar el doble salto
         var powerup_salto = false; // ¿meto power up para saltar más?
+        this.changeCollider = true; // Para el cambio del tamaño de collider cuando se agacha
+        this.amaiaIsDeath = false;
 
     }
 
@@ -241,43 +242,54 @@ export default class GoatRun extends Phaser.Scene {
         this.scoreText.setText('Distance: ' + this.distance + '/20000');
         // deltaTime = this.time.elapsed/1000;
 
-        if(this.cursors.up.isDown){
-            if(!this.jump){ // Si no está saltando
-                this.jump = true;
-                this.player.setVelocityY(-250);
-                this.player.anims.play('jump_amaia', true);
-            }            
-        }
-        if(this.jump){ // Si está saltando ya 
-
-            if (this.player.body.velocity.y < 0) { // Va hacia arriba
-                this.player.anims.play('jump_amaia', true);
-            } else if (this.player.body.velocity.y > 0) { // Va hacia abajo
-                this.player.anims.play('fall_amaia', true);
+        if(!this.amaiaIsDeath){
+            if(this.cursors.up.isDown){
+                if(!this.jump){ // Si no está saltando
+                    this.jump = true;
+                    this.player.setVelocityY(-250);
+                    this.player.anims.play('jump_amaia', true);
+                }            
             }
-            else{ // Está en el aire
-                this.player.anims.play('still_amaia', true);
+            if(this.jump){ // Si está saltando ya 
+    
+                if (this.player.body.velocity.y < 0) { // Va hacia arriba
+                    this.player.anims.play('jump_amaia', true);
+                } else if (this.player.body.velocity.y > 0) { // Va hacia abajo
+                    this.player.anims.play('fall_amaia', true);
+                }
+                else{ // Está en el aire
+                    this.player.anims.play('still_amaia', true);
+                }
+            }
+    
+            if (this.player.body.touching.down && !this.cursors.down.isDown){ // Si amaia está tocando el suelo
+                this.jump = false; // No permitimos el doble salto de esta manera
+                this.player.anims.play('right_amaia_goats', true);
+            }
+    
+            if(this.cursors.down.isDown){ // Si se presiona 'abajo'
+                if(!this.jump){ // Solo si no está saltando, si está en el aire no se puede agachar
+                    this.player.anims.play('amaia_agachada', true);
+                    this.player.setSize(15,20);
+                    this.player.setOrigin(0.5, 0.3).setScale(1.6)
+                    this.player.body.setOffset(20, 20);
+                    this.changeCollider = false;
+                }
+            }
+            else if (!this.changeCollider){
+                this.player.setOrigin(0.5, 0.3).setScale(1.6);
+                this.player.setSize(15,35);
+                this.changeCollider = true;
+            }
+    
+            if(this.cursors.left.isDown){ // Prueba para comprobar animación de muerte
+                this.deathScene();
+                this.amaiaIsDeath = true;
             }
         }
-        if (this.player.body.touching.down){ // Si amaia está tocando el suelo
-            this.jump = false; // No permitimos el doble salto de esta manera
-            // this.player.anims.play('right_amaia_goats', true);
-        }
 
-        if(this.cursors.down.isDown){ // Si se presiona 'abajo'
-            if(!this.jump){ // Solo si no está saltando, si está en el aire no se puede agachar
-                this.player.anims.play('amaia_agachada', true);
-                this.player.setSize(15,20);
-                this.player.setOrigin(0.5, 0.3).setScale(1.6)
-                this.player.body.setOffset(20, 20);
-            }
 
-        }
-
-        if(this.cursors.left.isDown){ // Prueba para comprobar animación de muerte
-            this.player.anims.play('amaia_death', true);
-        }
-
+        
 
 
 
@@ -333,5 +345,58 @@ export default class GoatRun extends Phaser.Scene {
         }
 
         */
+    }
+
+
+    deathScene(){
+        this.time.removeAllEvents(); // Dejamos de generar enemigos
+        // this.destroyEnemies();
+        this.cameras.main.fadeOut(12500);
+        this.player.anims.play('amaia_death', true);
+        //this.background.setScrollFactor(0);
+        //this.background.tilePositionX += 0.0;
+        this.player.setSize(15,35);
+        this.player.setOrigin(0.5, 0.4).setScale(1.6);
+        this.zoomEnPunto(this.player.body.x, this.player.body.y, 3);
+        this.cameras.main.setZoom(2);
+        // this.anims.pause(this.anims.currentAnim.frames[3]);
+        // this.player.body.setOffset(20, 20);
+        
+    }
+
+    /*
+    destroyEnemies(){
+        for(let i = 0; i < this.batsArray.length; i++) {
+            this.batsArray[i].destroy();
+        }
+        for(let i = 0; i < this.rocksArray.length; i++) {
+            this.rocksArray[i].destroy();
+        }
+    }
+    */
+
+    zoomEnPunto(x, y, zoom) {
+        // Obtener las coordenadas de la esquina superior izquierda de la cámara
+        const x0 = this.cameras.main.scrollX;
+        const y0 = this.cameras.main.scrollY;
+
+        // Obtener el ancho y la altura de la cámara
+        const w0 = this.cameras.main.width;
+        const h0 = this.cameras.main.height;
+
+        // Calcular la nueva posición y el tamaño de la cámara después del zoom
+        const w1 = w0 / zoom;
+        const h1 = h0 / zoom;
+        const x1 = x + 10 - w1 / 2;
+        const y1 = y + 40 - h1 / 2;
+
+        // Ajustar la posición de la cámara para que el punto de referencia quede en la misma posición relativa después del zoom
+        const dx = x1 - x0;
+        const dy = y1 - y0;
+        this.cameras.main.scrollX += dx;
+        this.cameras.main.scrollY += dy;
+
+        // Establecer la nueva posición y tamaño de la cámara
+        this.cameras.main.setViewport(x1, y1, w1, h1);
     }
 }
