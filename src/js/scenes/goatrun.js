@@ -41,6 +41,14 @@ export default class GoatRun extends Phaser.Scene {
             { frameWidth: 32, frameHeight: 32}
         );
         this.load.image('rock', 'src/assets/rock_1.png');
+        this.load.spritesheet('amaia_death', 
+            'src/assets/amaia_death.png',
+            { frameWidth: 64, frameHeight: 64}
+        );
+        this.load.spritesheet('amaia_agachada', 
+            'src/assets/amaia_agachada.png',
+            { frameWidth: 48, frameHeight: 48 }
+        );
 
     }
 	
@@ -62,8 +70,8 @@ export default class GoatRun extends Phaser.Scene {
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(400, 500, 'ground').setScale(2).refreshBody();
 
-        this.playerr = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
-        this.playerr.setSize(15,35);
+        this.player = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
+        this.player.setSize(15,35);
        //  player.setOrigin(0.5, 0.2);
     
         this.rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
@@ -185,16 +193,30 @@ export default class GoatRun extends Phaser.Scene {
             repeat: -1
         })
 
+        this.anims.create({
+            key: 'amaia_death',
+            frames: this.anims.generateFrameNumbers('amaia_death', { start: 0, end: 4 }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'amaia_agachada',
+            frames: this.anims.generateFrameNumbers('amaia_agachada', { start: 0, end: 3 }),
+            frameRate: 12,
+            repeat: -1
+        });
+
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.playerr.setCollideWorldBounds(true);
+        this.player.setCollideWorldBounds(true);
         this.goat.setCollideWorldBounds(true);
 
         this.bat.anims.play('bat', true);
         this.bat2.anims.play('bat', true);
 
-        this.physics.add.collider(this.playerr, this.platforms);
+        this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.goat, this.platforms);
         this.physics.add.collider(this.rock, this.platforms);
         this.physics.add.collider(this.rock2, this.platforms);
@@ -203,10 +225,11 @@ export default class GoatRun extends Phaser.Scene {
         console.log("Llega aquí por lo menos");
 
         this.scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
-
+        this.player.anims.play('right_amaia_goats', true);
         // Def variables para el update
-        var jump = false; // para evitar el doble salto
+        this.jump = false; // para evitar el doble salto
         var powerup_salto = false; // ¿meto power up para saltar más?
+
     }
 
 	/**
@@ -217,52 +240,98 @@ export default class GoatRun extends Phaser.Scene {
         this.distance += 1;
         this.scoreText.setText('Distance: ' + this.distance + '/20000');
         // deltaTime = this.time.elapsed/1000;
+
+        if(this.cursors.up.isDown){
+            if(!this.jump){ // Si no está saltando
+                this.jump = true;
+                this.player.setVelocityY(-250);
+                this.player.anims.play('jump_amaia', true);
+            }            
+        }
+        if(this.jump){ // Si está saltando ya 
+
+            if (this.player.body.velocity.y < 0) { // Va hacia arriba
+                this.player.anims.play('jump_amaia', true);
+            } else if (this.player.body.velocity.y > 0) { // Va hacia abajo
+                this.player.anims.play('fall_amaia', true);
+            }
+            else{ // Está en el aire
+                this.player.anims.play('still_amaia', true);
+            }
+        }
+        if (this.player.body.touching.down){ // Si amaia está tocando el suelo
+            this.jump = false; // No permitimos el doble salto de esta manera
+            // this.player.anims.play('right_amaia_goats', true);
+        }
+
+        if(this.cursors.down.isDown){ // Si se presiona 'abajo'
+            if(!this.jump){ // Solo si no está saltando, si está en el aire no se puede agachar
+                this.player.anims.play('amaia_agachada', true);
+                this.player.setSize(15,20);
+                this.player.setOrigin(0.5, 0.3).setScale(1.6)
+                this.player.body.setOffset(20, 20);
+            }
+
+        }
+
+        if(this.cursors.left.isDown){ // Prueba para comprobar animación de muerte
+            this.player.anims.play('amaia_death', true);
+        }
+
+
+
+
+
+        /*
+        // Lo que tenía antes
         console.log(this.distance);
         if (this.cursors.right.isDown)
         {
             if(!this.jump){
                 // player.setVelocityX(160);
-                this.playerr.anims.play('right_amaia_goats', true);
+                this.player.anims.play('right_amaia_goats', true);
             }
             // goat.setVelocityX(120);
             this.goat.anims.play('right_goat', true);
             
             if (this.cursors.up.isDown && !this.jump){
-                this.playerr.setVelocityY(-250);
+                this.player.setVelocityY(-250);
                 this.jump = true;
-                this.playerr.anims.play('jump_amaia', true); 
+                this.player.anims.play('jump_amaia', true); 
             }
             
 
             if (this.jump){
-                if (this.playerr.body.velocity.y < 0) {
-                    this.playerr.anims.play('jump_amaia', true);
-                    console.log(this.playerr.body.velocity.y);
-                } else if (this.playerr.body.velocity.y > 0) {
-                    this.playerr.anims.play('fall_amaia', true);
+                if (this.player.body.velocity.y < 0) {
+                    this.player.anims.play('jump_amaia', true);
+                    console.log(this.player.body.velocity.y);
+                } else if (this.player.body.velocity.y > 0) {
+                    this.player.anims.play('fall_amaia', true);
                     console.log("amaia cae");
                 }
                 else{
-                    this.playerr.anims.play('still_amaia', true);
+                    this.player.anims.play('still_amaia', true);
                     console.log("still");
                 }
             }
-            if (this.playerr.body.touching.down){
+            if (this.player.body.touching.down){
                 this.jump = false;
                 console.log("amaia toca suelo");
             }
         }
         else
         {
-            this.playerr.setVelocityX(0);
+            this.player.setVelocityX(0);
             if(!this.jump){
-                this.playerr.anims.play('right_amaia_goats', true);  
+                this.player.anims.play('right_amaia_goats', true);  
             }
             else{
-                this.playerr.anims.play('jump_amaia', true);
+                this.player.anims.play('jump_amaia', true);
             }
             this.goat.setVelocityX(0);
             this.goat.anims.play('right_goat', true);
         }
+
+        */
     }
 }
