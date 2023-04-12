@@ -232,6 +232,7 @@ export default class GoatRun extends Phaser.Scene {
                 this.jump = true;
                 this.playerr.anims.play('jump_amaia', true); 
             }
+            
 
             if (this.jump){
                 if (this.playerr.body.velocity.y < 0) {
@@ -255,13 +256,13 @@ export default class GoatRun extends Phaser.Scene {
         {
             this.playerr.setVelocityX(0);
             if(!this.jump){
-                this.playerr.anims.play('stop_amaia', true);  
+                this.playerr.anims.play('right_amaia_goats', true);  
             }
             else{
                 this.playerr.anims.play('jump_amaia', true);
             }
             this.goat.setVelocityX(0);
-            this.goat.anims.play('stop_goat', true);
+            this.goat.anims.play('right_goat', true);
         }
     }
 }
