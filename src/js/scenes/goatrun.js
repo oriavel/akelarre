@@ -1,3 +1,5 @@
+import Bat from "../characters/bat.js";
+
 /**
  * Escena de Título.
  * @extends Phaser.Scene
@@ -119,17 +121,18 @@ export default class GoatRun extends Phaser.Scene {
             loop: true,
             callback: function() {
                 // Crear un objeto dentro del grupo y define su posición inicial
-                var objeto = bats.create(900, 250, 'bat');
+                // var objeto = bats.create(900, 250, 'bat');
+                let objeto = new Bat(this, 900, 250, 1, 'bat');
                 objeto.setScale(2);
-                objeto.anims.play('bat', true);
-                objeto.body.allowGravity = false;
+                // objeto.anims.play('bat', true);
+                // objeto.body.allowGravity = false;
 
                 //objeto.body.x += objeto.body.velocity.x * deltaTime;
 
                 // Mover el objeto verticalmente utilizando una onda sinusoidal
                 //objeto.body.y = 1000 + 2000 * Math.sin(0.02 * objeto.x);
 
-
+                objeto.update();
                 // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
                 objeto.body.velocity.x = -80;
                 console.log("mitad del callback de bats");
@@ -137,6 +140,9 @@ export default class GoatRun extends Phaser.Scene {
                 // Eliminar el objeto cuando salga de la pantalla
                 objeto.outOfBoundsKill = true;
                 objeto.checkWorldBounds = true;
+            },
+            update: function(){
+                console.log("hace update");
             }
         });
 
@@ -214,6 +220,7 @@ export default class GoatRun extends Phaser.Scene {
 
         this.bat.anims.play('bat', true);
         this.bat2.anims.play('bat', true);
+        this.goat.anims.play('right_goat', true);
 
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.goat, this.platforms);
