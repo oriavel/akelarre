@@ -22,11 +22,18 @@ export default class Cueva extends Phaser.Scene {
         this.load.image('tiles', 'src/assets/Caves.png')
         this.load.tilemapTiledJSON('tilemap', 'src/assets/Cueva.json')
 
+        //Cargar NPCs
+        this.load.spritesheet('bruja', 'src/assets/Personajes/bruja3.png', { frameWidth: 32, frameHeight: 32 });
+
         //Cargar prota
         this.load.spritesheet('amaia', 
             'src/assets/Personajes/Prota.PNG',
             { frameWidth: 34, frameHeight: 34 }
         );
+
+        this.load.plugin('DialogModalPlugin', './dialog.js');
+        //this.sys.install('DialogModalPlugin');
+        //console.log(this.sys.dialogModal);
     }
 	
 	/**
@@ -38,17 +45,84 @@ export default class Cueva extends Phaser.Scene {
         const map = this.make.tilemap({ key: 'tilemap' })
 		const tileset = map.addTilesetImage('PatronCueva', 'tiles')
 		
-		map.createLayer('suelo', tileset)
+		var suelo = map.createLayer('suelo', tileset)
         var layer = map.createLayer('obstaculos', tileset)
 
-        layer.setCollisionByExclusion([-1]);
+        layer.setCollisionByExclusion([-1 , 0]);
 
         //Prota
-        this.player = this.physics.add.sprite(300, 450, 'amaia').setScale(2);
+        this.player = this.physics.add.sprite(1550, 450, 'amaia').setScale(2);
         this.player.setSize(15, 15);
         this.player.body.offset.y = 16;
         this.physics.add.collider(this.player, layer);
+        this.player.setDepth(2);
         
+        //NPCs
+        this.bruja = this.physics.add.sprite(1555, 390, 'bruja').setScale(2);
+        this.bruja.setSize(15, 15);
+        this.bruja.setDepth(1);
+ 
+        this.bruja.body.offset.y = 16;
+
+        this.bruja.body.immovable = true;
+
+        
+        /*Para colisiones voy a necesitar:
+        -Arriba para Pablo Motos y bruja
+        -Izquierda para Gato
+        */
+        //Colisiones con bruja
+        this.collisionUp = false;
+        this.collisionDown = false;
+        this.collisionLeft = false;
+        this.collisionRight = false;
+
+        
+
+        this.physics.add.collider(this.player,this.bruja, () =>{
+            console.log('colision');
+            var espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+            espacio.on('down', function(event) {
+                // Crear ventana emergente con el diálogo
+                console.log('dialogo?');
+               
+            }, this);
+        
+        });
+
+        /*
+        this.physics.add.collider(this.player, this.bruja, () =>{
+            const playerBounds = this.player.getBounds();
+            const brujaBounds = this.bruja.getBounds();
+
+            if (playerBounds.right >= brujaBounds.left && this.player.body.velocity.x > 0) {
+            // Si el jugador se mueve a la derecha y choca con el personaje, no se permitirá que el jugador se mueva más a la derecha
+            this.collisionRight = true;
+            this.player.setVelocityX(0);
+            }
+
+            if (playerBounds.left <= brujaBounds.right && this.player.body.velocity.x < 0) {
+            // Si el jugador se mueve a la izquierda y choca con el personaje, no se permitirá que el jugador se mueva más a la izquierda
+            this.collisionLeft = true;
+            this.player.setVelocityX(0);
+            }
+
+            if (playerBounds.bottom >= brujaBounds.top && this.player.body.velocity.y > 0) {
+            // Si el jugador se mueve hacia abajo y choca con el personaje, no se permitirá que el jugador se mueva más hacia abajo
+            this.collisionDown = true;
+            this.player.setVelocityY(0);
+            }
+
+            if (playerBounds.top <= brujaBounds.bottom && this.player.body.velocity.y < 0) {
+            // Si el jugador se mueve hacia arriba y choca con el personaje, no se permitirá que el jugador se mueva más hacia arriba
+            this.collisionUp = true;
+            this.player.setVelocityY(0);
+            
+            }
+        });
+        */
+
+
         //Movimientos
         this.anims.create({
             key: 'right_amaia',
@@ -114,32 +188,42 @@ export default class Cueva extends Phaser.Scene {
 
     }
 
+    showDialog() {
+        // Mostrar el texto de diálogo si el jugador está en colisión con el personaje
+          this.dialogText.setText('Tonto el que lo lea');
+          console.log('Deberia de estar saliendo el texto');
+          this.dialogText.setVisible(true);
+      }
+
+
+
 	/**
 	* Loop del juego
 	*/
     update(){
-        if (this.cursors.right.isDown){
+
+        if (this.cursors.right.isDown && !this.collisionRight){
             this.player.setVelocityX(100);
             this.player.setVelocityY(0);
             this.player.anims.play('right_amaia', true);
             this.animation = 1;
 
         }
-        else if (this.cursors.left.isDown){
+        else if (this.cursors.left.isDown && !this.collisionLeft){
             this.player.setVelocityX(-100);
             this.player.setVelocityY(0);
             this.player.anims.play('left_amaia', true);
             this.animation = 2;
 
         }
-        else if (this.cursors.up.isDown){
+        else if (this.cursors.up.isDown && !this.collisionUp){
             this.player.setVelocityY(-100);
             this.player.setVelocityX(0);
             this.player.anims.play('up_amaia', true);
             this.animation = 3;
 
         }
-        else if (this.cursors.down.isDown){
+        else if (this.cursors.down.isDown && !this.collisionDown){
             this.player.setVelocityY(100);
             this.player.setVelocityX(0);
             this.player.anims.play('down_amaia', true);
@@ -162,5 +246,19 @@ export default class Cueva extends Phaser.Scene {
                 this.player.anims.play('stop_down_amaia', true);
             }
         }
+    /*
+        if (this.player.x + this.player.width < this.bruja.x) {
+            this.collisionRight = false;
+          } else if (this.player.x > this.bruja.x + this.bruja.width) {
+            this.collisionLeft = false;
+          }
+        
+          if (this.player.y + this.player.height < this.bruja.y) {
+            this.collisionDown = false;
+          } else if (this.player.y > this.bruja.y + this.bruja.height) {
+            this.collisionUp = false;
+            this.dialogText.setVisible(false);
+        }
+        */
     }
 }
