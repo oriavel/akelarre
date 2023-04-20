@@ -71,7 +71,7 @@ export default class GoatRun extends Phaser.Scene {
         this.platforms.create(400, 500, 'ground').setScale(2).refreshBody();
 
         this.player = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
-        this.player.setSizethis.game.config.width(15,35);
+        this.player.setSize(15,35);
        //  player.setOrigin(0.5, 0.2);
     
         this.rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
