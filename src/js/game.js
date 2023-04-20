@@ -3,11 +3,12 @@
  */
 import GoatRun from './scenes/goatrun.js';
 import Cueva from './scenes/cueva.js';
+import pociones from './scenes/avoidthepotions.js'
 
 let config = {
     type: Phaser.CANVAS,
     canvas: document.getElementById("game"),
-    parent: "juego",
+    //parent: "juego",
     width:  800,
     height: 600,
     pixelArt: true,
@@ -37,7 +38,7 @@ let config = {
             right: true
         }
     },
-    scene: [GoatRun],
+    scene: [pociones],
     title: "Akelarre",
     version: "0.0.1"
 };
