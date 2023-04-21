@@ -37,7 +37,7 @@ let config = {
             right: true
         }
     },
-    scene: [GoatRun],
+    scene: [Cueva, GoatRun],
     title: "Akelarre",
     version: "0.0.1"
 };

@@ -121,11 +121,11 @@ export default class GoatRun extends Phaser.Scene {
             loop: true,
             callback: function() {
                 // Crear un objeto dentro del grupo y define su posición inicial
-                // var objeto = bats.create(900, 250, 'bat');
-                let objeto = new Bat(this, 900, 250, 1, 'bat');
+                var objeto = bats.create(900, 250, 'bat');
+                // let objeto = new Bat(this, 900, 250, 1, 'bat');
                 objeto.setScale(2);
-                // objeto.anims.play('bat', true);
-                // objeto.body.allowGravity = false;
+                objeto.anims.play('bat', true);
+                objeto.body.allowGravity = false;
 
                 //objeto.body.x += objeto.body.velocity.x * deltaTime;
 
