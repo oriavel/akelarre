@@ -122,6 +122,7 @@ export default class GoatRun extends Phaser.Scene {
             callback: function() {
                 // Crear un objeto dentro del grupo y define su posición inicial
                 var objeto = bats.create(900, 250, 'bat');
+                bats.add(objeto);
                 // let objeto = new Bat(this, 900, 250, 1, 'bat');
                 objeto.setScale(2);
                 objeto.anims.play('bat', true);
@@ -248,7 +249,7 @@ export default class GoatRun extends Phaser.Scene {
         this.distance += 1;
         this.scoreText.setText('Distance: ' + this.distance + '/20000');
         // deltaTime = this.time.elapsed/1000;
-
+        movimientoBats();
         if(!this.amaiaIsDeath){
             if(this.cursors.up.isDown){
                 if(!this.jump){ // Si no está saltando
@@ -294,8 +295,6 @@ export default class GoatRun extends Phaser.Scene {
                 this.amaiaIsDeath = true;
             }
         }
-
-
         
 
 
@@ -352,6 +351,14 @@ export default class GoatRun extends Phaser.Scene {
         }
 
         */
+    }
+
+
+    // ANIADIR que los murcielagos se arrojen a por amaia cuando se acerquen a ella
+    movimientoBats(){
+        this.bats.getChildren().forEach(function(potion) {
+            
+        }, this);
     }
 
 
