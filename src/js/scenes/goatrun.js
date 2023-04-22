@@ -61,9 +61,9 @@ export default class GoatRun extends Phaser.Scene {
     
 	create(){
         this.initPhysics();
-        var rocks;
+        // var rocks;
         var timer_rocks;
-        var bats;
+        // var bats;
         var timer_bats;
         // var deltaTime = 0; CREARLA FUERA
     
@@ -93,14 +93,16 @@ export default class GoatRun extends Phaser.Scene {
         this.bat2.body.allowGravity = false;
         this.bat2.body.velocity.x = -150;
 
+        const self = this;
+
         // 681 x 89
-        rocks = this.physics.add.group();
+        this.rocks = this.physics.add.group();
         timer_rocks = this.time.addEvent({
             delay: Phaser.Math.Between(2000, 5000),
             loop: true,
             callback: function() {
                 // Crear un objeto dentro del grupo y define su posición inicial
-                var objeto = rocks.create(900, 350, 'rock');
+                var objeto = self.rocks.create(900, 350, 'rock');
                 objeto.setScale(0.6);
 
                 // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
@@ -115,14 +117,17 @@ export default class GoatRun extends Phaser.Scene {
         });
 
         // this.start = this.getTime();
-        bats = this.physics.add.group();
+        this.bats = this.physics.add.group();
+        
         timer_bats = this.time.addEvent({
             delay: Phaser.Math.Between(1000, 4000),
             loop: true,
             callback: function() {
                 // Crear un objeto dentro del grupo y define su posición inicial
-                var objeto = bats.create(900, 250, 'bat');
-                bats.add(objeto);
+                // var objeto = this.bats.create(900, 250, 'bat');
+                // var objeto = this.physics.add.sprite(900, 250, 'bat').setScale(2);
+                var objeto = self.bats.create(900, 250, 'bat');
+                self.bats.add(objeto);
                 // let objeto = new Bat(this, 900, 250, 1, 'bat');
                 objeto.setScale(2);
                 objeto.anims.play('bat', true);
@@ -133,7 +138,7 @@ export default class GoatRun extends Phaser.Scene {
                 // Mover el objeto verticalmente utilizando una onda sinusoidal
                 //objeto.body.y = 1000 + 2000 * Math.sin(0.02 * objeto.x);
 
-                objeto.update();
+                // objeto.update();
                 // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
                 objeto.body.velocity.x = -80;
                 console.log("mitad del callback de bats");
@@ -142,9 +147,6 @@ export default class GoatRun extends Phaser.Scene {
                 objeto.outOfBoundsKill = true;
                 objeto.checkWorldBounds = true;
             },
-            update: function(){
-                console.log("hace update");
-            }
         });
 
 
@@ -227,8 +229,8 @@ export default class GoatRun extends Phaser.Scene {
         this.physics.add.collider(this.goat, this.platforms);
         this.physics.add.collider(this.rock, this.platforms);
         this.physics.add.collider(this.rock2, this.platforms);
-        this.physics.add.collider(rocks, this.platforms);
-        this.physics.add.collider(bats, this.platforms);
+        this.physics.add.collider(this.rocks, this.platforms);
+        this.physics.add.collider(this.bats, this.platforms);
         console.log("Llega aquí por lo menos");
 
         this.scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
@@ -238,6 +240,7 @@ export default class GoatRun extends Phaser.Scene {
         var powerup_salto = false; // ¿meto power up para saltar más?
         this.changeCollider = true; // Para el cambio del tamaño de collider cuando se agacha
         this.amaiaIsDeath = false;
+        console.log("Llega aquí por lo menos - pre update");
 
     }
 
@@ -245,11 +248,12 @@ export default class GoatRun extends Phaser.Scene {
 	* Loop del juego
 	*/
     update(){
+        console.log("Llega aquí por lo menos -update");
         this.background.tilePositionX += 0.15;
         this.distance += 1;
         this.scoreText.setText('Distance: ' + this.distance + '/20000');
         // deltaTime = this.time.elapsed/1000;
-        movimientoBats();
+        this.movimientoBats();
         if(!this.amaiaIsDeath){
             if(this.cursors.up.isDown){
                 if(!this.jump){ // Si no está saltando
@@ -356,8 +360,21 @@ export default class GoatRun extends Phaser.Scene {
 
     // ANIADIR que los murcielagos se arrojen a por amaia cuando se acerquen a ella
     movimientoBats(){
-        this.bats.getChildren().forEach(function(potion) {
-            
+        this.bats.getChildren().forEach(function(bat) {
+            console.log(this.player.body.position.x);
+            console.log(bat.body.position.x);
+            console.log(Math.abs(this.player.body.position.x - bat.body.position.x));
+            if(Math.abs(this.player.body.position.x - bat.body.position.x) < 200){
+                if(bat.body.position.y > 210){ // OJO ESTO
+                    bat.body.velocity.y += 0.5; 
+                }
+                else{
+                    bat.body.velocity.y += 0;
+                }
+            }
+            else{
+                bat.body.velocity.y += 0;
+            }
         }, this);
     }
 
