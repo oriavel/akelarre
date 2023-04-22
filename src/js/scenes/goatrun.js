@@ -361,15 +361,27 @@ export default class GoatRun extends Phaser.Scene {
     // ANIADIR que los murcielagos se arrojen a por amaia cuando se acerquen a ella
     movimientoBats(){
         this.bats.getChildren().forEach(function(bat) {
-            console.log(this.player.body.position.x);
-            console.log(bat.body.position.x);
-            console.log(Math.abs(this.player.body.position.x - bat.body.position.x));
-            if(Math.abs(this.player.body.position.x - bat.body.position.x) < 200){
-                if(bat.body.position.y > 210){ // OJO ESTO
-                    bat.body.velocity.y += 0.5; 
+            console.log(bat.anims.currentAnim.key);
+            switch (bat.anims.currentAnim.key) {
+                case 1:
+                    bat.setSize(10, 10);
+                    console.log("llega aqui anim murci");
+                    break;
+                case 2:
+                    bat.setSize(80, 80);
+                    console.log("llega a la segunda");
+                    break;
+                // agregar más casos según sea necesario para cada animación
+                default:
+                    bat.setSize(15, 22); // tamaño predeterminado
+                    break;
+            }
+            if(Math.abs(this.player.body.position.x - bat.body.position.x) < 155){
+                if(bat.body.position.y > 215){ // OJO ESTO
+                    bat.body.velocity.y += 0.4; 
                 }
-                else{
-                    bat.body.velocity.y += 0;
+                else if (bat.body.position.y < 215){
+                    bat.body.velocity.y -= 0.5;
                 }
             }
             else{
@@ -377,6 +389,17 @@ export default class GoatRun extends Phaser.Scene {
             }
         }, this);
     }
+
+    /* Cosas que tengo que hacer
+    - Hacer clase murcielago separado
+    - Añadir corazones
+    - Controlar las colisiones:
+        - Con roca -> retrocedes un poco y parpadeas 5 segundos siendo inmune
+        - Con murcielago -> pierdes corazon (tendrás tres imagino)
+    - Añadir los 3 niveles
+    - Arreglar lo de la distancia
+    - Añadir más enemigos en otros niveles ??
+    */
 
 
     deathScene(){
