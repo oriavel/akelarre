@@ -9,7 +9,7 @@ export default class GoatRun extends Phaser.Scene {
 	 */
 	constructor() {
 		super({ key: 'goatrun' });
-        this.physicsPlugin = null;
+        this.physicsPlugin = null; // TODO: revisar si se puede quitar
 	}
 
     initPhysics(){

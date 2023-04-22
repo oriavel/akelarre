@@ -3,6 +3,7 @@
  */
 import GoatRun from './scenes/goatrun.js';
 import Cueva from './scenes/cueva.js';
+import PinballScene from './scenes/pinball.js';
 
 let config = {
     type: Phaser.CANVAS,
@@ -37,7 +38,7 @@ let config = {
             right: true
         }
     },
-    scene: [GoatRun],
+    scene: [Cueva],
     title: "Akelarre",
     version: "0.0.1"
 };
