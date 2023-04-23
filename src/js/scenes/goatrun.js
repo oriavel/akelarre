@@ -83,7 +83,8 @@ export default class GoatRun extends Phaser.Scene {
         this.rock2.body.velocity.x = -140;
         
         
-        this.goat = this.physics.add.sprite(50, 280, 'goat');
+        this.goat = this.physics.add.sprite(70, 280, 'goat');
+        this.goat.setSize(90, 180);
 
         this.bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
         this.bat.body.allowGravity = false;
@@ -104,6 +105,7 @@ export default class GoatRun extends Phaser.Scene {
                 // Crear un objeto dentro del grupo y define su posición inicial
                 var objeto = self.rocks.create(900, 350, 'rock');
                 objeto.setScale(0.6);
+                objeto.setSize(80, 80);
 
                 // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
                 objeto.body.velocity.x = -100;
@@ -149,6 +151,7 @@ export default class GoatRun extends Phaser.Scene {
             },
         });
 
+        
 
         this.anims.create({
             key: 'right_amaia_goats',
@@ -231,6 +234,22 @@ export default class GoatRun extends Phaser.Scene {
         this.physics.add.collider(this.rock2, this.platforms);
         this.physics.add.collider(this.rocks, this.platforms);
         this.physics.add.collider(this.bats, this.platforms);
+
+        /*
+        this.physics.add.collider(this.player, this.rocks, function(){
+            console.log("chocan");
+            self.collisionRocks();
+            console.log("chocan");
+        });
+        */
+
+        this.rocksCollider = this.physics.add.collider(this.player, this.rocks,function(){
+            console.log("chocan");
+            self.collisionRocks();
+        },
+            null,
+            this
+        );
         console.log("Llega aquí por lo menos");
 
         this.scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
@@ -240,7 +259,7 @@ export default class GoatRun extends Phaser.Scene {
         var powerup_salto = false; // ¿meto power up para saltar más?
         this.changeCollider = true; // Para el cambio del tamaño de collider cuando se agacha
         this.amaiaIsDeath = false;
-        console.log("Llega aquí por lo menos - pre update");
+        this.isInvulnerable = false;
 
     }
 
@@ -297,6 +316,10 @@ export default class GoatRun extends Phaser.Scene {
             if(this.cursors.left.isDown){ // Prueba para comprobar animación de muerte
                 this.deathScene();
                 this.amaiaIsDeath = true;
+            }
+
+            if(this.isInvulnerable){
+
             }
         }
         
@@ -428,6 +451,57 @@ export default class GoatRun extends Phaser.Scene {
         }
     }
     */
+
+    // Le resta un corazón a Amaia
+    collisionBats(){
+
+    }
+
+    // Retrocede 50 metros a Amaia
+    collisionRocks() {
+        this.makeInvulnerable();
+        this.player.body.position.x -= 50; // Simplemente retrocedemos unos metros para atrás
+        this.player.setVelocityX(+0);
+        this.rocks.setVelocityX(-100);
+        setTimeout(() => {
+            console.log("aaaa");
+            this.isInvulnerable = false; // hacer que el sprite sea vulnerable de nuevo
+            this.player.alpha = 1; // establecer la opacidad del sprite en 1 (completamente visible)
+            this.rocksCollider.active = true;
+        }, 2900);
+    }
+
+
+    
+
+
+    makeInvulnerable() {
+        // Establece la variable isInvulnerable en true
+        this.isInvulnerable = true;
+        this.rocksCollider.active = false;
+        // Hace que el sprite parpadee durante 4 segundos
+        /*
+        this.tweens.add({
+          targets: this,
+          alpha: 0.5,
+          duration: 4000,
+          yoyo: true,
+          repeat: 7,
+          onComplete: () => {
+            // Después de que termine el parpadeo, establece la variable isInvulnerable en false
+            this.isInvulnerable = false;
+          }
+        });
+        */
+        this.time.addEvent({
+            delay: 200, // cada 200 milisegundos (5 veces por segundo)
+            repeat: 15, // durante 30 ciclos (3 segundos en total)
+            callback: function() {
+              this.player.alpha = Phaser.Math.Between(0, 1); // cambiar la opacidad del sprite al azar
+            },
+            callbackScope: this,
+          });
+      }
 
     zoomEnPunto(x, y, zoom) {
         // Obtener las coordenadas de la esquina superior izquierda de la cámara
