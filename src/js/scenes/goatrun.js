@@ -51,6 +51,12 @@ export default class GoatRun extends Phaser.Scene {
             'src/assets/amaia_agachada.png',
             { frameWidth: 48, frameHeight: 48 }
         );
+        this.load.spritesheet('hearts', 
+            'src/assets/hearts.png',
+            { frameWidth: 28, frameHeight: 24 }
+        );
+        this.load.image('heart', 'src/assets/heart.png');
+        this.load.image('heart-filled', 'src/assets/heart-filled.png');
 
     }
 	
@@ -75,7 +81,11 @@ export default class GoatRun extends Phaser.Scene {
         this.player = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
         this.player.setSize(15,35);
        //  player.setOrigin(0.5, 0.2);
-    
+
+        this.heart1 = this.add.sprite(680, 30, 'hearts');
+        this.heart2 = this.add.sprite(710, 30, 'hearts');
+        this.heart3 = this.add.sprite(740, 30, 'hearts');
+        
         this.rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
         this.rock.body.velocity.x = -150;
         
@@ -218,6 +228,22 @@ export default class GoatRun extends Phaser.Scene {
             repeat: -1
         });
 
+        this.anims.create({
+            key: 'heart_filled',
+            frames: [ { key: 'hearts', frame: 1 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'heart_empty',
+            frames: [ { key: 'hearts', frame: 0 } ],
+            frameRate: 20
+        });
+
+        this.heart1.anims.play('heart_filled', true);
+        this.heart2.anims.play('heart_filled', true);
+        this.heart3.anims.play('heart_filled', true);
+
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -250,7 +276,13 @@ export default class GoatRun extends Phaser.Scene {
             null,
             this
         );
-        console.log("Llega aquí por lo menos");
+        
+        this.batsCollider = this.physics.add.overlap(this.player, this.bats, function(){
+            self.collisionBats();
+        },
+            null,
+            this
+        );
 
         this.scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.player.anims.play('right_amaia_goats', true);
@@ -260,6 +292,8 @@ export default class GoatRun extends Phaser.Scene {
         this.changeCollider = true; // Para el cambio del tamaño de collider cuando se agacha
         this.amaiaIsDeath = false;
         this.isInvulnerable = false;
+        this.livesPlayer = 3; // Nº de vidas del personaje
+        this.distance = 0;
 
     }
 
@@ -270,7 +304,7 @@ export default class GoatRun extends Phaser.Scene {
         console.log("Llega aquí por lo menos -update");
         this.background.tilePositionX += 0.15;
         this.distance += 1;
-        this.scoreText.setText('Distance: ' + this.distance + '/20000');
+        this.scoreText.setText('Distance: ' + (this.distance || '') + '/20000');
         // deltaTime = this.time.elapsed/1000;
         this.movimientoBats();
         if(!this.amaiaIsDeath){
@@ -318,9 +352,7 @@ export default class GoatRun extends Phaser.Scene {
                 this.amaiaIsDeath = true;
             }
 
-            if(this.isInvulnerable){
-
-            }
+            this.checkLives();
         }
         
 
@@ -417,13 +449,33 @@ export default class GoatRun extends Phaser.Scene {
     - Hacer clase murcielago separado
     - Añadir corazones
     - Controlar las colisiones:
-        - Con roca -> retrocedes un poco y parpadeas 5 segundos siendo inmune
+        - Con roca -> retrocedes un poco y parpadeas 3 segundos siendo inmune DONE
         - Con murcielago -> pierdes corazon (tendrás tres imagino)
     - Añadir los 3 niveles
     - Arreglar lo de la distancia
     - Añadir más enemigos en otros niveles ??
     */
 
+    checkLives(){
+        if(this.livesPlayer > 0 && this.livesPlayer < 3){
+            switch(this.livesPlayer){
+                case 1: 
+                    this.heart2.anims.play('heart_empty', true);
+                    break;
+                case 2: 
+                    this.heart3.anims.play('heart_empty', true);
+                    console.log("cccc");
+                    break;
+            }
+        }
+        else{
+            if(this.livesPlayer <= 0){
+                this.heart1.anims.play('heart_empty', true);
+            // muerte
+            }
+            
+        }
+    }
 
     deathScene(){
         this.time.removeAllEvents(); // Dejamos de generar enemigos
@@ -454,7 +506,14 @@ export default class GoatRun extends Phaser.Scene {
 
     // Le resta un corazón a Amaia
     collisionBats(){
-
+        this.makeInvulnerable();
+        this.livesPlayer--;
+        setTimeout(() => {
+            console.log("aaaa");
+            this.isInvulnerable = false; // hacer que el sprite sea vulnerable de nuevo
+            this.player.alpha = 1; // establecer la opacidad del sprite en 1 (completamente visible)
+            this.batsCollider.active = true;
+        }, 2900);
     }
 
     // Retrocede 50 metros a Amaia
@@ -479,6 +538,7 @@ export default class GoatRun extends Phaser.Scene {
         // Establece la variable isInvulnerable en true
         this.isInvulnerable = true;
         this.rocksCollider.active = false;
+        this.batsCollider.active = false;
         // Hace que el sprite parpadee durante 4 segundos
         /*
         this.tweens.add({
