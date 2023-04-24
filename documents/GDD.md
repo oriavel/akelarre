@@ -1,1 +1,0 @@
-el game design document

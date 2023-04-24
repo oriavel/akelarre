@@ -1,4 +1,4 @@
-
+import GoatRun from './goatrun.js';
 /**
  * Escena de Título.
  * @extends Phaser.Scene

@@ -1,5 +1,20 @@
 # Akelarre
 
+## Tabla de contenidos
+1. [Enlace a página web con versión de producción del juego](#enlace-a-p%C3%A1gina-web-con-versi%C3%B3n-de-producci%C3%B3n-del-juego)
+2. [Para ejecutar el código en tu ordenador](#para-ejecutar-el-c%C3%B3digo-en-tu-ordenador)
+3. [Presentación](#presentaci%C3%B3n):
+	1. [BASIC INFO](#1-basic-info)
+	2. [DESCRIPTION](#2-description)
+	3. [SETTING](#3-setting)
+	4. [MAIN GAME MECHANICS](#4-main-game-mechanics)
+	5. [CAPTURAS DEL JUEGO/BOCETOS](#5-capturas-del-juegobocetos)
+
+
+## Enlace a página web con versión de producción del juego
+https://oriavel.github.io/akelarre/
+
+
 ## Para ejecutar el código en tu ordenador
 
 1. Clonar repositorio en tu ordenador: `git clone https://github.com/oriavel/akelarre.git`
@@ -64,9 +79,5 @@ Bocetos de los minijuegos restantes:
 ![image](https://user-images.githubusercontent.com/79701191/228317241-2bf213d1-8097-46ff-90f8-2ddd8340dea2.png)
 
 ![image](https://user-images.githubusercontent.com/79701191/228317259-1dd32785-e3e6-4522-93ea-20a3aee1b1dd.png)
-
-# Enlace a página web con versión de producción del juego
-
-https://oriavel.github.io/akelarre/
 
 
