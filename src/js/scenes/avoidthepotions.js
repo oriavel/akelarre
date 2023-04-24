@@ -567,6 +567,7 @@ function batCollisionHandler(amaia, bat) {
         amaia.body.velocity.y = -100;
     }
     else{
+        amaia.nKills++;
         var bat_dying = this.add.sprite(bat.body.x+15, bat.body.y+5, 'bat_death').setScale(2);
         bat_dying.play('bat_death');
         bat_dying.on('animationcomplete', () => {
