@@ -27,97 +27,98 @@ export default class AvoidThePotions extends Phaser.Scene {
 	 */
 	preload(){
         // poner un fondo decente
-        this.load.image('cave', 'src/assets/cueva_potions.png');
-        this.load.image('ground', 'src/assets/platform.png');
+        this.load.image('cave', 'src/assets/AvoidThePotions/cueva_potions.png');
+        this.load.image('ground', 'src/assets/AvoidThePotions/platform.png');
         // Hacer una amaia original
         this.load.spritesheet('amaia', 
-            'src/assets/correr_spritesheet.png',
-            { frameWidth: 48, frameHeight: 48 }
+            'src/assets/Personajes/Prota.png',
+            { frameWidth: 34, frameHeight: 34 }
+        );
+        //el 1 y 2 son los que están en llamas
+        this.load.spritesheet('amaia_onFire', 
+            'src/assets/Personajes/Prota_ardiendo.png',
+            { frameWidth: 34, frameHeight: 34 }
         );
         // Lo voamos a usar como las brujas de manera temporal
         this.load.spritesheet('witch', 
-            'src/assets/goat_run.png',
-            { frameWidth: 100, frameHeight: 100 }
-        );
-        this.load.spritesheet('amaia_jump', 
-            'src/assets/amaia_jump.png',
-            { frameWidth: 48, frameHeight: 48 }
+            'src/assets/AvoidThePotions/BrujaEscoba.png',
+            { frameWidth: 50, frameHeight: 32 }
         );
         // mini malos
         this.load.spritesheet('bat',
-            'src/assets/bat_spritesheet.png', 
-            { frameWidth: 32, frameHeight: 32}
+            'src/assets/AvoidThePotions/bat_spritesheet.png', 
+            { frameWidth: 31, frameHeight: 32}
         );
         this.load.spritesheet('golden_bat',
-            'src/assets/goldenbat_spritesheet.png', 
-            { frameWidth: 32, frameHeight: 32}
+            'src/assets/AvoidThePotions/goldenbat_spritesheet.png', 
+            { frameWidth: 31, frameHeight: 32}
         );
         this.load.spritesheet('potionRED',
-            'src/assets/red_potion/red_full_potion.png', 
+            'src/assets/AvoidThePotions/red_potion/red_full_potion.png', 
             { frameWidth: 16, frameHeight: 16}
         );
         this.load.spritesheet('potionPINK',
-            'src/assets/pink_potion/pink_full_potion.png', 
+            'src/assets/AvoidThePotions/pink_potion/pink_full_potion.png', 
             { frameWidth: 16, frameHeight: 16}
         );
         this.load.spritesheet('potionGREEN',
-            'src/assets/green_potion/green_full_potion.png', 
+            'src/assets/AvoidThePotions/green_potion/green_full_potion.png', 
             { frameWidth: 16, frameHeight: 16}
         );
         this.load.spritesheet('potion',
-            'src/assets/yellow_potion/yellow_full_potion.png', 
+            'src/assets/AvoidThePotions/yellow_potion/yellow_full_potion.png', 
             { frameWidth: 16, frameHeight: 16}
         );
-        this.load.image('fire_column_1', 'src/assets/columna_fuego/fire_column_medium_1.png');
-        this.load.image('fire_column_2', 'src/assets/columna_fuego/fire_column_medium_2.png');
-        this.load.image('fire_column_3', 'src/assets/columna_fuego/fire_column_medium_3.png');
-        this.load.image('fire_column_4', 'src/assets/columna_fuego/fire_column_medium_4.png');
-        this.load.image('fire_column_5', 'src/assets/columna_fuego/fire_column_medium_5.png');
-        this.load.image('fire_column_6', 'src/assets/columna_fuego/fire_column_medium_6.png');
-        this.load.image('fire_column_7', 'src/assets/columna_fuego/fire_column_medium_7.png');
-        this.load.image('fire_column_8', 'src/assets/columna_fuego/fire_column_medium_8.png');
-        this.load.image('fire_column_9', 'src/assets/columna_fuego/fire_column_medium_9.png');
-        this.load.image('fire_column_10', 'src/assets/columna_fuego/fire_column_medium_10.png');
-        this.load.image('fire_column_11', 'src/assets/columna_fuego/fire_column_medium_11.png');
-        this.load.image('fire_column_12', 'src/assets/columna_fuego/fire_column_medium_12.png');
-        this.load.image('fire_column_13', 'src/assets/columna_fuego/fire_column_medium_13.png');
-        this.load.image('fire_column_14', 'src/assets/columna_fuego/fire_column_medium_14.png');
+        this.load.image('fire_column_1', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_1.png');
+        this.load.image('fire_column_2', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_2.png');
+        this.load.image('fire_column_3', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_3.png');
+        this.load.image('fire_column_4', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_4.png');
+        this.load.image('fire_column_5', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_5.png');
+        this.load.image('fire_column_6', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_6.png');
+        this.load.image('fire_column_7', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_7.png');
+        this.load.image('fire_column_8', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_8.png');
+        this.load.image('fire_column_9', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_9.png');
+        this.load.image('fire_column_10', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_10.png');
+        this.load.image('fire_column_11', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_11.png');
+        this.load.image('fire_column_12', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_12.png');
+        this.load.image('fire_column_13', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_13.png');
+        this.load.image('fire_column_14', 'src/assets/AvoidThePotions/columna_fuego/fire_column_medium_14.png');
 
-        this.load.image('poison_cloud_1', 'src/assets/Poison Cloud/Poison Cloud1.png');
-        this.load.image('poison_cloud_2', 'src/assets/Poison Cloud/Poison Cloud2.png');
-        this.load.image('poison_cloud_3', 'src/assets/Poison Cloud/Poison Cloud3.png');
-        this.load.image('poison_cloud_4', 'src/assets/Poison Cloud/Poison Cloud4.png');
-        this.load.image('poison_cloud_5', 'src/assets/Poison Cloud/Poison Cloud5.png');
-        this.load.image('poison_cloud_6', 'src/assets/Poison Cloud/Poison Cloud6.png');
-        this.load.image('poison_cloud_7', 'src/assets/Poison Cloud/Poison Cloud7.png');
-        this.load.image('poison_cloud_8', 'src/assets/Poison Cloud/Poison Cloud8.png');
-        this.load.image('poison_cloud_9', 'src/assets/Poison Cloud/Poison Cloud9.png');
-        this.load.image('poison_cloud_10', 'src/assets/Poison Cloud/Poison Cloud10.png');
-        this.load.image('poison_cloud_11', 'src/assets/Poison Cloud/Poison Cloud11.png');
-        this.load.image('poison_cloud_12', 'src/assets/Poison Cloud/Poison Cloud12.png');
-        this.load.image('poison_cloud_13', 'src/assets/Poison Cloud/Poison Cloud13.png');
-        this.load.image('poison_cloud_14', 'src/assets/Poison Cloud/Poison Cloud14.png');
-        this.load.image('poison_cloud_15', 'src/assets/Poison Cloud/Poison Cloud15.png');
-        this.load.image('poison_cloud_16', 'src/assets/Poison Cloud/Poison Cloud16.png');
-        this.load.image('poison_cloud_17', 'src/assets/Poison Cloud/Poison Cloud17.png');
-        this.load.image('poison_cloud_18', 'src/assets/Poison Cloud/Poison Cloud18.png');
-        this.load.image('poison_cloud_19', 'src/assets/Poison Cloud/Poison Cloud19.png');
+        this.load.image('poison_cloud_1', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud1.png');
+        this.load.image('poison_cloud_2', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud2.png');
+        this.load.image('poison_cloud_3', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud3.png');
+        this.load.image('poison_cloud_4', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud4.png');
+        this.load.image('poison_cloud_5', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud5.png');
+        this.load.image('poison_cloud_6', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud6.png');
+        this.load.image('poison_cloud_7', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud7.png');
+        this.load.image('poison_cloud_8', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud8.png');
+        this.load.image('poison_cloud_9', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud9.png');
+        this.load.image('poison_cloud_10', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud10.png');
+        this.load.image('poison_cloud_11', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud11.png');
+        this.load.image('poison_cloud_12', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud12.png');
+        this.load.image('poison_cloud_13', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud13.png');
+        this.load.image('poison_cloud_14', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud14.png');
+        this.load.image('poison_cloud_15', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud15.png');
+        this.load.image('poison_cloud_16', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud16.png');
+        this.load.image('poison_cloud_17', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud17.png');
+        this.load.image('poison_cloud_18', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud18.png');
+        this.load.image('poison_cloud_19', 'src/assets/AvoidThePotions/Poison Cloud/Poison Cloud19.png');
     
-        this.load.image('bat_death_1', 'src/assets/npc_death/FX001_01.png');
-        this.load.image('bat_death_2', 'src/assets/npc_death/FX001_02.png');
-        this.load.image('bat_death_3', 'src/assets/npc_death/FX001_03.png');
-        this.load.image('bat_death_4', 'src/assets/npc_death/FX001_04.png');
-        this.load.image('bat_death_5', 'src/assets/npc_death/FX001_05.png');
+        this.load.image('bat_death_1', 'src/assets/AvoidThePotions/npc_death/FX001_01.png');
+        this.load.image('bat_death_2', 'src/assets/AvoidThePotions/npc_death/FX001_02.png');
+        this.load.image('bat_death_3', 'src/assets/AvoidThePotions/npc_death/FX001_03.png');
+        this.load.image('bat_death_4', 'src/assets/AvoidThePotions/npc_death/FX001_04.png');
+        this.load.image('bat_death_5', 'src/assets/AvoidThePotions/npc_death/FX001_05.png');
         
-        this.load.image('floor_kick_1', 'src/assets/golpe_suelo/FX002_05.png');
-        this.load.image('floor_kick_2', 'src/assets/golpe_suelo/FX002_06.png');
-        this.load.image('floor_kick_3', 'src/assets/golpe_suelo/FX002_07.png');
-        this.load.image('floor_kick_4', 'src/assets/golpe_suelo/FX002_08.png');
+        this.load.image('floor_kick_1', 'src/assets/AvoidThePotions/golpe_suelo/FX002_05.png');
+        this.load.image('floor_kick_2', 'src/assets/AvoidThePotions/golpe_suelo/FX002_06.png');
+        this.load.image('floor_kick_3', 'src/assets/AvoidThePotions/golpe_suelo/FX002_07.png');
+        this.load.image('floor_kick_4', 'src/assets/AvoidThePotions/golpe_suelo/FX002_08.png');
         
-        this.load.image('floor_kick_pink_1', 'src/assets/golpe_suelo_pink/FX002_05.png');
-        this.load.image('floor_kick_pink_2', 'src/assets/golpe_suelo_pink/FX002_06.png');
-        this.load.image('floor_kick_pink_3', 'src/assets/golpe_suelo_pink/FX002_07.png');
-        this.load.image('floor_kick_pink_4', 'src/assets/golpe_suelo_pink/FX002_08.png');
+        this.load.image('floor_kick_pink_1', 'src/assets/AvoidThePotions/golpe_suelo_pink/FX002_05.png');
+        this.load.image('floor_kick_pink_2', 'src/assets/AvoidThePotions/golpe_suelo_pink/FX002_06.png');
+        this.load.image('floor_kick_pink_3', 'src/assets/AvoidThePotions/golpe_suelo_pink/FX002_07.png');
+        this.load.image('floor_kick_pink_4', 'src/assets/AvoidThePotions/golpe_suelo_pink/FX002_08.png');
     
     }
 	
@@ -234,26 +235,79 @@ export default class AvoidThePotions extends Phaser.Scene {
         });
         this.anims.create({
             key: 'green_potion',
-            frames: this.anims.generateFrameNumbers('potionGREEN', { start: 0, end: 7 }),
+            frames: this.anims.generateFrameNumbers('potionGREEN', { start: 0, end: 6 }),
             frameRate: 7,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'amaia_running_left',
+            frames: this.anims.generateFrameNumbers('amaia', { start: 8, end: 11 }),
+            frameRate: 7,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'amaia_running_right',
+            frames: this.anims.generateFrameNumbers('amaia', { start: 12, end: 15 }),
+            frameRate: 7,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'amaia_stay',
+            frames: this.anims.generateFrameNumbers('amaia', { start: 1, end: 1 }),
+            frameRate: 7,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'amaia_burning_red',
+            frames: this.anims.generateFrameNumbers('amaia_onFire', { start: 0, end: 1 }),
+            frameRate: 3,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'amaia_burning_green',
+            frames: this.anims.generateFrameNumbers('amaia_onFire', { start: 2, end: 3 }),
+            frameRate: 3,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'amaia_hit',
+            frames: this.anims.generateFrameNumbers('amaia_onFire', { start: 6, end: 7 }),
+            frameRate: 5,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'witch_right',
+            frames: this.anims.generateFrameNumbers('witch', { start: 0, end: 0 }),
+            frameRate: 1,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'witch_left',
+            frames: this.anims.generateFrameNumbers('witch', { start: 1, end: 1 }),
+            frameRate: 1,
             repeat: -1
         });
         this.initPhysics();
         this.startGame= true;
         this.physics.add.existing(this, { arcade: true });
         // Crea el sprite para el personaje "amaia"
-        this.amaia = this.physics.add.sprite(300, 400, 'amaia');
+        this.amaia = this.physics.add.sprite(300, 400, 'amaia').setScale(2);
+        this.amaia.setSize(16,25);
+        this.amaia.setOffset(9,8);
         this.amaia.speed = 200;
         this.amaia.canJump = true;
         this.amaia.inversedControlsTimer = 0;
         this.amaia.jumpTimer = 0;
         this.amaia.nKills = 0;
-        this.amaia.lives = 2;
+        this.amaia.lives = 200;
+        this.amaia.isHurt = "none";
         //this.amaia.setData('vel', this.amaiaMovementSpeed);
         //this.amaia.setData('cad_vel', this.fechaCaducaVel);
         
         // Crea el sprite para la bruja "witch"
-        this.witch = this.physics.add.sprite(50, 50, 'witch');
+        this.witch = this.physics.add.sprite(50, 70, 'witch');
+        this.witch.setScale(2.25);
+        this.witch.setSize(35,25)
         this.witch.body.allowGravity = false;
         this.witch.body.velocity.x = 200;
         //Crea el suelo
@@ -267,38 +321,18 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.potionVelocity = 75;
 
         // Inicialización de las variables para controlar la aparición de murciélagos
-        this.batInterval = 3000;
+        //this.batInterval = 3000;
         this.nextBatTime = 0;
 
         // Crea un grupo para las pociones
         this.potions = this.physics.add.group();
-        //this.potions.body.allowGravity = false;
 
-        /*
-        // Crea las diferentes pociones y las añade al grupo de pociones
-        for (let i = 0; i < 5; i++) {
-            const potionType = i % 3; // Hay tres tipos de pociones distintos --- potion${potionType}
-            const potion = this.potions.create(Math.random() * this.game.config.width, -50, 'potion');
-            potion.body.velocity.y = this.potionVelocity;
-        }
-        */
 
         // Crea un grupo para los murciélagos
         this.bats = this.physics.add.group();
         this.bats.maxV = 3;
         this.bats.spwn = 0;
         
-        
-        // Crea los murciélagos y los añade al grupo de murciélagos
-        /*
-        for (let i = 0; i < 3; i++) {
-            this.bat = this.bats.create(20 + i , 250 + Math.random() * 200, 'bat');
-            this.bat.body.allowGravity = false;
-            this.bat.body.velocity.x = 100 + Math.random() * 200;
-            //this.bat.setCollideWorldBounds(true);
-        }
-        */
-
         this.cursors = this.input.keyboard.createCursorKeys();
         this.physics.add.collider(this.amaia, this.potions, potionCollisionHandler, null, this);
         this.physics.add.collider(this.amaia, this.platforms, null,null, this);
@@ -326,7 +360,40 @@ export default class AvoidThePotions extends Phaser.Scene {
             }
             else {
                 this.amaia.body.velocity.x = 0;
+                this.amaia.play("amaia_stay");
             }
+
+            // Comprueba la animación de amaia que se debe usar
+            if(this.amaia.isHurt != "none"){
+                if(this.amaia.isHurt == "RED"){
+                    this.amaia.anims.play("amaia_burning_red",true);
+                }
+                else if(this.amaia.isHurt == "GREEN"){
+                    this.amaia.anims.play("amaia_burning_green",true);
+                }
+                else if(this.amaia.isHurt == "HIT"){
+                    this.amaia.anims.play("amaia_hit",true);
+                }
+                this.amaia.on('animationcomplete', () => {
+                    // Una vez termina la animacion, se desactiva la animación
+                    this.amaia.isHurt = "none";
+                });
+            }
+            else if(this.amaia.body.velocity.x > 0){
+                this.amaia.play("amaia_running_right",true);
+            }
+            else if (this.amaia.body.velocity.x < 0){
+                this.amaia.play("amaia_running_left",true);
+            }
+
+            if(this.witch.body.velocity.x > 0){
+                this.witch.play("witch_right",true);
+            }
+            else if (this.witch.body.velocity.x < 0){
+                this.witch.play("witch_left",true);
+            }
+
+
             if(this.cursors.up.isDown && this.amaia.body.touching.down && this.amaia.canJump){
                 this.amaia.body.velocity.y = -250;
             }
@@ -354,7 +421,7 @@ export default class AvoidThePotions extends Phaser.Scene {
                 this.potion.body.velocity.y = this.potionVelocity;
                 this.nextPotionTime = this.time.now + this.potionInterval;
                 // cambia el sentido de la bruja
-                if(this.witch.body.velocity.x > 0 || this.witch.x + this.witch.width / 2 >= this.game.config.width){
+                if(this.witch.body.velocity.x > 0 || this.witch.x + this.witch.width >= this.game.config.width){
                     this.witch.body.velocity.x = -200;
                 }
                 else{
@@ -383,9 +450,12 @@ export default class AvoidThePotions extends Phaser.Scene {
                 }
                 else{
                     this.bat = this.bats.create(this.game.config.width -20 , 375 + Math.random() * 80, 'bat');
+                    
                     this.bat.body.allowGravity = false;
                     this.bat.body.velocity.x = -100 + Math.random() * -200;
                 }
+                this.bat.setScale(1.4);
+                this.bat.setSize(15,15);
                 // 15% de posibilidades de que salga un murciélago dorado
                 if(Math.random()<0.15){
                     this.bat.tipo = "golden";
@@ -455,7 +525,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 function potionCollisionHandler(amaia, potion) {
     console.log("Daño de pocion: " + potion.getData("type"));
     if(potion.getData("type") == 1){ // Pocion RED
-        amaia.disableBody(true,true); //muere
+        amaia.lives = 0; //muere
         
     }
     else if(potion.getData("type") == 2){ //Pocion GREEN
@@ -534,6 +604,7 @@ function potionCollisionPlatform(potion, platforms) {
 }
 function seQUEMA(amaia,col){
     col.disableBody(true,true);
+    amaia.isHurt = col.tipo;
     if(col.tipo == "GREEN"){
         amaia.speed /=2;
     }
@@ -544,7 +615,7 @@ function seQUEMA(amaia,col){
 }
 function batCollisionHandler(amaia, bat) {
     // si al chocar amaia no se encuentra por encima del murcielago, la que sufre daño es ella
-    if(amaia.y < bat.y-13){
+    if(amaia.y < bat.y-35){
         if(bat.tipo == "golden"){
             amaia.lives++;
         }
@@ -576,6 +647,7 @@ function batCollisionHandler(amaia, bat) {
         });
         bat.body.destroy();
         bat.destroy();
+        amaia.isHurt = "HIT";
         amaia.lives--;
     }
 }
