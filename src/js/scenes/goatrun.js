@@ -25,7 +25,9 @@ export default class GoatRun extends Phaser.Scene {
 	 */
 	preload(){
         this.load.image('cave', 'src/assets/cave_long.png');
-        this.load.image('ground', 'src/assets/platform.png');
+        this.load.image('cave2', 'src/assets/cave_marron.png');
+        this.load.image('ground', 'src/assets/platform_1.png');
+        this.load.image('ground2', 'src/assets/platform_2.png');
         this.load.spritesheet('amaia_goatrun', 
             'src/assets/correr_spritesheet.png',
             { frameWidth: 48, frameHeight: 48 }
@@ -73,10 +75,11 @@ export default class GoatRun extends Phaser.Scene {
         var timer_bats;
         // var deltaTime = 0; CREARLA FUERA
     
-        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave').setOrigin(0).setScrollFactor(0, 1);
+        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave2').setOrigin(0).setScrollFactor(0, 1);
 
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(400, 500, 'ground').setScale(2).refreshBody();
+        this.platforms.create(400, 565, 'ground').setScale(2).refreshBody();
 
         this.player = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
         this.player.setSize(15,35);
@@ -130,6 +133,7 @@ export default class GoatRun extends Phaser.Scene {
 
         // this.start = this.getTime();
         this.bats = this.physics.add.group();
+        this.contBats = 0;
         
         timer_bats = this.time.addEvent({
             delay: Phaser.Math.Between(1000, 4000),
@@ -144,7 +148,7 @@ export default class GoatRun extends Phaser.Scene {
                 objeto.setScale(2);
                 objeto.anims.play('bat', true);
                 objeto.body.allowGravity = false;
-
+                this.contBats += 1;
                 //objeto.body.x += objeto.body.velocity.x * deltaTime;
 
                 // Mover el objeto verticalmente utilizando una onda sinusoidal
@@ -294,6 +298,7 @@ export default class GoatRun extends Phaser.Scene {
         this.isInvulnerable = false;
         this.livesPlayer = 3; // Nº de vidas del personaje
         this.distance = 0;
+        
 
     }
 
@@ -353,6 +358,7 @@ export default class GoatRun extends Phaser.Scene {
             }
 
             this.checkLives();
+            this.checkLevel();
         }
         
 
@@ -415,35 +421,38 @@ export default class GoatRun extends Phaser.Scene {
 
     // ANIADIR que los murcielagos se arrojen a por amaia cuando se acerquen a ella
     movimientoBats(){
-        this.bats.getChildren().forEach(function(bat) {
-            console.log(bat.anims.currentAnim.key);
-            switch (bat.anims.currentAnim.key) {
-                case 1:
-                    bat.setSize(10, 10);
-                    console.log("llega aqui anim murci");
-                    break;
-                case 2:
-                    bat.setSize(80, 80);
-                    console.log("llega a la segunda");
-                    break;
-                // agregar más casos según sea necesario para cada animación
-                default:
-                    bat.setSize(15, 22); // tamaño predeterminado
-                    break;
-            }
-            if(Math.abs(this.player.body.position.x - bat.body.position.x) < 155){
-                if(bat.body.position.y > 215){ // OJO ESTO
-                    bat.body.velocity.y += 0.4; 
+        if(this.contBats > 0){
+            this.bats.getChildren().forEach(function(bat) {
+                console.log(bat.anims.currentAnim.key);
+                switch (bat.anims.currentAnim.key) {
+                    case 1:
+                        bat.setSize(10, 10);
+                        console.log("llega aqui anim murci");
+                        break;
+                    case 2:
+                        bat.setSize(80, 80);
+                        console.log("llega a la segunda");
+                        break;
+                    // agregar más casos según sea necesario para cada animación
+                    default:
+                        bat.setSize(15, 22); // tamaño predeterminado
+                        break;
                 }
-                else if (bat.body.position.y < 215){
-                    bat.body.velocity.y -= 0.5;
+                if(Math.abs(this.player.body.position.x - bat.body.position.x) < 155){
+                    if(bat.body.position.y > 215){ // OJO ESTO
+                        bat.body.velocity.y += 0.4; 
+                    }
+                    else if (bat.body.position.y < 215){
+                        bat.body.velocity.y -= 0.5;
+                    }
                 }
-            }
-            else{
-                bat.body.velocity.y += 0;
-            }
-        }, this);
-    }
+                else{
+                    bat.body.velocity.y += 0;
+                }
+            
+            }, this);
+        }
+    }   
 
     /* Cosas que tengo que hacer
     - Hacer clase murcielago separado
@@ -471,21 +480,29 @@ export default class GoatRun extends Phaser.Scene {
         else{
             if(this.livesPlayer <= 0){
                 this.heart1.anims.play('heart_empty', true);
-            // muerte
+                this.deathScene();
+                this.amaiaIsDeath = true;
             }
             
         }
     }
 
+    checkLevel(){
+        if (this.distance > 20000){
+            // this.scene.stop('goatrun');
+            // this.scene.start('goatrun2');
+        }
+    }
+
     deathScene(){
         this.time.removeAllEvents(); // Dejamos de generar enemigos
-        // this.destroyEnemies();
-        this.cameras.main.fadeOut(12500);
+        this.destroyEnemies();
+        this.cameras.main.fadeOut(5500);
         this.player.anims.play('amaia_death', true);
         //this.background.setScrollFactor(0);
         //this.background.tilePositionX += 0.0;
         this.player.setSize(15,35);
-        this.player.setOrigin(0.5, 0.4).setScale(1.6);
+        this.player.setOrigin(0.5, 0.32).setScale(1.6);
         this.zoomEnPunto(this.player.body.x, this.player.body.y, 3);
         this.cameras.main.setZoom(2);
         // this.anims.pause(this.anims.currentAnim.frames[3]);
@@ -493,16 +510,17 @@ export default class GoatRun extends Phaser.Scene {
         
     }
 
-    /*
+    
     destroyEnemies(){
-        for(let i = 0; i < this.batsArray.length; i++) {
-            this.batsArray[i].destroy();
-        }
-        for(let i = 0; i < this.rocksArray.length; i++) {
-            this.rocksArray[i].destroy();
-        }
+        this.bats.getChildren().forEach(function(bat) {
+            bat.body.destroy();
+        }, this);    
+        this.contBats = 0;
+        this.rocks.getChildren().forEach(function(rock_) {
+            rock_.body.destroy();
+        }, this);
     }
-    */
+    
 
     // Le resta un corazón a Amaia
     collisionBats(){
