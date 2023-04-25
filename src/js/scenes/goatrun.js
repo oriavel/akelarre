@@ -26,6 +26,7 @@ export default class GoatRun extends Phaser.Scene {
 	preload(){
         this.load.image('cave', 'src/assets/cave_long.png');
         this.load.image('cave2', 'src/assets/cave_marron.png');
+        this.load.image('cave3', 'src/assets/cave_lava.png');
         this.load.image('ground', 'src/assets/platform_1.png');
         this.load.image('ground2', 'src/assets/platform_2.png');
         this.load.spritesheet('amaia_goatrun', 
@@ -75,7 +76,8 @@ export default class GoatRun extends Phaser.Scene {
         var timer_bats;
         // var deltaTime = 0; CREARLA FUERA
     
-        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave2').setOrigin(0).setScrollFactor(0, 1);
+        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave3').setOrigin(0).setScrollFactor(0, 1);
+        this.background.setScale(2);
 
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(400, 500, 'ground').setScale(2).refreshBody();
