@@ -3,7 +3,7 @@
  */
 import GoatRun from './scenes/goatrun.js';
 import Cueva from './scenes/cueva.js';
-import PinballScene from './scenes/pinball.js';
+import Pinball from './scenes/pinball.js';
 import pociones from './scenes/avoidthepotions.js'
 
 let config = {
@@ -32,6 +32,10 @@ let config = {
             gravity: { y: 0 },
             debug: true
         },
+        matter: { 
+            debug: true, 
+            gravity: { y: 0.5 } 
+        },
         checkCollision: {
             up: true,
             down: true,
@@ -39,7 +43,7 @@ let config = {
             right: true
         }
     },
-    scene: [pociones],
+    scene: [Pinball],
     title: "Akelarre",
     version: "0.0.1"
 };

@@ -1,94 +1,85 @@
-import Matter from "matter-js";
-
-export default class PinballScene extends Phaser.Scene {
+export default class Pinball extends Phaser.Scene {
+  /**
+   * Escena principal.
+   * @extends Phaser.Scene
+   */
   constructor() {
-    super({ key: "PinballScene" });
+    super({ key: "pinball" });
+    this.physicsPlugin = null;
   }
 
   initPhysics() {
     this.physicsPlugin = this.physics.add;
     this.physicsPlugin.world.gravity.y = 300;
-    this.physicsPlugin.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
-    
-  }
-  preload() {
-    // Load assets here
-    this.load.image("ball", "src/assets/ball.png");
-    this.load.image("flipper", "src/assets/flipper.png");
-    this.load.image("bumper", "src/assets/bumper.png");
+    this.physicsPlugin.world.setBounds(
+      0,
+      0,
+      this.game.config.width,
+      this.game.config.height
+    );
   }
 
+  /**
+   * Cargamos todos los assets del juego
+   */
+  preload() {
+    this.load.image("ball", "src/assets/Pinball/ball.png");
+    this.load.image("paddle", "src/assets/Pinball/flipper.png");
+    this.load.image("block", "src/assets/Pinball/bumper.png");
+  }
+
+  /**
+   * Crear elementos de la escena principal del juego
+   */
   create() {
-    // add background image
-    this.add.image(0, 0, "background").setOrigin(0, 0);
+    this.initPhysics();
 
     // add ball
-    const ball = this.matter.add.image(400, 300, "ball").setCircle();
-    ball.setBounce(0.5);
-    ball.setFriction(0);
-    ball.setFrictionAir(0.01);
-    ball.setMass(0.5);
+    this.ball = this.physics.add
+      .image(50, 50, "ball")
+      .setDisplaySize(50, 50)
+      .setCollideWorldBounds(true)  // Collide against the canvas borders
+      .setCircle(100)               // Circle area
+      .setBounce(1);
 
-    // add flippers
-    const leftFlipper = this.matter.add
-      .image(200, 550, "flipper")
-      .setRectangle(100, 20);
-    leftFlipper.setStatic(true);
-    leftFlipper.setFriction(0);
-    leftFlipper.setMass(10);
-    leftFlipper.rotation = -0.5;
+    // add paddle
+    this.paddle1 = this.physics.add
+      .image(700, 500, "paddle")
+      .setDisplaySize(100, 40)
+      .setImmovable(true);
 
-    const rightFlipper = this.matter.add
-      .image(600, 550, "flipper")
-      .setRectangle(100, 20);
-    rightFlipper.setStatic(true);
-    rightFlipper.setFriction(0);
-    rightFlipper.setMass(10);
-    rightFlipper.rotation = 0.5;
+  
 
-    // add bumpers
-    const bumper1 = this.matter.add.image(100, 200, "bumper").setCircle();
-    bumper1.setBounce(1);
-    bumper1.setFriction(0);
-    bumper1.setMass(5);
-
-    const bumper2 = this.matter.add.image(700, 200, "bumper").setCircle();
-    bumper2.setBounce(1);
-    bumper2.setFriction(0);
-    bumper2.setMass(5);
-
-    // add keyboard input for flippers
-    const cursors = this.input.keyboard.createCursorKeys();
-
-    cursors.left.on("down", () => {
-      leftFlipper.rotation = -1;
-      leftFlipper.setAngularVelocity(-10);
+    // Cursor management
+    this.cursors = this.input.keyboard.createCursorKeys();
+    if(this.cursors.left.isDown){
+      alert("Down");
+    }
+    // Score text
+    this.scoreText = this.add.text(16, 16, "Score: 0", {
+      fontSize: "28px",
+      fill: "#fff",
     });
 
-    cursors.left.on("up", () => {
-      leftFlipper.rotation = -0.5;
-      leftFlipper.setAngularVelocity(10);
+    // Set up collisions
+    //Ball hits paddle 1
+    this.physics.add.collider(this.ball, this.paddle1, function () {
+      this.ball.setVelocityY(-500);
+      this.ball.setVelocityX(ball.body.velocity.x * 1.5);
     });
+    
+  }
 
-    cursors.right.on("down", () => {
-      rightFlipper.rotation = 1;
-      rightFlipper.setAngularVelocity(10);
-    });
+  update() {
+   // if(gameState.cursors.left.isDown) {
+      this.scoreText.setText("hola");
+      // this.paddle1.setAngle(-90);
+      //this.paddle1.body.angularVelocity = -500;
+    // } else {
+    //   this.paddle1.setAngle(0);
+    //   this.paddle1.body.angularVelocity = 500;
+    // }
 
-    cursors.right.on("up", () => {
-      rightFlipper.rotation = 0.5;
-      rightFlipper.setAngularVelocity(-10);
-    });
-
-    // add collisions
-    this.matter.world.setBounds(0, 0, 800, 600);
-
-    this.matter.add.rectangle(400, 600, 800, 20, { isStatic: true });
-    this.matter.add.rectangle(0, 300, 20, 600, { isStatic: true });
-    this.matter.add.rectangle(800, 300, 20, 600, { isStatic: true });
-
-    this.matter.add.collider(ball, leftFlipper);
-    this.matter.add.collider(ball, rightFlipper);
-    this.matter.add.collider(ball, [bumper1, bumper2]);
+   
   }
 }
