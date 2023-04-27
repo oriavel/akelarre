@@ -1,3 +1,5 @@
+import Bat from "../characters/goatrun/Bat.js";
+
 /**
  * Escena de Título.
  * @extends Phaser.Scene
