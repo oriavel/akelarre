@@ -1,4 +1,4 @@
-import Bat from "../characters/bat.js";
+import Bat from "../characters/goatrun/bat.js";
 
 /**
  * Escena de Título.
@@ -26,7 +26,7 @@ export default class GoatRun extends Phaser.Scene {
 	preload(){
         this.load.image('cave', 'src/assets/cave_long.png');
         this.load.image('cave2', 'src/assets/cave_marron.png');
-        this.load.image('cave3', 'src/assets/cave_lava.png');
+        this.load.image('cave3', 'src/assets/cave_lava.png'); // http://joyreactor.com/post/1390622
         this.load.image('ground', 'src/assets/platform_1.png');
         this.load.image('ground2', 'src/assets/platform_2.png');
         this.load.spritesheet('amaia_goatrun', 
@@ -101,7 +101,8 @@ export default class GoatRun extends Phaser.Scene {
         this.goat = this.physics.add.sprite(70, 280, 'goat');
         this.goat.setSize(90, 180);
 
-        this.bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
+        this.bat = new Bat(this, 850, 300, 'bat', this.player);
+        // this.bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
         this.bat.body.allowGravity = false;
         this.bat.body.velocity.x = -150;
 
@@ -136,7 +137,6 @@ export default class GoatRun extends Phaser.Scene {
         // this.start = this.getTime();
         this.bats = this.physics.add.group();
         this.contBats = 0;
-        
         timer_bats = this.time.addEvent({
             delay: Phaser.Math.Between(1000, 4000),
             loop: true,
@@ -144,7 +144,8 @@ export default class GoatRun extends Phaser.Scene {
                 // Crear un objeto dentro del grupo y define su posición inicial
                 // var objeto = this.bats.create(900, 250, 'bat');
                 // var objeto = this.physics.add.sprite(900, 250, 'bat').setScale(2);
-                var objeto = self.bats.create(900, 250, 'bat');
+                // var objeto = self.bats.create(900, 250, 'bat');
+                var objeto = new Bat(self, 900, 250, 'bat', self.player);
                 self.bats.add(objeto);
                 // let objeto = new Bat(this, 900, 250, 1, 'bat');
                 objeto.setScale(2);
@@ -425,33 +426,7 @@ export default class GoatRun extends Phaser.Scene {
     movimientoBats(){
         if(this.contBats > 0){
             this.bats.getChildren().forEach(function(bat) {
-                console.log(bat.anims.currentAnim.key);
-                switch (bat.anims.currentAnim.key) {
-                    case 1:
-                        bat.setSize(10, 10);
-                        console.log("llega aqui anim murci");
-                        break;
-                    case 2:
-                        bat.setSize(80, 80);
-                        console.log("llega a la segunda");
-                        break;
-                    // agregar más casos según sea necesario para cada animación
-                    default:
-                        bat.setSize(15, 22); // tamaño predeterminado
-                        break;
-                }
-                if(Math.abs(this.player.body.position.x - bat.body.position.x) < 155){
-                    if(bat.body.position.y > 215){ // OJO ESTO
-                        bat.body.velocity.y += 0.4; 
-                    }
-                    else if (bat.body.position.y < 215){
-                        bat.body.velocity.y -= 0.5;
-                    }
-                }
-                else{
-                    bat.body.velocity.y += 0;
-                }
-            
+                bat.movimiento_bats();
             }, this);
         }
     }   
