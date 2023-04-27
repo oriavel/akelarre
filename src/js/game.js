@@ -45,7 +45,9 @@ let config = {
             right: true
         }
     },
-    scene: [Intro,Cueva, GoatRun, AvoidThePotions],
+scene: [Intro,Cueva, GoatRun, AvoidThePotions],
+
+
     title: "Akelarre",
     version: "0.0.1"
 };
