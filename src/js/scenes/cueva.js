@@ -422,7 +422,8 @@ export default class Cueva extends Phaser.Scene {
                 textNombre.setVisible(true);
                 hablando = true;
                 enPortal = true;
-                if(portal.x == this.portal1.x && this.game.config.keys != 2){
+                this.portal = portal;
+                if(this.portal.x == this.portal1.x && this.game.config.keys != 2){
                     text.setText("No deberia de entrar hasta que no tenga las otras \n2 piezas...");
                 } 
                 else{
@@ -451,27 +452,27 @@ export default class Cueva extends Phaser.Scene {
          //console.log(this.player.y);
 
         if (this.cursors.right.isDown && !hablando){
-            this.player.setVelocityX(136);
+            this.player.setVelocityX(436);
             this.player.setVelocityY(0);
             this.player.anims.play('right_amaia', true);
             this.animation = 1;
 
         }
         else if (this.cursors.left.isDown && !hablando){
-            this.player.setVelocityX(-136);
+            this.player.setVelocityX(-436);
             this.player.setVelocityY(0);
             this.player.anims.play('left_amaia', true);
             this.animation = 2;
 
         }
         else if (this.cursors.up.isDown && !hablando){
-            this.player.setVelocityY(-136);
+            this.player.setVelocityY(-436);
             this.player.setVelocityX(0);
             this.player.anims.play('up_amaia', true);
             this.animation = 3;
         }
         else if (this.cursors.down.isDown && !hablando){
-            this.player.setVelocityY(136);
+            this.player.setVelocityY(436);
             this.player.setVelocityX(0);
             this.player.anims.play('down_amaia', true);
             this.animation = 4;
@@ -499,7 +500,7 @@ export default class Cueva extends Phaser.Scene {
 
             if(this.portal == this.portal1 && this.game.config.keys == 2){
                 this.scene.stop('Cueva');
-                this.scene.start('goatrun');
+                this.scene.start('avoidthepotions');
             }
 
             else if(this.portal == this.portal2){ 
@@ -509,7 +510,7 @@ export default class Cueva extends Phaser.Scene {
 
             else if(this.portal == this.portal3){
                 this.scene.stop('Cueva');
-                this.scene.start('avoidthepotions');
+                this.scene.start('goatrun');
             }
         }
 
