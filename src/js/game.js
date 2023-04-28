@@ -15,8 +15,6 @@ let config = {
   type: Phaser.CANVAS,
   canvas: document.getElementById("game"),
   parent: "juego",
-  //width: 640 ,
-  //height: 480,
   width: 800,
   height: 600,
   keys: 0, //Piezas de llaves para los minijuegos
@@ -30,8 +28,6 @@ let config = {
       height: 188,
     },
     max: {
-      //width: 640,
-      //height: 480
       width: 1112,
       height: 552,
     },
@@ -40,15 +36,13 @@ let config = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 0 },
-      debug: false,
+      debug: true,
+      gravity: { y: 0 }
     },
-    checkCollision: {
-      up: true,
-      down: true,
-      left: true,
-      right: true,
-    },
+    matter: {
+      debug: true,
+      gravity: { y: 0.5 }
+    }
   },
   scene: [Intro, Cueva, GoatRun, AvoidThePotions, Pinball],
 
@@ -57,15 +51,3 @@ let config = {
 };
 
 new Phaser.Game(config, gameManager);
-
-/** Para que funcione el pinball
- *  default: "matter",
-        matter: {
-          gravity: {
-            y: 0.5
-          },
-          debug: true
-        }
-      },
-    scene: [Pinball],
- */

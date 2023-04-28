@@ -1,6 +1,15 @@
 export default class Pinball extends Phaser.Scene {
   constructor() {
-    super("Pinball");
+    super({
+      key: "Pinball",
+      physics: {
+        default: "matter",
+        matter: {
+          debug: true,
+          gravity: { y: 0.5 },
+        },
+      },
+    });
   }
 
   initPhysics() {
@@ -87,23 +96,17 @@ export default class Pinball extends Phaser.Scene {
 
     // input key for flipper
     var space = this.input.keyboard.addKey("space");
-  
-    space.on(
-      "down",
-      () => {
-        this.flip(true);
-      }
-    );
-  
-    space.on(
-      "up",
-      () => {
-        this.flip(false);
-      }
-    );
+
+    space.on("down", () => {
+      this.flip(true);
+    });
+
+    space.on("up", () => {
+      this.flip(false);
+    });
   }
 
-  update(){
+  update() {
     if (Math.abs(this.ball.y) > this.game.config.height) {
       this.ball.setPosition(this.X, 0);
       this.ball.setVelocity(0);
