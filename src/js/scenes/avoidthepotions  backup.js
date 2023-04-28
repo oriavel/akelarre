@@ -2,12 +2,6 @@
  * Escena de Título.
  * @extends Phaser.Scene
  */
-import Bat from './atp_bats.js';
-import GoldenBat from './atp_bats_golden.js';
-import Potion from './atp_Potion.js';
-import PotionGreen from './atp_potion_green.js';
-import PotionRed from './atp_potion_red.js';
-
 export default class AvoidThePotions extends Phaser.Scene {
 	/**
 	 * Escena principal.
@@ -16,6 +10,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 	constructor() {
 		super({ key: 'avoidthepotions' });
         //this.physicsPlugin = null;
+        
 	}
     
     
@@ -31,7 +26,6 @@ export default class AvoidThePotions extends Phaser.Scene {
 	 * Cargamos todos los assets que vamos a necesitar
 	 */
 	preload(){
-        this.load.script('bat', 'src/js/scenes/atp_bats.js');
         // poner un fondo decente
         this.load.image('cave', 'src/assets/AvoidThePotions/cueva_potions.png');
         this.load.image('ground', 'src/assets/AvoidThePotions/platform.png');
@@ -127,9 +121,6 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.load.image('floor_kick_pink_4', 'src/assets/AvoidThePotions/golpe_suelo_pink/FX002_08.png');
         
         this.load.image('vacio','src/assets/vacio.png');
-
-        
-        
     }
 	
 
@@ -327,33 +318,26 @@ export default class AvoidThePotions extends Phaser.Scene {
         // Inicialización de las variables para controlar el lanzamiento de pociones
         this.potionInterval = 1500;
         this.nextPotionTime = 0;
+        this.potionVelocity = 75;
 
         // Inicialización de las variables para controlar la aparición de murciélagos
         //this.batInterval = 3000;
         this.nextBatTime = 0;
 
         // Crea un grupo para las pociones
-        //this.potions = this.physics.add.group();
-        this.potionGroup = this.add.group({
-            classType: Potion,
-            runChildUpdate: true
-        });
+        this.potions = this.physics.add.group();
+
 
         // Crea un grupo para los murciélagos
-        this.batGroup = this.add.group({
-            classType: Bat,
-            runChildUpdate: true
-        });
-        
-        
-        this.batGroup.maxV = 3;
-        this.batGroup.spwn = 0;
+        this.bats = this.physics.add.group();
+        this.bats.maxV = 3;
+        this.bats.spwn = 0;
         
         this.cursors = this.input.keyboard.createCursorKeys();
-        //this.physics.add.collider(this.amaia, this.potionGroup, potionCollisionHandler, null, this);
+        this.physics.add.collider(this.amaia, this.potions, potionCollisionHandler, null, this);
         this.physics.add.collider(this.amaia, this.platforms, null,null, this);
-        this.physics.add.collider(this.amaia, this.potionGroup, null, null, this);
-        //this.physics.add.collider(this.potionGroup, this.platforms, potionCollisionPlatform, null, this);
+        this.physics.add.collider(this.amaia, this.potions, null, null, this);
+        this.physics.add.collider(this.potions, this.platforms, potionCollisionPlatform, null, this);
         this.amaia.setCollideWorldBounds(true);
         this.witch.setCollideWorldBounds(true);
 
@@ -434,7 +418,7 @@ export default class AvoidThePotions extends Phaser.Scene {
             if(this.temporizador < this.tiempoInicio/2 && this.nivel == "facil"){
                 this.nivel = "medio";
                 this.levelMultiplier = 2;
-                this.batGroup.maxV = 5
+                this.bats.maxV = 5
             }
 
             // Con este if, evitamos que el tiempo se ponga en negativo
@@ -467,28 +451,25 @@ export default class AvoidThePotions extends Phaser.Scene {
             // Controla el lanzamiento de pociones por parte de la bruja "witch"
             if (this.time.now > this.nextPotionTime) {
                 this.potionType = Math.floor(Math.random() * 4); // Hay tres tipos de pociones distintos
-                
+                this.potion = this.potions.create(this.witch.x, this.witch.y, 'potion',this.potionType);
+                this.potion.setData('type', this.potionType);
+                this.potion.setSize(16,16);
                 //sprites para las pociones
                 if(this.potionType == 1){
                     //this.potion.setTexture('potionRED');
-                    //this.potion.play("red_potion").setScale(3);
-                    this.potion = new PotionRed(this, this.witch.x, this.witch.y);
+                    this.potion.play("red_potion").setScale(3);
                 }
                 else if(this.potionType ==2){
-                    //this.potion.play("green_potion").setScale(3);
-                    this.potion = new PotionGreen(this, this.witch.x, this.witch.y);
+                    this.potion.play("green_potion").setScale(3);
                 }
                 else if(this.potionType ==3){
-                    //this.potion.play("pink_potion").setScale(3);                    
+                    this.potion.play("pink_potion").setScale(3);                    
                     //this.potion.setTexture('potionPINK');
-                    this.potion = new PotionGreen(this, this.witch.x, this.witch.y);
                 }
                 else{
-                    this.potion = new Potion(this, this.witch.x, this.witch.y);
+                    this.potion.play("yellow_potion").setScale(3);
                 }
-                //this.potion.init();
-                this.potionGroup.add(this.potion);
-                
+                this.potion.body.velocity.y = this.potionVelocity;
                 this.nextPotionTime = this.time.now + this.potionInterval;
                 // cambia el sentido de la bruja
                 if(this.witch.body.velocity.x > 0 || this.witch.x + this.witch.width >= this.game.config.width){
@@ -503,49 +484,66 @@ export default class AvoidThePotions extends Phaser.Scene {
             }
 
             // Controla la colisión entre el personaje "amaia" y las pociones
-            this.potionGroup.getChildren().forEach(function(potion) {
-                potion.collisions();
-                
+            this.potions.getChildren().forEach(function(potion) {
                 if(this.temporizador == 0){
-                    potion.death();
+                    var potion_air_explosion = this.add.sprite(potion.body.x+15, potion.body.y+5, 'bat_death').setScale(2);
+                    potion.destroy();
+                    potion_air_explosion.play('bat_death');
+                    potion_air_explosion.on('animationcomplete', () => {
+                        // Eliminar el sprite una vez que la animación haya terminado
+                        potion_air_explosion.destroy();
+                    }); 
+                }
+                else{
+                    this.physics.collide(this.amaia, potion, potionCollisionHandler, {type: potion.getData("type")}, this);
+                    this.physics.add.collider(potion, this.platforms, potionCollisionPlatform, null, this);
                 }
             }, this);
 
             // Controla la aparición de murciélagos y su movimiento
             // El if comprueba si ha pasado timepo suficiente y si no se supera el maximo
             // de murciélagos a la vez (3)
-            if (this.time.now > this.nextBatTime && (this.batGroup.maxV > this.batGroup.spwn - this.amaia.nKills)) {
+            if (this.time.now > this.nextBatTime && (this.bats.maxV > this.bats.spwn - this.amaia.nKills)) {
+                
                 // decidimos 50% el lado de aparicion del murcielago
                 if(Math.random()>0.50){
-                    
-                    if(Math.random()<0.15){
-                        this.bat = new GoldenBat(this, 20, 375 + Math.random() * 80, 100 + Math.random() * 200 *this.level);
-                    }
-                    else{
-                        this.bat = new Bat(this, 20, 375 + Math.random() * 80, 100 + Math.random() * 200 *this.level);
-                    }
+                    this.bat = this.bats.create(20 , 375 + Math.random() * 80, 'bat');
+                    this.bat.body.allowGravity = false;
+                    this.bat.body.velocity.x = 100 + Math.random() * 200;
                 }
                 else{
-                    if(Math.random()<1.15){
-                        this.bat = new GoldenBat(this, this.game.config.width -20, 375 + Math.random() * 80, -100 + Math.random() * -200 *this.level);
-                    }
-                    else{
-                        this.bat = new Bat(this, this.game.config.width -20, 375 + Math.random() * 80, -100 + Math.random() * -200 *this.level);
-                    }
+                    this.bat = this.bats.create(this.game.config.width -20 , 375 + Math.random() * 80, 'bat');
+                    this.bat.body.allowGravity = false;
+                    this.bat.body.velocity.x = -100 + Math.random() * -200;
                 }
-                this.bat.body.velocity.x = 200;
-                this.batGroup.add(this.bat);
-                //this.batGroup.add(this.bat);
-                this.batGroup.spwn++;
+                
+                    //dificultad de nivel facil o medio
+                    this.bat.body.velocity.x *= this.levelMultiplier;
+                this.bat.setScale(1.4);
+                this.bat.setSize(15,15);
+                // 15% de posibilidades de que salga un murciélago dorado
+                if(Math.random()<0.15){
+                    this.bat.tipo = "golden";
+                    this.bat.play("goldenBat");
+                }
+                else{
+                    this.bat.tipo = "default";
+                    this.bat.play("bat");
+                }
+                this.bats.spwn++;
                 //generamos tiempos distintos para el tiempo de aparicion
                 this.batInterval = Math.floor(2000 + Math.random() * 5000)
                 this.nextBatTime = this.time.now + this.batInterval;
-            }
-            // Controla el movimiento y la colisión entre el personaje "amaia" y los murciélagos
-            this.batGroup.getChildren().forEach(function(bat) {
-                // cambia las direcciones de los murciélagos al chocar con los laterales
-                bat.checkMovement();
+
                 
+            }
+            // Controla la colisión entre el personaje "amaia" y los murciélagos
+            this.bats.getChildren().forEach(function(bat) {
+                // cambia las direcciones de los murciélagos al chocar con los laterales
+                if (bat.body.position.x < 0 || bat.body.position.x > this.game.config.width -20) {
+                    bat.body.velocity.x *= -1;
+                }
+                this.physics.collide(this.amaia, bat, batCollisionHandler, null, this);
             }, this);
 
             // COmprueba que pasen los milisegundos de castigo por la pocion de salto
@@ -590,4 +588,137 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     }
 }
-   
+    // Función que se ejecuta cuando una poción colisiona con el personaje "amaia"
+
+
+    // Función que se ejecuta cuando un murciélago colisiona con el
+
+function potionCollisionHandler(amaia, potion) {
+    console.log("Daño de pocion: " + potion.getData("type"));
+    if(potion.getData("type") == 1){ // Pocion RED
+        amaia.lives = 0; //muere
+        
+    }
+    else if(potion.getData("type") == 2){ //Pocion GREEN
+        //velocidad movimiento amaia a un cuarto hasta que mate un murciélago
+        amaia.speed = 50;
+    }
+    else if(potion.getData("type") == 3){ //Pocion PINK
+        //controles invertidos
+        if(this.amaia.speed >0){
+            amaia.speed = -amaia.speed;
+        }
+        amaia.inversedControlsTimer = -1;
+    }
+    else{ //Pocion Default
+        amaia.canJump = false;
+        amaia.jumpTimer = -1;
+    }
+    potion.body.destroy();
+    potion.destroy();
+    
+    // efecto de la pocion que sea
+}
+function potionCollisionPlatform(potion, platforms) {
+    //la pocion toca el suelo y se destruye
+    // animacion pocion contra el suelo
+    if(potion.getData("type") == 1){ // Pocion RED
+        var red_explosion = this.add.sprite(potion.body.x+30, potion.body.y-20, 'exploding_death_potion').setScale(2);
+        red_explosion.play('exploding_death_potion');
+        var collider_fire = this.fireGroup.create(potion.body.x+30, potion.body.y,'vacio').setScale(1.15);
+        collider_fire.body.allowGravity = false;
+        collider_fire.setSize(30,90);
+        collider_fire.tipo = "RED";
+        this.physics.add.collider(this.amaia, collider_fire, seQUEMA, null, this);
+        
+        red_explosion.on('animationcomplete', () => {
+            // Eliminar el sprite una vez que la animación haya terminado
+            red_explosion.destroy();
+            collider_fire.destroy();
+        });
+    }
+    else if(potion.getData("type") == 2){ // Pocion GREEN
+        var green_explosion = this.add.sprite(potion.body.x+30, potion.body.y-35).setScale(1.15);
+        var collider_fire = this.fireGroup.create(potion.body.x+30, potion.body.y,"vacio").setScale(1.15);
+        green_explosion.play('exploding_poison_potion');
+        collider_fire.body.allowGravity = false;
+        collider_fire.setSize(37,80);
+        collider_fire.tipo = "GREEN";
+        this.physics.add.collider(this.amaia, collider_fire, seQUEMA, null, this);
+        
+        green_explosion.on('animationcomplete', () => {
+            // Eliminar el sprite una vez que la animación haya terminado
+            collider_fire.destroy();
+            green_explosion.destroy();
+        });
+    }
+    else if(potion.getData("type") == 3){ //Pocion PINK
+        var pink_explosion = this.add.sprite(potion.body.x+26, potion.body.y+30, 'floor_kick_pink').setScale(1.15);
+        pink_explosion.play('floor_kick_pink');
+        pink_explosion.on('animationcomplete', () => {
+            // Eliminar el sprite una vez que la animación haya terminado
+            pink_explosion.destroy();
+        });
+    }
+    else{
+        var default_explosion = this.add.sprite(potion.body.x+26, potion.body.y+30, 'floor_kick').setScale(1.15);
+        default_explosion.play('floor_kick');
+        default_explosion.on('animationcomplete', () => {
+            // Eliminar el sprite una vez que la animación haya terminado
+            default_explosion.destroy();
+        });
+    }
+    potion.body.destroy();
+    potion.destroy();
+    
+    
+}
+function seQUEMA(amaia,col){
+    col.disableBody(true,true);
+    amaia.isHurt = col.tipo;
+    if(col.tipo == "GREEN"){
+        amaia.speed /=2;
+    }
+    else if(col.tipo == "RED"){
+        amaia.lives--;
+        console.log("Te quemas, te quedan "+amaia.lives+" vidas...");
+    }
+}
+function batCollisionHandler(amaia, bat) {
+    // si al chocar amaia no se encuentra por encima del murcielago, la que sufre daño es ella
+    if(amaia.y < bat.y-35){
+        if(bat.tipo == "golden"){
+            amaia.lives++;
+        }
+        var bat_dying = this.add.sprite(bat.body.x+15, bat.body.y+5, 'bat_death').setScale(2);
+        bat_dying.play('bat_death');
+        bat_dying.on('animationcomplete', () => {
+            // Eliminar el sprite una vez que la animación haya terminado
+            bat_dying.destroy();
+        });
+        bat.body.destroy();
+        bat.destroy();
+        //si está bajo los efectos de la pocion de inversion de controles
+        if(amaia.speed <= 200 && amaia.speed > 0){
+            amaia.speed = 200;
+        }
+        else{
+            amaia.speed = -200;
+        }
+        amaia.nKills++;
+        amaia.body.velocity.y = -100;
+    }
+    else{
+        amaia.nKills++;
+        var bat_dying = this.add.sprite(bat.body.x+15, bat.body.y+5, 'bat_death').setScale(2);
+        bat_dying.play('bat_death');
+        bat_dying.on('animationcomplete', () => {
+            // Eliminar el sprite una vez que la animación haya terminado
+            bat_dying.destroy();
+        });
+        bat.body.destroy();
+        bat.destroy();
+        amaia.isHurt = "HIT";
+        amaia.lives--;
+    }
+}
