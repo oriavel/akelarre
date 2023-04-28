@@ -46,4 +46,5 @@ export default class PotionGreen extends atp_potion{
     potion.body.destroy();
     potion.destroy();
   }
+
 }

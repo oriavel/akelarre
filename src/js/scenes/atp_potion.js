@@ -62,5 +62,9 @@ export default class Potion extends Phaser.GameObjects.Sprite {
     potion.body.destroy();
     potion.destroy();
   }
+  checkPunishment(){
+    // Esta poción no tiene castigo
+    // En la rosa y la verde hace que se cumpla el tiempo de duración de sus efectos
+  }
 }
 

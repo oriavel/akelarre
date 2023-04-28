@@ -16,6 +16,7 @@ export default class Bat extends Phaser.Physics.Arcade.Sprite {
     this.play("bat").setScale(1.4);
     this.setSize(15,15);
     this.body.allowGravity = false;
+    this.body.velocity.x = 200;
     // 15% de posibilidades de que salga un murciélago dorado
     //////////this.tipo = "default";
     this.sumaVida = 0;
@@ -26,6 +27,7 @@ export default class Bat extends Phaser.Physics.Arcade.Sprite {
 
   // Función que comprueba tanto el movimiento de los murciélagos como la colisión con Amaia
   checkMovement(){
+    // Cambia las direcciones de los murciélagos al chocar con los laterales
     if (this.body.position.x < 0 || this.body.position.x > this.scene.game.config.width -20) {
       this.body.velocity.x *= -1;
     }

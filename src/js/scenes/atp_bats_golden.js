@@ -15,6 +15,7 @@ export default class GoldenBat extends atp_bats {
     this.play("goldenBat").setScale(1.4);
     this.setSize(15,15);
     this.body.allowGravity = false;
+    this.body.velocity.x = 200;
     // 15% de posibilidades de que salga un murciélago dorado
     //////////this.tipo = "default";
     this.sumaVida = 1;
