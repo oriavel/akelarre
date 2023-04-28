@@ -17,11 +17,11 @@ export default class Potion extends Phaser.Physics.Arcade.Sprite {
     
     
     this.play("yellow_potion").setScale(3);
-    this.setSize(16,16);
+    this.body.setSize(16,16);
     this.body.velocity.y = this.potionVelocity;
     
-    //this.scene.physics.add.collider(this.scene.amaia, this, this.potionCollisionHandler, null, this);
-    //this.scene.physics.add.collider(this, this.scene.platforms, this.potionCollisionPlatform, null, this);
+    this.scene.physics.add.collider(this.scene.amaia, this, this.potionCollisionHandler, null, this);
+    this.scene.physics.add.collider(this, this.scene.platforms, this.potionCollisionPlatform, null, this);
   }
 
 
