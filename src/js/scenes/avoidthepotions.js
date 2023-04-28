@@ -7,6 +7,7 @@ import GoldenBat from './atp_bats_golden.js';
 import Potion from './atp_Potion.js';
 import PotionGreen from './atp_potion_green.js';
 import PotionRed from './atp_potion_red.js';
+import PotionPink from './atp_potion_pink.js';
 
 export default class AvoidThePotions extends Phaser.Scene {
 	/**
@@ -352,7 +353,7 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         //this.physics.add.collider(this.amaia, this.potionGroup, potionCollisionHandler, null, this);
         this.physics.add.collider(this.amaia, this.platforms, null,null, this);
-        this.physics.add.collider(this.amaia, this.potionGroup, null, null, this);
+        //this.physics.add.collider(this.amaia, this.potionGroup, null, null, this);
         //this.physics.add.collider(this.potionGroup, this.platforms, potionCollisionPlatform, null, this);
         this.amaia.setCollideWorldBounds(true);
         this.witch.setCollideWorldBounds(true);
@@ -481,7 +482,7 @@ export default class AvoidThePotions extends Phaser.Scene {
                 else if(this.potionType ==3){
                     //this.potion.play("pink_potion").setScale(3);                    
                     //this.potion.setTexture('potionPINK');
-                    this.potion = new PotionGreen(this, this.witch.x, this.witch.y);
+                    this.potion = new PotionPink(this, this.witch.x, this.witch.y);
                 }
                 else{
                     this.potion = new Potion(this, this.witch.x, this.witch.y);
@@ -501,15 +502,6 @@ export default class AvoidThePotions extends Phaser.Scene {
                 this.potionInterval = Math.floor(Math.random() * 4000);
                 this.potionInterval = this.potionInterval/this.levelMultiplier;
             }
-
-            // Controla la colisión entre el personaje "amaia" y las pociones
-            this.potionGroup.getChildren().forEach(function(potion) {
-                potion.collisions();
-                
-                if(this.temporizador == 0){
-                    potion.death();
-                }
-            }, this);
 
             // Controla la aparición de murciélagos y su movimiento
             // El if comprueba si ha pasado timepo suficiente y si no se supera el maximo
@@ -579,6 +571,11 @@ export default class AvoidThePotions extends Phaser.Scene {
             
         }
         else if(this.amaia.lives < 1 || this.temporizador<1){
+            if(this.temporizador<1){
+                this.potionGroup.getChildren().forEach(function(potion) {
+                    potion.death();
+                }, this);
+            }
             if(this.amaia.lives < 1){
             this.amaia.disableBody(true,true);
             }

@@ -1,6 +1,5 @@
-import AvoidThePotions from "./avoidthepotions.js";
 
-export default class Potion extends Phaser.Physics.Arcade.Sprite {
+export default class Potion extends Phaser.GameObjects.Sprite {
 
   constructor(scene, x,y) {
     super(scene,x,y);
@@ -8,7 +7,9 @@ export default class Potion extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
   
     // Agregar la física al objeto
-    scene.physics.add.existing(this);
+    this.scene.physics.add.collider(this.scene.amaia, this, this.potionCollisionHandler, null, this);
+    this.scene.physics.add.collider(this, this.scene.platforms, this.potionCollisionPlatform, null, this);
+    this.scene.physics.add.existing(this);
   
     // Configurar las propiedades de la física
     this.body.setCollideWorldBounds(false);
@@ -20,8 +21,7 @@ export default class Potion extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(16,16);
     this.body.velocity.y = this.potionVelocity;
     
-    this.scene.physics.add.collider(this.scene.amaia, this, this.potionCollisionHandler, null, this);
-    this.scene.physics.add.collider(this, this.scene.platforms, this.potionCollisionPlatform, null, this);
+    
   }
 
 
@@ -35,28 +35,12 @@ export default class Potion extends Phaser.Physics.Arcade.Sprite {
     }); 
     this.destroy();
   }
-
-  collisions(){
-    this.scene.physics.collide(this.scene.amaia, this, this.potionCollisionHandler, null, this);
-    this.scene.physics.collide(this, this.scene.platforms, this.potionCollisionPlatform, null, this);
-  }
+  
 
   potionCollisionPlatform(potion, platforms){
-    /*
+    
     //la pocion toca el suelo y se destruye
     // animacion pocion contra el suelo
-    
-  
-  else if(potion.getData("type") == 3){ //Pocion PINK
-      var pink_explosion = this.add.sprite(potion.body.x+26, potion.body.y+30, 'floor_kick_pink').setScale(1.15);
-      pink_explosion.play('floor_kick_pink');
-      pink_explosion.on('animationcomplete', () => {
-          // Eliminar el sprite una vez que la animación haya terminado
-          pink_explosion.destroy();
-      });
-  }
-  else{
-    */
     var default_explosion = this.scene.add.sprite(potion.body.x+26, potion.body.y+30, 'floor_kick').setScale(1.15);
     default_explosion.play('floor_kick');
     default_explosion.on('animationcomplete', () => {
@@ -70,16 +54,7 @@ export default class Potion extends Phaser.Physics.Arcade.Sprite {
    
   
   potionCollisionHandler(amaia,potion){
-    /*
     
-    else if(potion.getData("type") == 3){ //Pocion PINK
-        //controles invertidos
-        if(this.amaia.speed >0){
-            amaia.speed = -amaia.speed;
-        }
-        amaia.inversedControlsTimer = -1;
-    }
-    */
     //Pocion Default
     amaia.canJump = false;
     amaia.jumpTimer = -1;

@@ -1,7 +1,7 @@
-import AvoidThePotions from './avoidthepotions.js';
+
 import atp_potion from './atp_Potion.js';
 
-export default class PotionGreen extends atp_potion{
+export default class PotionPink extends atp_potion{
   constructor(scene, x,y) {
     super(scene,x,y);
     // Agregar la clase al juego
@@ -22,10 +22,7 @@ export default class PotionGreen extends atp_potion{
     this.scene.physics.add.collider(this.scene.amaia, this, this.potionCollisionHandler, null, this);
     this.scene.physics.add.collider(this, this.scene.platforms, this.potionCollisionPlatform, null, this);
   }
-  collisions(){
-    this.scene.physics.collide(this.scene.amaia, this, this.potionCollisionHandler, null, this);
-    this.scene.physics.collide(this, this.scene.platforms, this.potionCollisionPlatform, null, this);
-  }
+
   potionCollisionPlatform(potion, platforms){
     //la pocion toca el suelo y se destruye
     // animacion pocion contra el suelo
@@ -54,8 +51,7 @@ export default class PotionGreen extends atp_potion{
     amaia.isHurt = col.tipo;
   }
 
-  potionCollisionHandler(amaia,potion){
-    
+  potionCollisionHandler(amaia,potion){    
     //velocidad movimiento amaia a un cuarto hasta que mate un murciélago
     amaia.speed = 50;
     potion.body.destroy();

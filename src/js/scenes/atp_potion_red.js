@@ -1,4 +1,4 @@
-import AvoidThePotions from './avoidthepotions.js';
+
 import atp_potion from './atp_Potion.js';
 
 export default class PotionRed extends atp_potion{
@@ -24,7 +24,7 @@ export default class PotionRed extends atp_potion{
   
     
   }
-  
+
   collisions(){
     this.scene.physics.collide(this.scene.amaia, this, this.potionCollisionHandler, null, this);
     this.scene.physics.collide(this, this.scene.platforms, this.potionCollisionPlatform, null, this);
