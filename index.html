@@ -7,15 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <link rel="stylesheet" href="./styles/general.css">
     <link rel="stylesheet" href="./styles/modals.css">
-    <link rel="stylesheet" href="./styles/game.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bilbo+Swash+Caps&display=swap" rel="stylesheet">
     <script src="./lib/phaser.min.js"></script>
-    <script src="./node_modules/matter-js/build/matter.js" defer></script>
+    <script src="./node_modules/matter-js/build/matter.js"  defer></script>
     <script src="./modals.js" defer></script>
-    <script src="./node_modules/matter-js/build/matter.js" defer></script>
     <title>Akelarre</title>
 </head>
 
@@ -39,7 +37,8 @@
                 <h3 class="modal-title">Instrucciones</h3>
                 <ul>
                     <li> Para poder explorar la cueva debes usar las <b>flechas del teclado</b>
-                    <img src="/assets/Instructions/flechas.png" class="instr-pic"></li>
+                        <img src="/assets/Instructions/flechas.png" class="instr-pic">
+                    </li>
                     <li> Para interactuar con un elemento pulsa la tecla <i>espacio</i>
                         <img src="/assets/Instructions/space.png" class="instr-pic">
                     </li>
@@ -62,16 +61,13 @@
         </div>
     </section>
 
-    <section> 
-        <div id="juego">
-            <canvas id="game"></canvas>
-            <script id="script" src="src/js/game.js" type="module"></script>
-        </div>
 
-    </section>
+    <div id="juego">
+        <canvas id="game"></canvas>
+        <script id="script" src="src/js/game.js" type="module"></script>
+    </div>
+
 
 </body>
 
 </html>
-
-

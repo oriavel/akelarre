@@ -1,85 +1,45 @@
 export default class Pinball extends Phaser.Scene {
-  /**
-   * Escena principal.
-   * @extends Phaser.Scene
-   */
   constructor() {
-    super({ key: "pinball" });
-    this.physicsPlugin = null;
+    super('Pinball');
   }
 
   initPhysics() {
-    this.physicsPlugin = this.physics.add;
-    this.physicsPlugin.world.gravity.y = 300;
-    this.physicsPlugin.world.setBounds(
-      0,
-      0,
-      this.game.config.width,
-      this.game.config.height
-    );
+    this.X = 300;
+    this.Y = 320;
+    this.LEVER = 64;
+    this.WIDTH = 112;
+    this.HEIGHT = 32;
+    this.STIFFNESS = 0.1;
+    this.MIN = Phaser.Math.DegToRad(32);
+    this.MAX = Phaser.Math.DegToRad(-15);
   }
 
-  /**
-   * Cargamos todos los assets del juego
-   */
-  preload() {
-    this.load.image("ball", "src/assets/Pinball/ball.png");
-    this.load.image("paddle", "src/assets/Pinball/flipper.png");
-    this.load.image("block", "src/assets/Pinball/bumper.png");
-  }
 
-  /**
-   * Crear elementos de la escena principal del juego
-   */
   create() {
     this.initPhysics();
 
-    // add ball
-    this.ball = this.physics.add
-      .image(50, 50, "ball")
-      .setDisplaySize(50, 50)
-      .setCollideWorldBounds(true)  // Collide against the canvas borders
-      .setCircle(100)               // Circle area
-      .setBounce(1);
+    // add rectangle and its physics
+    this.rectangle = this.add.rectangle(
+      this.X,
+      this.Y,
+      this.WIDTH,
+      this.HEIGHT,
+      0x5a0571
+    );
 
-    // add paddle
-    this.paddle1 = this.physics.add
-      .image(700, 500, "paddle")
-      .setDisplaySize(100, 40)
-      .setImmovable(true);
-
-  
-
-    // Cursor management
-    this.cursors = this.input.keyboard.createCursorKeys();
-    if(this.cursors.left.isDown){
-      alert("Down");
-    }
-    // Score text
-    this.scoreText = this.add.text(16, 16, "Score: 0", {
-      fontSize: "28px",
-      fill: "#fff",
-    });
-
-    // Set up collisions
-    //Ball hits paddle 1
-    this.physics.add.collider(this.ball, this.paddle1, function () {
-      this.ball.setVelocityY(-500);
-      this.ball.setVelocityX(ball.body.velocity.x * 1.5);
+    this.flipper = this.matter.add.gameObject(this.rectangle, {
+      friction: 1
     });
     
-  }
+    // fixed point in the middle of the flipper
+    this.matter.add.worldConstraint(this.flipper, 0, 1, {
+      pointA: new Phaser.Math.Vector2(this.X, this.Y),
+     });
 
-  update() {
-   // if(gameState.cursors.left.isDown) {
-      this.scoreText.setText("hola");
-      // this.paddle1.setAngle(-90);
-      //this.paddle1.body.angularVelocity = -500;
-    // } else {
-    //   this.paddle1.setAngle(0);
-    //   this.paddle1.body.angularVelocity = 500;
-    // }
+     
+     // add ball
+     this.circle = this.add.circle(this.X, 0, 16, 0xa3ff00);
+     this.ball = this.matter.add.gameObject(this.circle).setCircle(16);
 
-   
-  }
+  } 
 }

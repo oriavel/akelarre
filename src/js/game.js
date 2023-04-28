@@ -9,9 +9,9 @@ import pociones from './scenes/avoidthepotions.js'
 let config = {
     type: Phaser.CANVAS,
     canvas: document.getElementById("game"),
-    //parent: "juego",
-    width:  800,
-    height: 600,
+    parent: "juego",
+    width: 640 ,
+    height: 480,
     pixelArt: true,
 	scale: {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
@@ -21,28 +21,20 @@ let config = {
             height: 188
         },
 		max: {
-            width: 2312,
-            height: 752
+            width: 640,
+            height: 480
         },
 		zoom: 1
     },
     physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 0 },
-            debug: true
-        },
-        matter: { 
-            debug: true, 
-            gravity: { y: 0.5 } 
-        },
-        checkCollision: {
-            up: true,
-            down: true,
-            left: true,
-            right: true
+        default: "matter",
+        matter: {
+          gravity: {
+            y: 0.5
+          },
+          debug: true
         }
-    },
+      },
     scene: [Pinball],
     title: "Akelarre",
     version: "0.0.1"
