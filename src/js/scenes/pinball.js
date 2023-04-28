@@ -1,6 +1,6 @@
 export default class Pinball extends Phaser.Scene {
   constructor() {
-    super('Pinball');
+    super("Pinball");
   }
 
   initPhysics() {
@@ -14,6 +14,20 @@ export default class Pinball extends Phaser.Scene {
     this.MAX = Phaser.Math.DegToRad(-15);
   }
 
+  flip(isDown) {
+    this.tweens.add({
+      targets: [this.tweener],
+      x: isDown ? this.MAX : this.MIN,
+      duration: 50,
+      onUpdateScope: this,
+      onUpdate: () => {
+        this.lever.setPosition(
+          this.X - Math.cos(this.tweener.x) * this.LEVER,
+          this.Y - Math.sin(this.tweener.x) * this.LEVER
+        );
+      },
+    });
+  }
 
   create() {
     this.initPhysics();
@@ -26,20 +40,49 @@ export default class Pinball extends Phaser.Scene {
       this.HEIGHT,
       0x5a0571
     );
-
     this.flipper = this.matter.add.gameObject(this.rectangle, {
-      friction: 1
+      friction: 1,
     });
-    
+    // tweens: manipulate properties of objects to any given value
+    this.tweener = {
+      x: this.MIN,
+    };
+
+    // Sensor to move the flipper more naturally and constraint how it moves
+    this.lever = this.matter.add
+      .image(
+        this.X - Math.cos(this.tweener.x) * this.LEVER,
+        this.Y - Math.sin(this.tweener.x) * this.LEVER,
+        null,
+        null,
+        {
+          isSensor: true,
+          isStatic: true,
+        }
+      )
+      .setVisible(false);
+
+    this.matter.add.constraint(this.flipper, this.lever.body, 0, this.STIFFNESS, {
+      pointA: new Phaser.Math.Vector2(
+        (this.WIDTH - this.HEIGHT) / 2 + this.LEVER,
+        0
+      ) });
+
     // fixed point in the middle of the flipper
     this.matter.add.worldConstraint(this.flipper, 0, 1, {
       pointA: new Phaser.Math.Vector2(this.X, this.Y),
-     });
+    });
 
-     
-     // add ball
-     this.circle = this.add.circle(this.X, 0, 16, 0xa3ff00);
-     this.ball = this.matter.add.gameObject(this.circle).setCircle(16);
+    // add ball
+    this.circle = this.add.circle(this.X, 0, 16, 0xa3ff00);
+    this.ball = this.matter.add.gameObject(this.circle).setCircle(16);
 
-  } 
+    // input key for flipper
+    this.cursors = this.input.keyboard.createCursorKeys();
+    if (this.cursors.down.isDown) {
+      this.flip(true);
+    } else {
+      this.flip(false);
+    }
+  }
 }
