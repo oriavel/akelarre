@@ -5,7 +5,7 @@ export default class Pinball extends Phaser.Scene {
 
   initPhysics() {
     this.X = 300;
-    this.Y = 320;
+    this.Y = 400;
     this.LEVER = 64;
     this.WIDTH = 112;
     this.HEIGHT = 32;
@@ -62,27 +62,51 @@ export default class Pinball extends Phaser.Scene {
       )
       .setVisible(false);
 
-    this.matter.add.constraint(this.flipper, this.lever.body, 0, this.STIFFNESS, {
-      pointA: new Phaser.Math.Vector2(
-        (this.WIDTH - this.HEIGHT) / 2 + this.LEVER,
-        0
-      ) });
-
     // fixed point in the middle of the flipper
     this.matter.add.worldConstraint(this.flipper, 0, 1, {
       pointA: new Phaser.Math.Vector2(this.X, this.Y),
+      pointB: new Phaser.Math.Vector2(),
     });
+
+    this.matter.add.constraint(
+      this.flipper,
+      this.lever.body,
+      0,
+      this.STIFFNESS,
+      {
+        pointA: new Phaser.Math.Vector2(
+          (this.WIDTH - this.HEIGHT) / 2 + this.LEVER,
+          0
+        ),
+      }
+    );
 
     // add ball
     this.circle = this.add.circle(this.X, 0, 16, 0xa3ff00);
     this.ball = this.matter.add.gameObject(this.circle).setCircle(16);
 
     // input key for flipper
-    this.cursors = this.input.keyboard.createCursorKeys();
-    if (this.cursors.down.isDown) {
-      this.flip(true);
-    } else {
-      this.flip(false);
+    var space = this.input.keyboard.addKey("space");
+  
+    space.on(
+      "down",
+      () => {
+        this.flip(true);
+      }
+    );
+  
+    space.on(
+      "up",
+      () => {
+        this.flip(false);
+      }
+    );
+  }
+
+  update(){
+    if (Math.abs(this.ball.y) > this.game.config.height) {
+      this.ball.setPosition(this.X, 0);
+      this.ball.setVelocity(0);
     }
   }
 }

@@ -14,7 +14,7 @@ let config = {
     height: 480,
     pixelArt: true,
 	scale: {
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+        autoCenter: Phaser.Scale.CENTER_TOTAL,
 		mode: Phaser.Scale.FIT,
 		min: {
             width: 328,
