@@ -1,4 +1,5 @@
 import Bat from "../characters/goatrun/bat.js";
+import GoatRun from "./goatrun.js";
 
 /**
  * Escena de Título.
@@ -20,55 +21,12 @@ export default class GoatRun_Nivel2 extends Phaser.Scene {
         this.physicsPlugin.world.setBounds(0, 0, this.game.config.width, this.game.config.height);
     }
 
-	/**
-	 * Cargamos todos los assets que vamos a necesitar
-	 */
-	preload(){
-        this.load.image('cave', 'src/assets/cave_long.png');
-        this.load.image('cave2', 'src/assets/cave_marron.png');
-        this.load.image('cave3', 'src/assets/cave_lava.png'); // http://joyreactor.com/post/1390622
-        this.load.image('ground', 'src/assets/platform_1.png');
-        this.load.image('ground2', 'src/assets/platform_2.png');
-        this.load.spritesheet('amaia_goatrun', 
-            'src/assets/correr_spritesheet.png',
-            { frameWidth: 48, frameHeight: 48 }
-        );
-        this.load.spritesheet('goat', 
-            'src/assets/goat_run.png',
-            { frameWidth: 144, frameHeight: 144 }
-        );
-        this.load.spritesheet('amaia_jump', 
-            'src/assets/amaia_jump.png',
-            { frameWidth: 48, frameHeight: 48 }
-        );
-        this.load.spritesheet('bat',
-            'src/assets/bat_spritesheet.png', 
-            { frameWidth: 32, frameHeight: 32}
-        );
-        this.load.image('rock', 'src/assets/rock_1.png');
-        this.load.spritesheet('amaia_death', 
-            'src/assets/amaia_death.png',
-            { frameWidth: 64, frameHeight: 64}
-        );
-        this.load.spritesheet('amaia_agachada', 
-            'src/assets/amaia_agachada.png',
-            { frameWidth: 48, frameHeight: 48 }
-        );
-        this.load.spritesheet('hearts', 
-            'src/assets/hearts.png',
-            { frameWidth: 28, frameHeight: 24 }
-        );
-        this.load.image('heart', 'src/assets/heart.png');
-        this.load.image('heart-filled', 'src/assets/heart-filled.png');
-
-    }
 	
 	/**
 	* Creación de los elementos de la escena principal de juego
 	*/
-
-    
 	create(){
+        // super.create();
         this.initPhysics();
         // var rocks;
         var timer_rocks;
@@ -80,12 +38,11 @@ export default class GoatRun_Nivel2 extends Phaser.Scene {
         this.background.setScale(2);
 
         this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(400, 500, 'ground').setScale(2).refreshBody();
-        this.platforms.create(400, 565, 'ground').setScale(2).refreshBody();
+        this.platforms.create(400, 500, 'ground3').setScale(2).refreshBody();
+        this.platforms.create(400, 565, 'ground3').setScale(2).refreshBody();
 
         this.player = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
         this.player.setSize(15,35);
-       //  player.setOrigin(0.5, 0.2);
 
         this.heart1 = this.add.sprite(680, 30, 'hearts');
         this.heart2 = this.add.sprite(710, 30, 'hearts');
@@ -102,7 +59,6 @@ export default class GoatRun_Nivel2 extends Phaser.Scene {
         this.goat.setSize(90, 180);
 
         this.bat = new Bat(this, 850, 300, 'bat', this.player);
-        // this.bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
         this.bat.body.allowGravity = false;
         this.bat.body.velocity.x = -150;
 

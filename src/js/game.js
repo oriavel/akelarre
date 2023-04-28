@@ -4,6 +4,7 @@
 import GoatRun from './scenes/goatrun.js';
 import Cueva from './scenes/cueva.js';
 import pociones from './scenes/avoidthepotions.js'
+import GoatRun_Nivel2 from './scenes/goatrun_nivel2.js';
 
 let config = {
     type: Phaser.CANVAS,
@@ -38,7 +39,7 @@ let config = {
             right: true
         }
     },
-    scene: [Cueva, GoatRun],
+    scene: [GoatRun, GoatRun_Nivel2],
     title: "Akelarre",
     version: "0.0.1"
 };

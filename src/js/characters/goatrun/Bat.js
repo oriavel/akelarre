@@ -5,40 +5,60 @@ export default class Bat extends Phaser.GameObjects.Sprite {
 
     constructor(scene, x, y, sprite, player) {
         super(scene, x, y, sprite);
-        this.scene.add.existing(this);
-        this.scene.physics.add.existing(this);
+        scene.add.existing(this);
+        scene.physics.add.existing(this);
+        scene.physics.world.enable(this);
+        this.body.allowGravity = false;
         this.player = player;
         this.setScale(2);
-        // this.initVariables();
+        this.body.setSize(12, 22);
+        this.body.velocity.x = -180;
+        this.outOfBoundsKill = true;
+        this.checkWorldBounds = true;
+        this.anims.play('bat', true);
+
+        this.damage = 1;
+        this.scene.physics.add.overlap(this.scene.player, this, this.collisionHandler, null, this);
+    
     }
 
+    getGravity(){
+        return this.body.allowGravity;
+    }
+
+    getDamage(){
+        return this.damage;
+    }
+
+    // Detecta a que distancia está del personaje para bajar e ir a por ella
     movimiento_bats(){
-        switch (this.anims.currentAnim.key) {
-            case 1:
-                this.setSize(10, 10);
-                console.log("llega aqui anim murci");
-                break;
-            case 2:
-                this.setSize(80, 80);
-                console.log("llega a la segunda");
-                break;
-            // agregar más casos según sea necesario para cada animación
-            default:
-                this.setSize(15, 22); // tamaño predeterminado
-                break;
-        }
-        console.log("llega al movimiento bats");
-        if(Math.abs(this.player.body.position.x - this.body.position.x) < 155){
+        if(Math.abs(this.scene.player.body.position.x - this.body.position.x) < 380){
             if(this.body.position.y > 215){ // OJO ESTO
                 this.body.velocity.y += 0.4; 
+                console.log("ggg" + this.scene.player.body.position.x);
             }
-            else if (this.body.position.y < 215){
+            else if (this.scene.player.body.position.x - 50 > this.body.position.x){
                 this.body.velocity.y -= 0.5;
+                console.log("fff");
             }
         }
         else{
             this.body.velocity.y += 0;
         }
+    }
+
+    collisionHandler(){
+        if(this.scene.batCollision){
+            this.scene.makeInvulnerable();
+            this.scene.livesPlayer -= this.getDamage();
+            setTimeout(() => {
+                console.log("aaaa");
+                this.scene.isInvulnerable = false; // hacer que el sprite sea vulnerable de nuevo
+                this.scene.player.alpha = 1; // establecer la opacidad del sprite en 1 (completamente visible)
+                // this.scene.batsCollider.active = true;
+                this.scene.batCollision = true;
+            }, 2900);
+        } 
     }
 }
     
