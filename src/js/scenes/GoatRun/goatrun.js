@@ -1,5 +1,5 @@
 
-import Bat from "../characters/goatrun/Bat.js";
+import Bat from "../../characters/goatrun/Bat.js";
 
 
 /**

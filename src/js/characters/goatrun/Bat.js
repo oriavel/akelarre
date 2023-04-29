@@ -1,5 +1,5 @@
 
-import GoatRun from "../../scenes/goatrun.js";
+import GoatRun from "../../scenes/GoatRun/goatrun.js";
 
 export default class Bat extends Phaser.GameObjects.Sprite {
 

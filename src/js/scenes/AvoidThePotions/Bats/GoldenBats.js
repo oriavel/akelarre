@@ -1,6 +1,6 @@
-import atp_bats from "./atp_bats.js";
+import Bats from "./Bats.js";
 
-export default class GoldenBat extends atp_bats {
+export default class GoldenBat extends Bats {
   constructor(scene, x,y) {
     super(scene,x,y);
     // Agregar la clase al juego
