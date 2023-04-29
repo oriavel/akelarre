@@ -48,7 +48,7 @@ export default class Cueva extends Phaser.Scene {
    * Creación de los elementos de la escena principal de juego
    */
   create() {
-    //this.game.config.keys = 2;
+    this.game.config.keys = 2;
 
     //Cueva
     const map = this.make.tilemap({ key: "tilemap" });
@@ -610,7 +610,7 @@ export default class Cueva extends Phaser.Scene {
         this.scene.start("avoidthepotions");
       } else if (this.portal == this.portal2) {
         this.scene.stop("Cueva");
-        // this.scene.start('pinball');
+        this.scene.start('Pinball');
       } else if (this.portal == this.portal3) {
         this.scene.stop("Cueva");
         this.scene.start("goatrun");
