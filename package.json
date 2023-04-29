@@ -2,7 +2,7 @@
   "name": "akelarre",
   "version": "1.0.0",
   "description": "Proyecto para la asignatura Desarrollo de Videouegos Web de la complu",
-  "main": "index.js",
+  "main": "index.html",
   "directories": {
     "lib": "lib"
   },

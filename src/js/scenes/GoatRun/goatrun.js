@@ -1,5 +1,5 @@
 
-import Bat from "../characters/goatrun/Bat.js";
+import Bat from "../../characters/goatrun/Bat.js";
 
 
 /**
@@ -13,7 +13,7 @@ export default class GoatRun extends Phaser.Scene {
 	 */
 	constructor() {
 		super({ key: 'goatrun' });
-        this.physicsPlugin = null;
+        this.physicsPlugin = null; // TODO: revisar si se puede quitar
 	}
 
     initPhysics(){
