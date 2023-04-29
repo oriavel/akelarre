@@ -51,13 +51,15 @@ export default class Bat extends Phaser.GameObjects.Sprite {
         if(this.scene.batCollision){
             this.scene.makeInvulnerable();
             this.scene.livesPlayer -= this.getDamage();
+            this.setVisible(false);
             setTimeout(() => {
                 console.log("aaaa");
                 this.scene.isInvulnerable = false; // hacer que el sprite sea vulnerable de nuevo
                 this.scene.player.alpha = 1; // establecer la opacidad del sprite en 1 (completamente visible)
                 // this.scene.batsCollider.active = true;
                 this.scene.batCollision = true;
-            }, 2900);
+                this.scene.rockCollision = true;
+            }, 3600);
         } 
     }
 }

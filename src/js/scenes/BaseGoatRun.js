@@ -4,18 +4,18 @@ import Spell from "../characters/goatrun/Spell.js";
 import BatDoble from "../characters/goatrun/BatDoble.js";
 
 
-
 /**
  * Escena de Título.
  * @extends Phaser.Scene
  */
-export default class GoatRun extends Phaser.Scene {
+export default class BaseGoatRun extends Phaser.Scene {
 	/**
 	 * Escena principal.
 	 * @extends Phaser.Scene
 	 */
-	constructor() {
-		super({ key: 'goatrun' });
+	constructor(key) {
+		super(key);
+        this.key = key;
         this.physicsPlugin = null;
 	}
 
@@ -82,15 +82,11 @@ export default class GoatRun extends Phaser.Scene {
 	
     
 	create(){
+
         this.initPhysics();
+
+        this.createBackground();
     
-        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave').setOrigin(0).setScrollFactor(0, 1);
-        // this.background.setScale(2);
-
-        this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(400, 500, 'ground').setScale(2).refreshBody();
-        this.platforms.create(400, 565, 'ground').setScale(2).refreshBody();
-
         this.player = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
         this.player.setSize(15,35);
 
@@ -100,93 +96,10 @@ export default class GoatRun extends Phaser.Scene {
         this.heart2 = this.add.sprite(710, 30, 'hearts');
         this.heart3 = this.add.sprite(740, 30, 'hearts');
         
-        /*
-        this.rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
-        this.rock.body.velocity.x = -150;
-        
-        this.rock2 = this.physics.add.sprite(950, 350, 'rock').setScale(0.6);
-        this.rock2.body.velocity.x = -140;
-        */
-        
         this.goat = this.physics.add.sprite(70, 280, 'goat');
         this.goat.setSize(90, 180);
 
-        /*
-        this.bat = new Bat(this, 850, 300, 'bat_doble', this.player);
-        // this.bat = this.physics.add.sprite(850, 300, 'bat_doble');
-        this.bat.setScale(0.04);
-        this.bat.body.setSize(100, 60);
-        // this.bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
-        this.bat.body.allowGravity = false;
-        this.bat.body.velocity.x = -150;
-
-        this.bat2 = this.physics.add.sprite(1200, 300, 'bat').setScale(2);
-        this.bat2.body.allowGravity = false;
-        this.bat2.body.velocity.x = -150;
-        */
-
-        this.rocks = this.add.group();
-        this.bats = this.add.group();
-        this.spells = this.add.group();
-        this.contBats = 0;
-        const self = this;
-            this.timer_enemies = this.time.addEvent({
-                delay: Phaser.Math.Between(1800, 2200),
-                loop: true, 
-                paused: true,
-                callback: function(){
-                    var numAleatorio = Math.random();
-                    if(numAleatorio < 0.5){ // Generamos una piedra
-                        var objeto = new Rock(self, 950, 350, 'rock', self.player); 
-                        self.rocks.add(objeto);
-                    }
-                    else{ // Generamos un murcielago
-                        let objeto = new Bat(self, 900, 250, 'bat_doble', self.player);
-                        self.bats.add(objeto);
-                        self.contBats += 1;
-                    }
-                    var hechizo_random = Math.random();
-                    if(hechizo_random < 0.15){
-                        setTimeout(() => {
-                            let objeto = new Spell(self, 950, 350, 'spell_gravity', self.player);
-                            self.spells.add(objeto);
-                            console.log("spell");
-                        }, 1000);
-                    }
-    
-                }
-            });
-
-        // this.self = this;
-        /*
-        // 681 x 89
-        this.rocks = this.add.group();
-        this.timer_rocks = this.time.addEvent({
-            delay: Phaser.Math.Between(2000, 5000),
-            loop: true,
-            callback: function() {
-                var objeto = new Rock(self, 900, 350, 'rock', self.player); 
-                self.rocks.add(objeto);               
-            }
-        });
-
-        // this.start = this.getTime();
-        this.bats = this.add.group();
-        this.contBats = 0;
-        this.timer_bats = this.time.addEvent({
-            delay: Phaser.Math.Between(1000, 4000),
-            loop: true,
-            callback: function() {
-                let objeto = new Bat(self, 900, 250, 'bat', self.player);
-                self.bats.add(objeto);
-                self.contBats += 1;
-            },
-        });
-        */
-
-        
-    
-        //  this.timer_enemies.pause();
+        this.createEnemies();
 
     
         this.anims.create({
@@ -299,34 +212,26 @@ export default class GoatRun extends Phaser.Scene {
 
 
 
-        //Pantallita del texto
-        this.graphics = this.add.graphics({x: this.game.config.width/15, y: this.game.config.height/3});
-        this.graphics.fillStyle(0x000000, 0.8);
-        this.graphics.fillRect(0, 0, 700, 100);
-        this.graphics.lineStyle(4, 0x000000, 1);
-        this.graphics.strokeRect(0, 0, 700, 100);
-        //El texto
-        this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 1: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
-        this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.createInitialScreen();
 
 
         this.scoreText = this.add.text(16, 16, 'Distance: 0/15000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.hechizoText = this.add.text(16, 46, 'Hechizo de gravedad - Activado', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.hechizoText.setVisible(false);
-        // this.player.anims.play('right_amaia_goats', true);
+
+
         // Def variables para el update
         this.jump = false; // para evitar el doble salto
-        var powerup_salto = false; // ¿meto power up para saltar más?
         this.changeCollider = true; // Para el cambio del tamaño de collider cuando se agacha
-        this.amaiaIsDeath = false;
-        this.isInvulnerable = false;
+        this.amaiaIsDeath = false; // comprueba si ha muerto el personaje
+        this.isInvulnerable = false; // cuando amaia ha sido golpeada tiene 3 segundos de invulnerabilidad
         this.livesPlayer = 3; // Nº de vidas del personaje
-        this.distance = 0;
-        this.batCollision = true;
-        this.rockCollision = true;
-        this.startGame = false;
-        this.firstStart = true;
-        this.hechizado = false;
+        this.distance = 0; // Recorrido
+        this.batCollision = true; // Si es invulnerable no puede colisionar con los bats
+        this.rockCollision = true; // Si es invulnerable no puede colisionar con las rocks
+        this.startGame = false; // Si se ha comenzado el juego
+        this.firstStart = true; // Para la primera vez que se comienza
+        this.hechizado = false; // Si el personaje está bajo el hechizo de la gravedad
         
 
     }
@@ -345,6 +250,52 @@ export default class GoatRun extends Phaser.Scene {
         - Nivel 3, aparecen más frecuentes y algunas rocas tienen fuego, que te matan directamente
 
     */
+
+    createEnemies(){
+        this.rocks = this.add.group();
+        this.bats = this.add.group();
+        this.spells = this.add.group();
+        this.contBats = 0;
+        const self = this;
+            this.timer_enemies = this.time.addEvent({
+                delay: Phaser.Math.Between(1800, 2200),
+                loop: true, 
+                paused: true,
+                callback: function(){
+                    var numAleatorio = Math.random();
+                    if(numAleatorio < 0.5){ // Generamos una piedra
+                        var objeto = new Rock(self, 950, 350, 'rock', self.player); 
+                        self.rocks.add(objeto);
+                    }
+                    else{ // Generamos un murcielago
+                        let objeto = new Bat(self, 900, 250, 'bat_doble', self.player);
+                        self.bats.add(objeto);
+                        self.contBats += 1;
+                    }
+                    var hechizo_random = Math.random();
+                    if(hechizo_random < 0.15){
+                        setTimeout(() => {
+                            let objeto = new Spell(self, 950, 350, 'spell_gravity', self.player);
+                            self.spells.add(objeto);
+                            console.log("spell");
+                        }, 1000);
+                    }
+    
+                }
+            });
+    }
+
+    createInitialScreen(){
+        //Pantallita del texto
+        this.graphics = this.add.graphics({x: this.game.config.width/15, y: this.game.config.height/3});
+        this.graphics.fillStyle(0x000000, 0.8);
+        this.graphics.fillRect(0, 0, 700, 100);
+        this.graphics.lineStyle(4, 0x000000, 1);
+        this.graphics.strokeRect(0, 0, 700, 100);
+        //El texto
+        this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 1: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
+        this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    }
 
 	/**
 	* Loop del juego
@@ -471,16 +422,21 @@ export default class GoatRun extends Phaser.Scene {
         }
     }
 
+    
+
     checkLevel(){
-        if (this.distance > 500){
+        /*
+        if (this.distance > 15000){
             this.changeScene();
             this.isInvulnerable = false;
             setTimeout(() => {
-                // this.scene.stop('goatrun');
+                this.scene.stop(this.key);
                 this.scene.start('goatrun_nivel2');
             }, 3000); 
         }
+        */
     }
+    
 
     changeScene(){
         this.destroyEnemies();
@@ -492,14 +448,11 @@ export default class GoatRun extends Phaser.Scene {
         this.destroyEnemies();
         this.cameras.main.fadeOut(5500);
         this.player.anims.play('amaia_death', true);
-        //this.background.setScrollFactor(0);
-        //this.background.tilePositionX += 0.0;
         this.player.setSize(15,35);
         this.player.setOrigin(0.5, 0.32).setScale(1.6);
         this.zoomEnPunto(this.player.body.x, this.player.body.y, 3);
         this.cameras.main.setZoom(2);        
     }
-
     
     destroyEnemies(){
         this.bats.getChildren().forEach(function(bat) {
@@ -516,11 +469,6 @@ export default class GoatRun extends Phaser.Scene {
             spell.destroy();
         }, this);
     }
-
-    textoHechizo(){
-        this.add.text(16, 32, 'Hechizo de gravedad', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
-    }
-
 
     makeInvulnerable() {
         this.isInvulnerable = true;

@@ -23,14 +23,14 @@ export default class Rock extends Phaser.GameObjects.Sprite {
             this.scene.makeInvulnerable();
             this.scene.player.body.position.x -= 50; // Simplemente retrocedemos unos metros para atrás
             this.scene.player.setVelocityX(+0);
-            this.body.setVelocityX(-100);
+            this.body.setVelocityX(-200);
             setTimeout(() => {
                 console.log("aaaa");
                 this.scene.isInvulnerable = false; // hacer que el sprite sea vulnerable de nuevo
                 this.scene.player.alpha = 1; // establecer la opacidad del sprite en 1 (completamente visible)
                 this.scene.rockCollision = true;
                 this.scene.batCollision = true;
-            }, 2900);
+            }, 3600);
         }
     }
 }
