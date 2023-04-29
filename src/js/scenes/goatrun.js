@@ -1,5 +1,6 @@
 import Rock from "../characters/goatrun/Rock.js";
 import Bat from "../characters/goatrun/bat.js";
+import Spell from "../characters/goatrun/Spell.js";
 
 
 /**
@@ -72,7 +73,7 @@ export default class GoatRun extends Phaser.Scene {
 
         this.load.spritesheet('spell_gravity', 
             'src/assets/gravity_spell.png',
-            { frameWidth: 90, frameHeight: 88 }
+            { frameWidth: 100, frameHeight: 53 }
         );
 
     }
@@ -97,16 +98,18 @@ export default class GoatRun extends Phaser.Scene {
         this.heart2 = this.add.sprite(710, 30, 'hearts');
         this.heart3 = this.add.sprite(740, 30, 'hearts');
         
+        /*
         this.rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
         this.rock.body.velocity.x = -150;
         
         this.rock2 = this.physics.add.sprite(950, 350, 'rock').setScale(0.6);
         this.rock2.body.velocity.x = -140;
-        
+        */
         
         this.goat = this.physics.add.sprite(70, 280, 'goat');
         this.goat.setSize(90, 180);
 
+        /*
         this.bat = new Bat(this, 850, 300, 'bat_doble', this.player);
         // this.bat = this.physics.add.sprite(850, 300, 'bat_doble');
         this.bat.setScale(0.04);
@@ -118,8 +121,41 @@ export default class GoatRun extends Phaser.Scene {
         this.bat2 = this.physics.add.sprite(1200, 300, 'bat').setScale(2);
         this.bat2.body.allowGravity = false;
         this.bat2.body.velocity.x = -150;
+        */
 
+        this.rocks = this.add.group();
+        this.bats = this.add.group();
+        this.spells = this.add.group();
+        this.contBats = 0;
         const self = this;
+            this.timer_enemies = this.time.addEvent({
+                delay: Phaser.Math.Between(1800, 2200),
+                loop: true, 
+                paused: true,
+                callback: function(){
+                    var numAleatorio = Math.random();
+                    if(numAleatorio < 0.5){ // Generamos una piedra
+                        var objeto = new Rock(self, 950, 350, 'rock', self.player); 
+                        self.rocks.add(objeto);
+                    }
+                    else{ // Generamos un murcielago
+                        let objeto = new Bat(self, 900, 250, 'bat', self.player);
+                        self.bats.add(objeto);
+                        self.contBats += 1;
+                    }
+                    var hechizo_random = Math.random();
+                    if(hechizo_random < 0.15){
+                        setTimeout(() => {
+                            let objeto = new Spell(self, 950, 350, 'spell_gravity', self.player);
+                            self.spells.add(objeto);
+                            console.log("spell");
+                        }, 1000);
+                    }
+    
+                }
+            });
+
+        // this.self = this;
         /*
         // 681 x 89
         this.rocks = this.add.group();
@@ -146,30 +182,9 @@ export default class GoatRun extends Phaser.Scene {
         });
         */
 
-        this.rocks = this.add.group();
-        this.bats = this.add.group();
-        this.contBats = 0;
-        this.timer_enemies = this.time.addEvent({
-            delay: Phaser.Math.Between(1800, 2200),
-            loop: true, 
-            callback: function(){
-                var numAleatorio = Math.random();
-                if(numAleatorio < 0.5){ // Generamos una piedra
-                    var objeto = new Rock(self, 900, 350, 'rock', self.player); 
-                    self.rocks.add(objeto);
-                }
-                else{ // Generamos un murcielago
-                    let objeto = new Bat(self, 900, 250, 'bat', self.player);
-                    self.bats.add(objeto);
-                    self.contBats += 1;
-                }
-                var hechizo_random = Math.random();
-                if(hechizo_random < 0.1){
-                    let objeto = new Spell();
-                }
-
-            }
-        });
+        
+    
+        //  this.timer_enemies.pause();
 
     
         this.anims.create({
@@ -257,8 +272,8 @@ export default class GoatRun extends Phaser.Scene {
         });
 
         this.anims.create({
-            key: 'spell',
-            frames: this.anims.generateFrameNumbers('spell', { start: 0, end: 8 }),
+            key: 'spell_gravity',
+            frames: this.anims.generateFrameNumbers('spell_gravity', { start: 0, end: 8 }),
             frameRate: 10,
             repeat: -1
         });
@@ -273,26 +288,14 @@ export default class GoatRun extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
         this.goat.setCollideWorldBounds(true);
 
-        this.bat.anims.play('bat_doble', true);
-        this.bat2.anims.play('bat', true);
-        this.goat.anims.play('right_goat', true);
 
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.goat, this.platforms);
-        this.physics.add.collider(this.rock, this.platforms);
-        this.physics.add.collider(this.rock2, this.platforms);
         this.physics.add.collider(this.rocks, this.platforms);
         this.physics.add.collider(this.bats, this.platforms);
+        this.physics.add.collider(this.spells, this.platforms);
 
 
-        /*
-        this.rocksCollider = this.physics.add.collider(this.player, this.rocks,function(){
-            self.collisionRocks();
-        },
-            null,
-            this
-        );
-        */
 
         //Pantallita del texto
         this.graphics = this.add.graphics({x: this.game.config.width/15, y: this.game.config.height/3});
@@ -304,10 +307,11 @@ export default class GoatRun extends Phaser.Scene {
         this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 1: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-        
 
-        this.scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
-        this.player.anims.play('right_amaia_goats', true);
+        this.scoreText = this.add.text(16, 16, 'Distance: 0/15000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
+        this.hechizoText = this.add.text(16, 46, 'Hechizo de gravedad - Activado', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
+        this.hechizoText.setVisible(false);
+        // this.player.anims.play('right_amaia_goats', true);
         // Def variables para el update
         this.jump = false; // para evitar el doble salto
         var powerup_salto = false; // ¿meto power up para saltar más?
@@ -319,6 +323,8 @@ export default class GoatRun extends Phaser.Scene {
         this.batCollision = true;
         this.rockCollision = true;
         this.startGame = false;
+        this.firstStart = true;
+        this.hechizado = false;
         
 
     }
@@ -327,11 +333,16 @@ export default class GoatRun extends Phaser.Scene {
     /*
         - Nivel 1, parecido al de dinosaurio de google, aparecen rapido y con frecuencia pero sin dificultad alguna. 
         Tambien aparece de vez en cuando un hechizo que te libera un poco de la gravedad durante 10 segundoss
+        DONE
+
+
         - Nivel 2, aparecen más rápidos y hay murcielagos que quitan dos vidas
+
+
+        
         - Nivel 3, aparecen más frecuentes y algunas rocas tienen fuego, que te matan directamente
 
     */
-
 
 	/**
 	* Loop del juego
@@ -344,10 +355,16 @@ export default class GoatRun extends Phaser.Scene {
             this.startGame = true;
         }
         if (this.startGame){
+            if(this.firstStart){ // Si es la primera vez que se empieza
+                // this.createEnemies();
+                this.goat.anims.play('right_goat', true);
+                this.timer_enemies.paused = false;
+                this.firstStart = false;
+            }
             console.log("Llega aquí por lo menos -update");
             this.background.tilePositionX += 0.15;
             this.distance += 1;
-            this.scoreText.setText('Distance: ' + (this.distance || '') + '/20000');
+            this.scoreText.setText('Distance: ' + (this.distance || '') + '/15000');
             this.movimientoEnemies();
             if(!this.amaiaIsDeath){
                 if(this.cursors.up.isDown){
@@ -394,6 +411,13 @@ export default class GoatRun extends Phaser.Scene {
                     this.amaiaIsDeath = true;
                 }
 
+                if(this.hechizado == true){
+                    this.hechizoText.setVisible(true);
+                }
+                else{
+                    this.hechizoText.setVisible(false);
+                }
+
                 this.checkLives();
                 this.checkLevel();
             }
@@ -401,6 +425,8 @@ export default class GoatRun extends Phaser.Scene {
         }
         
     }
+
+    
 
 
     // Funcion que accede a los movimientos de todos los enemigos
@@ -417,6 +443,9 @@ export default class GoatRun extends Phaser.Scene {
     - Añadir los 3 niveles
     - Añadir más enemigos en otros niveles ??
     */
+    setHechizado(){
+        this.hechizado = true;
+    }
 
     checkLives(){
         if(this.livesPlayer > 0 && this.livesPlayer < 3){
@@ -441,7 +470,7 @@ export default class GoatRun extends Phaser.Scene {
     }
 
     checkLevel(){
-        if (this.distance > 10000){
+        if (this.distance > 15000){
             this.scene.stop('goatrun');
             this.scene.start('goatrun_nivel2');
         }
@@ -471,17 +500,29 @@ export default class GoatRun extends Phaser.Scene {
         }, this);
     }
 
+    textoHechizo(){
+        this.add.text(16, 32, 'Hechizo de gravedad', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
+    }
+
 
     makeInvulnerable() {
-        // Establece la variable isInvulnerable en true
         this.isInvulnerable = true;
         this.rockCollision = false;
         this.batCollision = false;
+        this.turnBlink = 1;
         this.time.addEvent({
-            delay: 200, // cada 200 milisegundos (5 veces por segundo)
-            repeat: 15, // durante 30 ciclos (3 segundos en total)
+            delay: 400, // cada 400 milisegundos (2'5 veces por segundo)
+            repeat: 9, // durante 9 ciclos (3'6 segundos en total)
             callback: function() {
-              this.player.alpha = Phaser.Math.Between(0, 1); // cambiar la opacidad del sprite al azar
+                if (this.turnBlink == 0){
+                    this.player.alpha = 1;
+                    this.turnBlink = 1;
+                }
+                else{
+                    this.player.alpha = 0;
+                    this.turnBlink = 0;
+                }
+               // this.player.alpha = Phaser.Math.Between(0, 1); // cambiar la opacidad del sprite al azar
             },
             callbackScope: this,
           });
