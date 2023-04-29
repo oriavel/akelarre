@@ -44,7 +44,7 @@ let config = {
       gravity: { y: 0.5 }
     }
   },
-  scene: [AvoidThePotions],
+  scene: [Intro, Cueva, GoatRun, AvoidThePotions, Pinball],
 
   title: "Akelarre",
   version: "0.0.1",
