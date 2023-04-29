@@ -5,6 +5,8 @@ import GoatRun from './scenes/goatrun.js';
 import Cueva from './scenes/cueva.js';
 import AvoidThePotions from './scenes/avoidthepotions.js';
 import Intro from './scenes/intro.js';
+import Contexto from './scenes/contexto.js';
+import Final from './scenes/final.js';
 
 var gameManager = {
     keys : 0
@@ -45,7 +47,9 @@ let config = {
             right: true
         }
     },
-    scene: [Intro,Cueva, GoatRun, AvoidThePotions],
+scene: [Contexto,Intro, Final, Cueva, GoatRun, AvoidThePotions],
+
+
     title: "Akelarre",
     version: "0.0.1"
 };

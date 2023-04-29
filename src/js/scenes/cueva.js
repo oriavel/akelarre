@@ -45,7 +45,7 @@ export default class Cueva extends Phaser.Scene {
 	*/
 	create(){
         
-        //this.game.config.keys = 2;
+        this.game.config.keys = 2;
        
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
@@ -298,7 +298,7 @@ export default class Cueva extends Phaser.Scene {
         this.anims.create({
             key: 'stop_right_amaia',
             frames: this.anims.generateFrameNumbers('amaia', { start: 15, end: 15 }),
-            frameRate: 3,
+            frameRate: 1,
             repeat: -1
         });
 
@@ -312,7 +312,7 @@ export default class Cueva extends Phaser.Scene {
         this.anims.create({
             key: 'stop_left_amaia',
             frames: this.anims.generateFrameNumbers('amaia', { start: 11, end: 11 }),
-            frameRate: 4,
+            frameRate: 1,
             repeat: -1
         });
 
@@ -334,7 +334,7 @@ export default class Cueva extends Phaser.Scene {
         this.anims.create({
             key: 'stop_down_amaia',
             frames: this.anims.generateFrameNumbers('amaia', { start: 3, end: 3 }),
-            frameRate: 4,
+            frameRate: 1,
             repeat: -1
         });
         
