@@ -17,11 +17,12 @@ export default class Bumper {
     .gameObject(this.circle, { friction: 1 })
     .setCircle(this.radius)
     .setBounce(1.4);
-    
+
     // Make the balls stick
     this.scene.matter.add.worldConstraint(this.body, 0, 1, {
       pointA: new Phaser.Math.Vector2(this.x, this.y),
       pointB: new Phaser.Math.Vector2(),
     });
+
   }
 }

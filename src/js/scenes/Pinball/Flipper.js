@@ -1,14 +1,20 @@
 export default class Flipper {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, direction) {
     this.scene = scene;
     this.X = x;
     this.Y = y;
+    this.direction = direction;
     this.LEVER = 50;
     this.WIDTH = 110;
     this.HEIGHT = 10;
     this.STIFFNESS = 0.1;
-    this.MIN = Phaser.Math.DegToRad(32);
-    this.MAX = Phaser.Math.DegToRad(-15);
+    if (this.direction == "right") {
+      this.MIN = Phaser.Math.DegToRad(-32);
+      this.MAX = Phaser.Math.DegToRad(15);
+    } else {
+      this.MIN = Phaser.Math.DegToRad(32);
+      this.MAX = Phaser.Math.DegToRad(-15);
+    }
 
     this.init();
   }
@@ -24,7 +30,7 @@ export default class Flipper {
     );
     this.flipper = this.scene.matter.add.gameObject(this.rectangle, {
       friction: 1,
-    });
+    }).setBounce(1.15);
 
     // tweens: manipulate properties of objects to any given value
     this.tweener = {
@@ -58,7 +64,7 @@ export default class Flipper {
       this.STIFFNESS,
       {
         pointA: new Phaser.Math.Vector2(
-          (this.WIDTH - this.HEIGHT) / 2 + this.LEVER ,
+          (this.WIDTH - this.HEIGHT) / 2 + this.LEVER,
           0
         ),
       }
