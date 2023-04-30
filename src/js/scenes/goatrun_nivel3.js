@@ -3,6 +3,7 @@ import Bat from "../characters/goatrun/bat.js";
 import Spell from "../characters/goatrun/Spell.js";
 import BatDoble from "../characters/goatrun/BatDoble.js";
 import BaseGoatRun from "./BaseGoatRun.js";
+import FireRock from "../characters/goatrun/FireRock.js";
 
 /**
  * Escena de Título.
@@ -65,8 +66,15 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
                 callback: function(){
                     var numAleatorio = Math.random();
                     if(numAleatorio < 0.5){ // Generamos una piedra
-                        var objeto = new Rock(self, 950, 350, 'rock', self.player); 
-                        self.rocks.add(objeto);
+                        var nA = Math.random();
+                        if(nA > 0.5){
+                            var objeto = new Rock(self, 950, 350, 'rock3', self.player, 3); 
+                            self.rocks.add(objeto);
+                        }
+                        else{ // 1 de cada 2 aproximadamente son rocas que te matan (llenas de fuego)
+                            var objeto = new FireRock(self, 950, 350, 'fire_column_1', self.player, 3);
+                            self.rocks.add(objeto);
+                        }
                     }
                     else{ // Generamos un murcielago
                         var nAleatorio = Math.random();

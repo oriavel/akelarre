@@ -64,7 +64,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
                 callback: function(){
                     var numAleatorio = Math.random();
                     if(numAleatorio < 0.5){ // Generamos una piedra
-                        var objeto = new Rock(self, 950, 350, 'rock', self.player); 
+                        var objeto = new Rock(self, 950, 350, 'rock2', self.player, 2); 
                         self.rocks.add(objeto);
                     }
                     else{ // Generamos un murcielago

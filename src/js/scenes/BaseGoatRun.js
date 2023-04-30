@@ -2,6 +2,7 @@ import Rock from "../characters/goatrun/Rock.js";
 import Bat from "../characters/goatrun/bat.js";
 import Spell from "../characters/goatrun/Spell.js";
 import BatDoble from "../characters/goatrun/BatDoble.js";
+import Player_Goatrun from "./player_goatrun.js";
 
 
 /**
@@ -78,6 +79,15 @@ export default class BaseGoatRun extends Phaser.Scene {
             { frameWidth: 100, frameHeight: 53 }
         );
 
+    
+        let i;
+        // Fire columns. 1-14
+        for (i = 1; i < 15; i++) {
+        this.load.image(
+            "fire_column_" + i,
+            "src/assets/fire" + "/fire_column_medium_" + i + ".png"
+        );
+        }
     }
 	
     
@@ -86,10 +96,8 @@ export default class BaseGoatRun extends Phaser.Scene {
         this.initPhysics();
 
         this.createBackground();
-    
-        this.player = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
-        this.player.setSize(15,35);
 
+        this.player = new Player_Goatrun(this, 320, 400, 'amaia_goatrun');
         this.physics.world.gravity.y = 400;
 
         this.heart1 = this.add.sprite(680, 30, 'hearts');
@@ -148,14 +156,14 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         this.anims.create({
             key: 'bat',
-            frames: this.anims.generateFrameNumbers('bat', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('bat', { start: 0, end: 2 }),
             frameRate: 5,
             repeat: -1
         })
 
         this.anims.create({
             key: 'bat_doble',
-            frames: this.anims.generateFrameNumbers('bat_doble', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('bat_doble', { start: 0, end: 2 }),
             frameRate: 5,
             repeat: -1
         })
@@ -188,10 +196,32 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         this.anims.create({
             key: 'spell_gravity',
-            frames: this.anims.generateFrameNumbers('spell_gravity', { start: 0, end: 8 }),
+            frames: this.anims.generateFrameNumbers('spell_gravity', { start: 0, end: 7 }),
             frameRate: 10,
             repeat: -1
         });
+
+        this.anims.create({
+            key: 'fire_rock',
+            frames: [
+              { key: "fire_column_1" },
+              { key: "fire_column_2" },
+              { key: "fire_column_3" },
+              { key: "fire_column_4" },
+              { key: "fire_column_5" },
+              { key: "fire_column_6" },
+              { key: "fire_column_7" },
+              { key: "fire_column_8" },
+              { key: "fire_column_9" },
+              { key: "fire_column_10" },
+              { key: "fire_column_11" },
+              { key: "fire_column_12" },
+              { key: "fire_column_13" },
+              { key: "fire_column_14" },
+            ],
+            frameRate: 10,
+            repeat: -1
+          });
 
         this.heart1.anims.play('heart_filled', true);
         this.heart2.anims.play('heart_filled', true);
@@ -200,7 +230,7 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.player.setCollideWorldBounds(true);
+        // this.player.setCollideWorldBounds(true);
         this.goat.setCollideWorldBounds(true);
 
 
@@ -209,6 +239,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         this.physics.add.collider(this.rocks, this.platforms);
         this.physics.add.collider(this.bats, this.platforms);
         this.physics.add.collider(this.spells, this.platforms);
+        this.physics.add.overlap(this.player, this.goat, this.goatKills, null, this);
 
 
 
@@ -232,6 +263,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         this.startGame = false; // Si se ha comenzado el juego
         this.firstStart = true; // Para la primera vez que se comienza
         this.hechizado = false; // Si el personaje está bajo el hechizo de la gravedad
+        this.restart = false; // Para cuando muere el personaje
         
 
     }
@@ -244,11 +276,11 @@ export default class BaseGoatRun extends Phaser.Scene {
 
 
         - Nivel 2, aparecen más rápidos y hay murcielagos que quitan dos vidas
-
+        DONE
 
 
         - Nivel 3, aparecen más frecuentes y algunas rocas tienen fuego, que te matan directamente
-
+        DONE
     */
 
     createEnemies(){
@@ -277,7 +309,6 @@ export default class BaseGoatRun extends Phaser.Scene {
                         setTimeout(() => {
                             let objeto = new Spell(self, 950, 350, 'spell_gravity', self.player);
                             self.spells.add(objeto);
-                            console.log("spell");
                         }, 1000);
                     }
     
@@ -295,6 +326,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         //El texto
         this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 1: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     }
 
 	/**
@@ -307,88 +339,84 @@ export default class BaseGoatRun extends Phaser.Scene {
             this.graphics.setVisible(false);
             this.startGame = true;
         }
-        if (this.startGame){
+        if (this.startGame && !this.restart){
             if(this.firstStart){ // Si es la primera vez que se empieza
-                // this.createEnemies();
                 this.goat.anims.play('right_goat', true);
                 this.timer_enemies.paused = false;
                 this.firstStart = false;
             }
-            console.log("Llega aquí por lo menos -update");
-            this.background.tilePositionX += 0.15;
-            this.distance += 1;
-            this.scoreText.setText('Distance: ' + (this.distance || '') + '/15000');
-            this.movimientoEnemies();
             if(!this.amaiaIsDeath){
-                if(this.cursors.up.isDown){
-                    if(!this.jump){ // Si no está saltando
-                        this.jump = true;
-                        this.player.setVelocityY(-250);
-                        this.player.anims.play('jump_amaia', true);
-                    }            
-                }
-                if(this.jump){ // Si está saltando ya 
-        
-                    if (this.player.body.velocity.y < 0) { // Va hacia arriba
-                        this.player.anims.play('jump_amaia', true);
-                    } else if (this.player.body.velocity.y > 0) { // Va hacia abajo
-                        this.player.anims.play('fall_amaia', true);
+                this.background.tilePositionX += 0.15;
+                this.distance += 1;
+                this.scoreText.setText('Distance: ' + (this.distance || '') + '/15000');
+                this.movimientoEnemies();
+                
+                    if(this.cursors.up.isDown){
+                        if(!this.jump){ // Si no está saltando
+                            this.player.jumps();
+                        }            
                     }
-                    else{ // Está en el aire
-                        this.player.anims.play('still_amaia', true);
+                    if(this.jump){ // Si está saltando ya 
+                        this.player.alreadyJumping();
                     }
-                }
-        
-                if (this.player.body.touching.down && !this.cursors.down.isDown){ // Si amaia está tocando el suelo
-                    this.jump = false; // No permitimos el doble salto de esta manera
-                    this.player.anims.play('right_amaia_goats', true);
-                }
-        
-                if(this.cursors.down.isDown){ // Si se presiona 'abajo'
-                    if(!this.jump){ // Solo si no está saltando, si está en el aire no se puede agachar
-                        this.player.anims.play('amaia_agachada', true);
-                        this.player.setSize(15,20);
-                        this.player.setOrigin(0.5, 0.3).setScale(1.6)
-                        this.player.body.setOffset(20, 20);
-                        this.changeCollider = false;
+            
+                    if (this.player.body.touching.down && !this.cursors.down.isDown){ // Si amaia está tocando el suelo
+                        this.player.aterrizar();
                     }
-                }
-                else if (!this.changeCollider){
-                    this.player.setOrigin(0.5, 0.3).setScale(1.6);
-                    this.player.setSize(15,35);
-                    this.changeCollider = true;
-                }
-        
-                if(this.cursors.left.isDown){ // Prueba para comprobar animación de muerte
-                    this.deathScene();
-                    this.amaiaIsDeath = true;
-                }
+            
+                    if(this.cursors.down.isDown){ // Si se presiona 'abajo'
+                        if(!this.jump){ // Solo si no está saltando, si está en el aire no se puede agachar
+                            this.player.agacharse();
+                        }
+                    }
+                    else if (!this.changeCollider){
+                        this.player.colliderNormal();
+                    }
+            
+                    if(this.cursors.left.isDown){ // Prueba para comprobar animación de muerte
+                        this.deathScene();
+                        this.amaiaIsDeath = true;
+                    }
 
-                if(this.hechizado == true){
-                    this.hechizoText.setVisible(true);
-                }
-                else{
-                    this.hechizoText.setVisible(false);
-                }
+                    if(this.hechizado == true){
+                        this.hechizoText.setVisible(true);
+                    }
+                    else{
+                        this.hechizoText.setVisible(false);
+                    }
 
-                if(!this.isInvulnerable){
-                    this.player.alpha = 1;
-                }
+                    if(!this.isInvulnerable){
+                        this.player.alpha = 1;
+                    }
 
-                this.checkLives();
-                this.checkLevel();
+                    this.checkLives();
+                    this.checkLevel();
             }
         
+        }
+        else if (this.restart){
+            if (this.enterKey.isDown) { // Reinicia el juego
+                this.scene.stop(this.key);
+                this.scene.start('goatrun_nivel2');
+            }
+            else if (Phaser.Input.Keyboard.JustDown(this.escape)) {// (this.escape.isDown){ // Vuelve a la cueva
+                this.scene.stop(this.key);
+                this.scene.start('cueva');
+            }
         }
         
     }
 
+    // La cabra mata a amaia
+    goatKills(){
+        this.player.deathfromGoat();
+        this.amaiaIsDeath = true;
+        this.deathScene();
+    }
+
     
-
-
     // Funcion que accede a los movimientos de todos los enemigos
     movimientoEnemies(){
-        console.log("entra funcion, cont: " + this.contBats);
         if(this.contBats > 0){
             this.bats.getChildren().forEach(function(bat) {
                 bat.movimiento_bats();
@@ -396,7 +424,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         }
     }   
 
-
+    // Comprueba cuantas vidas tiene el personaje para mostrar los corazones por pantalla
     checkLives(){
         if(this.livesPlayer > 0 && this.livesPlayer < 3){
             switch(this.livesPlayer){
@@ -406,7 +434,6 @@ export default class BaseGoatRun extends Phaser.Scene {
                     break;
                 case 2: 
                     this.heart3.anims.play('heart_empty', true);
-                    console.log("cccc");
                     break;
             }
         }
@@ -422,10 +449,9 @@ export default class BaseGoatRun extends Phaser.Scene {
         }
     }
 
-    
-
+    // Comprueba que ha llegado a la distancia necesaria para pasarse el nivel
     checkLevel(){
-        /*
+        /* CADA CLASE HEREDADA HACE SU PROPIO CAMBIO DE NIVEL
         if (this.distance > 15000){
             this.changeScene();
             this.isInvulnerable = false;
@@ -438,22 +464,39 @@ export default class BaseGoatRun extends Phaser.Scene {
     }
     
 
+    // Funcion auxiliar que sirve para que cuando Amaia se haya pasado el nivel avance unos metros indicando que se lo ha pasado
     changeScene(){
         this.destroyEnemies();
-        this.player.body.position.x += 2.5;
+        this.player.reachEnd();
     }
 
+    // La escena de la muerte
     deathScene(){
         this.time.removeAllEvents(); // Dejamos de generar enemigos
         this.destroyEnemies();
         this.cameras.main.fadeOut(5500);
-        this.player.anims.play('amaia_death', true);
-        this.player.setSize(15,35);
-        this.player.setOrigin(0.5, 0.32).setScale(1.6);
-        this.zoomEnPunto(this.player.body.x, this.player.body.y, 3);
-        this.cameras.main.setZoom(2);        
+        this.player.deathScene_();
+        setTimeout(() => {
+            this.cameras.main.fadeIn(2000);
+            this.restartGame();
+        }, 5500); 
+              
+    }
+
+    // Muestra la pantalla de Game Over para dar la opcion de volver a jugar o salir a la cueva
+    restartGame(){
+        this.graphics2 = this.add.graphics({x: this.game.config.width/15, y: this.game.config.height/3});
+        this.graphics2.fillStyle(0x000000, 0.8);
+        this.graphics2.fillRect(0, 0, 700, 140);
+        this.graphics2.lineStyle(4, 0x000000, 1);
+        this.graphics2.strokeRect(0, 0, 700, 100);
+        //El texto
+        this.text2 = this.add.text(this.graphics2.x + 265, this.graphics2.y+20, "GAME OVER!", { font: "24px Arial", fill: "#ffffff" });
+        this.text3 = this.add.text(this.graphics2.x + 115, this.graphics2.y+60, "Esc para salir, Enter para empezar de nuevo", { font: "24px Arial", fill: "#ffffff" });
+        this.restart = true;
     }
     
+    // Destruye todos los enemigos que estén creados en el momento de la llamada
     destroyEnemies(){
         this.bats.getChildren().forEach(function(bat) {
             bat.body.destroy();
@@ -470,6 +513,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         }, this);
     }
 
+    // Vuelve a Amaia invulnerable durante casi 4 segundos. Se muestra en el juego mediante un parpadeo
     makeInvulnerable() {
         this.isInvulnerable = true;
         this.rockCollision = false;
@@ -487,18 +531,16 @@ export default class BaseGoatRun extends Phaser.Scene {
                     this.player.alpha = 0;
                     this.turnBlink = 0;
                 }
-               // this.player.alpha = Phaser.Math.Between(0, 1); // cambiar la opacidad del sprite al azar
             },
             callbackScope: this,
           });
       }
 
+
+    /* Para la animación de muerte, hace zoom sobre el personaje
     zoomEnPunto(x, y, zoom) {
-        // Obtener las coordenadas de la esquina superior izquierda de la cámara
         const x0 = this.cameras.main.scrollX;
         const y0 = this.cameras.main.scrollY;
-
-        // Obtener el ancho y la altura de la cámara
         const w0 = this.cameras.main.width;
         const h0 = this.cameras.main.height;
 
@@ -508,13 +550,11 @@ export default class BaseGoatRun extends Phaser.Scene {
         const x1 = x + 10 - w1 / 2;
         const y1 = y + 40 - h1 / 2;
 
-        // Ajustar la posición de la cámara para que el punto de referencia quede en la misma posición relativa después del zoom
         const dx = x1 - x0;
         const dy = y1 - y0;
         this.cameras.main.scrollX += dx;
         this.cameras.main.scrollY += dy;
-
-        // Establecer la nueva posición y tamaño de la cámara
         this.cameras.main.setViewport(x1, y1, w1, h1);
     }
+    */
 }

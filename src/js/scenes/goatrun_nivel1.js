@@ -3,6 +3,7 @@ import Bat from "../characters/goatrun/bat.js";
 import Spell from "../characters/goatrun/Spell.js";
 import BatDoble from "../characters/goatrun/BatDoble.js";
 import BaseGoatRun from "./BaseGoatRun.js";
+import FireRock from "../characters/goatrun/FireRock.js";
 
 /**
  * Escena de Título.
@@ -64,7 +65,7 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
                 callback: function(){
                     var numAleatorio = Math.random();
                     if(numAleatorio < 0.5){ // Generamos una piedra
-                        var objeto = new Rock(self, 950, 350, 'rock', self.player); 
+                        var objeto = new Rock(self, 950, 350, 'rock', self.player, 1); 
                         self.rocks.add(objeto);
                     }
                     else{ // Generamos un murcielago
@@ -87,7 +88,7 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
     }
 
     checkLevel(){
-        if (this.distance > 1000){
+        if (this.distance > 15000){
             this.changeScene();
             this.isInvulnerable = false;
             setTimeout(() => {

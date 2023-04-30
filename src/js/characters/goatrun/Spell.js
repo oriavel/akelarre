@@ -25,8 +25,9 @@ export default class Spell extends Phaser.GameObjects.Sprite {
         this.scene.physics.world.gravity.y = 200;
         this.setVisible(false);
         this.scene.hechizado = true;
+        const self = this;
         setTimeout(() => {
-            this.scene.physics.world.gravity.y = 400;
+            self.scene.physics.world.gravity.y = 400;
             this.scene.hechizado = false;
             this.body.destroy();
             this.destroy();
