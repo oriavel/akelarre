@@ -46,7 +46,7 @@ export default class Cueva extends Phaser.Scene {
 	*/
 	create(){
         
-        this.game.config.keys;
+        this.game.config.keys = 2;
         this.game.config.minijuego = 1; //No entiendo la forma de usar esto sin declararlo aqui
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })

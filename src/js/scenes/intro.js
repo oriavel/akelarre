@@ -1,4 +1,3 @@
-
 let length = 0;
 export default class Intro extends Phaser.Scene {
 	

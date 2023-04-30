@@ -50,13 +50,11 @@ let config = {
       gravity: { y: 0.5 }
     }
   },
-  scene: [Contexto,Intro, Cueva, GoatRun, AvoidThePotions,Pinball, Final],
+  scene: [Contexto, Intro, Cueva, GoatRun, AvoidThePotions,Pinball, Final],
 
   title: "Akelarre",
   version: "0.0.1",
 
 };
-
-new Phaser.Game(config, gameManager);
 
 new Phaser.Game(config, gameManager);
