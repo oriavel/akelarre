@@ -35,6 +35,7 @@ export default class PotionRed extends atp_potion{
     // animacion pocion contra el suelo
     var red_explosion = this.scene.add.sprite(potion.body.x+30, potion.body.y-20, 'exploding_death_potion').setScale(2);
     red_explosion.play('exploding_death_potion');
+    this.scene.break_potion_audio.play();
     var collider_fire = this.scene.fireGroup.create(potion.body.x+30, potion.body.y,'vacio').setScale(1.15);
     collider_fire.body.allowGravity = false;
     collider_fire.setSize(30,90);
@@ -42,9 +43,9 @@ export default class PotionRed extends atp_potion{
     this.scene.physics.add.collider(this.scene.amaia, collider_fire, this.seQUEMA, null, this);
       
     red_explosion.on('animationcomplete', () => {
-        // Eliminar el sprite una vez que la animación haya terminado
-        red_explosion.destroy();
-        collider_fire.destroy();
+      // Eliminar el sprite una vez que la animación haya terminado
+      red_explosion.destroy();
+      collider_fire.destroy();
     });
     potion.body.destroy();
     potion.destroy();
@@ -62,6 +63,7 @@ export default class PotionRed extends atp_potion{
       */
     amaia.isHurt = col.tipo;
     amaia.lives--;
+    
     console.log("Te quemas, te quedan "+amaia.lives+" vidas...");
   }
 
