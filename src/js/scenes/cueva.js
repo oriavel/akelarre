@@ -1,4 +1,4 @@
-import intro from './intro.js';
+import intro from "./intro.js";
 /**
  * Escena de Título.
  * @extends Phaser.Scene
@@ -9,6 +9,7 @@ let hablando = false;
 let length = 0;
 let enPortal = false;
 export default class Cueva extends Phaser.Scene {
+
 	/**
 	 * Escena principal.
 	 * @extends Phaser.Scene
@@ -361,6 +362,7 @@ export default class Cueva extends Phaser.Scene {
             hablando = false;
             length = 0;
             }
+
         }
         else if(Phaser.Input.Keyboard.JustDown(this.escape)){
             graphics.setVisible(false);
@@ -408,84 +410,108 @@ export default class Cueva extends Phaser.Scene {
         textNombre.setVisible(false);
         hablando = false;
         length = 0;
-        enPortal = false;
+      }
+
+  
+  addOverlapPortales(player,portal,graphics,text,dialogo,graphicsN,textNombre,nombre) {
+    this.physics.add.overlap(player, portal, () => {
+      graphics.setPosition(portal.x - 400, portal.y + 100);
+      graphicsN.setPosition(graphics.x, graphics.y - 30);
+      text.setPosition(portal.x - 395, portal.y + 120);
+      textNombre.setPosition(graphicsN.x + 50, graphicsN.y + 15);
+      textNombre.setText(nombre);
+
+      if (
+        Phaser.Input.Keyboard.JustDown(this.espacio) &&
+        this.portalesVisibles
+      ) {
+        graphics.setVisible(true);
+        graphicsN.setVisible(true);
+        text.setVisible(true);
+        textNombre.setVisible(true);
+        hablando = true;
+        enPortal = true;
+        this.portal = portal;
+        if (this.portal.x == this.portal1.x && this.game.config.keys != 2) {
+          text.setText(
+            "No deberia de entrar hasta que no tenga las otras \n2 piezas..."
+          );
+        } else {
+          text.setText(dialogo[0]);
+        }
+      }
+    });
+  }
+  salirPortal(graphics, text, graphicsN, textNombre) {
+    graphics.setVisible(false);
+    graphicsN.setVisible(false);
+    text.setVisible(false);
+    textNombre.setVisible(false);
+    hablando = false;
+    length = 0;
+    enPortal = false;
+  }
+
+  //Loop del juego
+  update() {
+    //console.log(this.player.x);
+    //console.log(this.player.y);
+
+    if (this.cursors.right.isDown && !hablando) {
+      this.player.setVelocityX(436);
+      this.player.setVelocityY(0);
+      this.player.anims.play("right_amaia", true);
+      this.animation = 1;
+    } else if (this.cursors.left.isDown && !hablando) {
+      this.player.setVelocityX(-436);
+      this.player.setVelocityY(0);
+      this.player.anims.play("left_amaia", true);
+      this.animation = 2;
+    } else if (this.cursors.up.isDown && !hablando) {
+      this.player.setVelocityY(-436);
+      this.player.setVelocityX(0);
+      this.player.anims.play("up_amaia", true);
+      this.animation = 3;
+    } else if (this.cursors.down.isDown && !hablando) {
+      this.player.setVelocityY(436);
+      this.player.setVelocityX(0);
+      this.player.anims.play("down_amaia", true);
+      this.animation = 4;
+    } else {
+      this.player.setVelocityX(0);
+      this.player.setVelocityY(0);
+
+      if (this.animation == 1) this.player.anims.play("stop_right_amaia", true);
+      else if (this.animation == 2) {
+        this.player.anims.play("stop_left_amaia", true);
+      } else if (this.animation == 3) {
+        this.player.anims.play("stop_up_amaia", true);
+      } else if (this.animation == 4) {
+        this.player.anims.play("stop_down_amaia", true);
+      }
     }
-   
-    
-	
-	//Loop del juego
-    update(){
 
 
-         //console.log(this.player.x);
-         //console.log(this.player.y);
-
-        if (this.cursors.right.isDown && !hablando){
-            this.player.setVelocityX(436);
-            this.player.setVelocityY(0);
-            this.player.anims.play('right_amaia', true);
-            this.animation = 1;
-
-        }
-        else if (this.cursors.left.isDown && !hablando){
-            this.player.setVelocityX(-436);
-            this.player.setVelocityY(0);
-            this.player.anims.play('left_amaia', true);
-            this.animation = 2;
-
-        }
-        else if (this.cursors.up.isDown && !hablando){
-            this.player.setVelocityY(-436);
-            this.player.setVelocityX(0);
-            this.player.anims.play('up_amaia', true);
-            this.animation = 3;
-        }
-        else if (this.cursors.down.isDown && !hablando){
-            this.player.setVelocityY(436);
-            this.player.setVelocityX(0);
-            this.player.anims.play('down_amaia', true);
-            this.animation = 4;
-        }
-        else{
-            this.player.setVelocityX(0);
-            this.player.setVelocityY(0);
-
-            if(this.animation == 1)
-                this.player.anims.play('stop_right_amaia', true);
-
-            else if(this.animation == 2){
-                this.player.anims.play('stop_left_amaia', true);
-            }
-            else if(this.animation == 3){
-                this.player.anims.play('stop_up_amaia', true);
-            }
-            else if(this.animation == 4){
-                this.player.anims.play('stop_down_amaia', true);
-            }
-        }
-
-
-        if(Phaser.Input.Keyboard.JustDown(this.enter) && enPortal){
-
-            if(this.portal == this.portal1 && this.game.config.keys == 2){
-                this.scene.stop('Cueva');
-                this.scene.start('avoidthepotions');
-            }
-
-            else if(this.portal == this.portal2){ 
-                this.scene.stop('Cueva');
-               // this.scene.start('pinball');
-            }
-
-            else if(this.portal == this.portal3){
-                this.scene.stop('Cueva');
-                this.scene.start('goatrun');
-            }
-        }
-
-        else if(Phaser.Input.Keyboard.JustDown(this.escape) && enPortal){
-            this.salirPortal(this.graphics,this.graphicsNombre, this.text, this.textNombre);
-        }
-    
+    if (Phaser.Input.Keyboard.JustDown(this.enter) && enPortal) {
+      if (this.portal == this.portal1 && this.game.config.keys == 2) {
+        this.scene.stop("Cueva");
+        this.scene.start("avoidthepotions");
+      } else if (this.portal == this.portal2) {
+        this.scene.stop("Cueva");
+        // this.scene.start('pinball');
+      } else if (this.portal == this.portal3) {
+        this.scene.stop("Cueva");
+        this.scene.start("goatrun");
+      }
+    } else if (Phaser.Input.Keyboard.JustDown(this.escape) && enPortal) {
+      this.salirPortal(
+        this.graphics,
+        this.graphicsNombre,
+        this.text,
+        this.textNombre
+      );
     }
+
+  }
 }
+
