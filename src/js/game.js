@@ -1,14 +1,19 @@
 /**
  * Clase Game de Phaser: crear e iniciar juego
  */
+
 import GoatRun from "./scenes/GoatRun/goatrun.js";
 import Cueva from "./scenes/cueva.js";
 import Pinball from "./scenes/Pinball/pinball.js"
 import AvoidThePotions from "./scenes/AvoidThePotions/avoidthepotions.js";
 import Intro from "./scenes/intro.js";
+import Final from './scenes/final.js';
+import Contexto from './scenes/contexto.js';
 
 var gameManager = {
   keys: 0,
+  minijuego : 1, //Para saber si viene de un minijuego
+
 };
 
 let config = {
@@ -39,6 +44,7 @@ let config = {
       debug: true,
       gravity: { y: 0 }
     },
+
     matter: {
       debug: true,
       gravity: { y: 0.5 }
@@ -48,6 +54,7 @@ let config = {
 
   title: "Akelarre",
   version: "0.0.1",
+
 };
 
 new Phaser.Game(config, gameManager);
