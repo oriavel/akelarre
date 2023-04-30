@@ -37,6 +37,7 @@ export default class Bat extends Phaser.Physics.Arcade.Sprite {
   death(){
     var bat_dying = this.scene.add.sprite(this.body.x+15, this.body.y+5, 'bat_death').setScale(2);
       bat_dying.play('bat_death');
+      this.scene.bat_death_audio.play();
       bat_dying.on('animationcomplete', () => {
           // Eliminar el sprite una vez que la animación haya terminado
           bat_dying.destroy();

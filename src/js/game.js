@@ -58,3 +58,5 @@ let config = {
 };
 
 new Phaser.Game(config, gameManager);
+
+new Phaser.Game(config, gameManager);
