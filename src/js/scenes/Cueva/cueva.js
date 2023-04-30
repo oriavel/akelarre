@@ -1,4 +1,4 @@
-import intro from "./intro.js";
+import intro from "../Secuencias/intro.js";
 /**
  * Escena de Título.
  * @extends Phaser.Scene

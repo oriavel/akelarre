@@ -3,10 +3,10 @@
  */
 
 import GoatRun from "./scenes/GoatRun/goatrun.js";
-import Cueva from "./scenes/cueva.js";
+import Cueva from "./scenes/Cueva/cueva.js";
 import Pinball from "./scenes/Pinball/pinball.js";
 import AvoidThePotions from "./scenes/AvoidThePotions/avoidthepotions.js";
-import Intro from "./scenes/intro.js";
+import Intro from "./scenes/Secuencias/intro.js";
 import Final from './scenes/final.js';
 import Contexto from './scenes/contexto.js';
 
