@@ -30,17 +30,5 @@ export default class Bumper {
     this.group = scene.add.group();
     this.group.add(this.circle);
     this.body.isSensor = true;
-    this.scene.matterCollision.addOnColliderStart({
-      objectA: this.body,
-      callback: function (eventData) {
-        // Check if the other object is the ball
-        if (eventData.bodyB.gameObject instanceof Ball) {
-          // Increase the score by the bumper's points value
-          scene.score += this.points;
-          scene.scoreText.setText("Score: " + scene.score);
-        }
-      },
-      context: this,
-    });
   }
 }
