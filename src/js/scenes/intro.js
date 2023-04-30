@@ -163,7 +163,6 @@ export default class Intro extends Phaser.Scene {
             "",
             "...",
             "En menuda me he metido...",
-            "" //Para que no se raye
         ];
         
         this.dialog = dialogo;
@@ -177,12 +176,12 @@ export default class Intro extends Phaser.Scene {
 
 
         
-        this.secuenciaDialogo(graphics, this.bruja1, this.bruja2, this.bruja3, text, graphicsNombre, textNombre, dialogo);
+        this.secuenciaDialogo(graphics, text, graphicsNombre, textNombre, dialogo);
 
 
 	}
 
-    secuenciaDialogo(graphics, bruja1, bruja2, bruja3, text, graphicsN, textNombre, dialogo){
+    secuenciaDialogo(graphics, text, graphicsN, textNombre, dialogo){
         
         graphics.setVisible(true);
         graphicsN.setVisible(true);
@@ -224,7 +223,7 @@ export default class Intro extends Phaser.Scene {
     {
 
         if(Phaser.Input.Keyboard.JustDown(this.espacio) && length != 10){
-            this.secuenciaDialogo(this.grafico, this.bruja1, this.bruja2, this.bruja3, this.texto, this.graphicsN, this.textN, this.dialog);
+            this.secuenciaDialogo(this.grafico, this.texto, this.graphicsN, this.textN, this.dialog);
         }
 
         

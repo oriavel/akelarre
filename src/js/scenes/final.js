@@ -1,4 +1,5 @@
 let length = 0;
+let andar = false;
 export default class Intro extends Phaser.Scene {
 	
 	constructor() {
@@ -135,22 +136,33 @@ export default class Intro extends Phaser.Scene {
             "Verte solo me recuerda la humillación de la derrota,\n¡Vete ya antes de que cambie de opinión!",
             "...",
             "¡A-Adios!...",
-            
-            ""//Para que no se raye
+            ""
         ];
         
         this.dialog = dialogo;
 
         this.player.anims.play('stop_up_amaia', true);
+        
+        this.player.setPosition(980, 700);
+        this.bruja1.setPosition(980, 600);
+        this.bruja2.setPosition(880, 600);
+        this.bruja3.setPosition(1080, 600);
 
         this.graficos.setPosition(this.bruja1.x - 355,this.bruja1.y + 260);
         this.graphicsN.setPosition(graphics.x, graphics.y - 30);
         this.texto.setPosition(this.bruja1.x - 350,this.bruja1.y + 270);
         this.textN.setPosition(this.graphicsN.x + 50, this.graphicsN.y + 15);
 
-
         
         this.secuenciaDialogo(graphics, this.bruja1, this.bruja2, this.bruja3, text, graphicsNombre, textNombre, dialogo);
+
+        this.anims.create({ //Aqui para testear final, se tiene que ir 
+            key: 'down_amaia',
+            frames: this.anims.generateFrameNumbers('amaia', { start: 0, end: 3 }),
+            frameRate: 4,
+            repeat: -1
+        });
+
 
 	}
 
@@ -177,31 +189,41 @@ export default class Intro extends Phaser.Scene {
           
           length++;
         }
-
-        else if(dialogo.length == length){
+        else{
             graphics.setVisible(false);
             graphicsN.setVisible(false);
             text.setVisible(false);
             textNombre.setVisible(false);
             length = 0;
-            this.scene.stop('intro');
-            this.scene.start('cueva');
+            andar = true;
         }
+
     }
 
     update()
     {
 
+        if(!andar){
         if(Phaser.Input.Keyboard.JustDown(this.espacio)){
             this.secuenciaDialogo(this.graficos, this.bruja1, this.bruja2, this.bruja3, this.texto, this.graphicsN, this.textN, this.dialog);
+            console.log(this.dialog.length);
         }
-
         
         if(Phaser.Input.Keyboard.JustDown(this.escape)){
             this.scene.stop('intro');
             this.scene.start('cueva');
         }
-
-       
+        }
+        else{
+            console.log(this.player.y);
+            if(this.player.y < 900){
+                this.player.setVelocityY(136);
+                this.player.anims.play('down_amaia', true);
+            }
+            else{
+                this.scene.stop('final');
+            }
+        }       
     }
+
 }

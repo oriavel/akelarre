@@ -45,8 +45,8 @@ export default class Cueva extends Phaser.Scene {
 	*/
 	create(){
         
-        this.game.config.keys = 2;
-       
+        this.game.config.keys;
+        this.game.config.minijuego = 1; //No entiendo la forma de usar esto sin declararlo aqui
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		const tileset = map.addTilesetImage('PatronCueva', 'tiles')
@@ -245,46 +245,7 @@ export default class Cueva extends Phaser.Scene {
         this.addOverlapPortales(this.player,this.portal1, this.graphics, this.text, dialogoPortales, this.graphicsNombre, this.textNombre,"Amaia" );
         this.addOverlapPortales(this.player,this.portal2, this.graphics, this.text, dialogoPortales, this.graphicsNombre, this.textNombre,"Amaia" );
         this.addOverlapPortales(this.player,this.portal3, this.graphics, this.text, dialogoPortales, this.graphicsNombre, this.textNombre,"Amaia" );
-        /*
-
-                
-        //Colisiones con bruja -- Sin usar temporalmente
-        this.collisionUp = false;
-        this.collisionDown = false;
-        this.collisionLeft = false;
-        this.collisionRight = false;
-
-
-        this.physics.add.collider(this.player, this.bruja, () =>{
-            const playerBounds = this.player.getBounds();
-            const brujaBounds = this.bruja.getBounds();
-
-            if (playerBounds.right >= brujaBounds.left && this.player.body.velocity.x > 0) {
-            // Si el jugador se mueve a la derecha y choca con el personaje, no se permitirá que el jugador se mueva más a la derecha
-            this.collisionRight = true;
-            this.player.setVelocityX(0);
-            }
-
-            if (playerBounds.left <= brujaBounds.right && this.player.body.velocity.x < 0) {
-            // Si el jugador se mueve a la izquierda y choca con el personaje, no se permitirá que el jugador se mueva más a la izquierda
-            this.collisionLeft = true;
-            this.player.setVelocityX(0);
-            }
-
-            if (playerBounds.bottom >= brujaBounds.top && this.player.body.velocity.y > 0) {
-            // Si el jugador se mueve hacia abajo y choca con el personaje, no se permitirá que el jugador se mueva más hacia abajo
-            this.collisionDown = true;
-            this.player.setVelocityY(0);
-            }
-
-            if (playerBounds.top <= brujaBounds.bottom && this.player.body.velocity.y < 0) {
-            // Si el jugador se mueve hacia arriba y choca con el personaje, no se permitirá que el jugador se mueva más hacia arriba
-            this.collisionUp = true;
-            this.player.setVelocityY(0);
-            
-            }
-        });
-        */
+      
 
 
         //Movimientos
@@ -348,6 +309,13 @@ export default class Cueva extends Phaser.Scene {
         this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         this.player.anims.play('stop_up_amaia', true);
+
+        
+        console.log(this.game.config.keys);
+        if(this.game.config.minijuego == 1){
+            this.player.setPosition(980, 700);
+
+        }
 
     }
 
@@ -517,19 +485,6 @@ export default class Cueva extends Phaser.Scene {
         else if(Phaser.Input.Keyboard.JustDown(this.escape) && enPortal){
             this.salirPortal(this.graphics,this.graphicsNombre, this.text, this.textNombre);
         }
-    /*
-        if (this.player.x + this.player.width < this.bruja.x) {
-            this.collisionRight = false;
-          } else if (this.player.x > this.bruja.x + this.bruja.width) {
-            this.collisionLeft = false;
-          }
-        
-          if (this.player.y + this.player.height < this.bruja.y) {
-            this.collisionDown = false;
-          } else if (this.player.y > this.bruja.y + this.bruja.height) {
-            this.collisionUp = false;
-            this.dialogText.setVisible(false);
-        }
-        */
+    
     }
 }

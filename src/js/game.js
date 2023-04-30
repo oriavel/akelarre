@@ -9,6 +9,7 @@ import Contexto from './scenes/contexto.js';
 import Final from './scenes/final.js';
 
 var gameManager = {
+    minijuego : 1, //Para saber si viene de un minijuego
     keys : 0
 };
 
@@ -47,7 +48,7 @@ let config = {
             right: true
         }
     },
-scene: [Contexto,Intro, Final, Cueva, GoatRun, AvoidThePotions],
+scene: [Contexto,Intro, Cueva, GoatRun, AvoidThePotions,Final],
 
 
     title: "Akelarre",

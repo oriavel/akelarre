@@ -23,14 +23,14 @@ export default class Intro extends Phaser.Scene {
         this.dialog = dialogoContexto;
 
         let graphics = this.add.graphics({x: 0, y: 0});
-        graphics.fillStyle(0x414729, 1);
+        graphics.fillStyle(0x000000, 1);
         graphics.fillRect(0, 0, 800, 800);
-        graphics.lineStyle(4, 0x414729, 1);
+        graphics.lineStyle(4, 0x000000, 1);
         graphics.strokeRect(0, 0, 800, 800);
 
         this.grafico = graphics;
         //El texto
-        let text = this.add.text(10, 10, "", { font: "24px Arial", fill: "#f8f8f8" });
+        let text = this.add.text(10, 10, "", { font: "24px Arial", fill: "#ffffff" });
         text.setDepth(2);
         this.texto = text;
 
