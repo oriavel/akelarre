@@ -1,7 +1,7 @@
 
-import atp_potion from './atp_Potion.js';
+import Potion from './Potion.js';
 
-export default class PotionRed extends atp_potion{
+export default class PotionRed extends Potion{
   constructor(scene, x,y) {
     super(scene,x,y);
     // Agregar la clase al juego

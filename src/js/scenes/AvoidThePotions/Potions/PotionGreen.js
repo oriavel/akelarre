@@ -1,11 +1,7 @@
 
-import atp_potion from './atp_Potion.js';
+import Potion from './Potion.js';
 
-<<<<<<< Updated upstream:src/js/scenes/atp_potion_green.js
-export default class PotionPink extends atp_potion{
-=======
 export default class PotionGreen extends Potion{
->>>>>>> Stashed changes:src/js/scenes/AvoidThePotions/Potions/PotionPink.js
   constructor(scene, x,y) {
     super(scene,x,y);
     // Agregar la clase al juego
@@ -32,7 +28,6 @@ export default class PotionGreen extends Potion{
     // animacion pocion contra el suelo
     var pink_explosion = this.scene.add.sprite(potion.body.x+26, potion.body.y+30, 'floor_kick_pink').setScale(1.15);
     pink_explosion.play('floor_kick_pink');
-    this.scene.break_potion_audio.play();
     pink_explosion.on('animationcomplete', () => {
       // Eliminar el sprite una vez que la animación haya terminado
       pink_explosion.destroy();

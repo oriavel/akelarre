@@ -1,4 +1,4 @@
-import AvoidThePotions from "./avoidthepotions.js";
+import AvoidThePotions from "../avoidthepotions.js";
 
 export default class Bat extends Phaser.Physics.Arcade.Sprite {
 

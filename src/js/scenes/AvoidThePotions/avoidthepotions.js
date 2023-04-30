@@ -147,8 +147,6 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     this.loadMiniMalos();
     this.loadImages();
-
-    
   }
 
   create() {

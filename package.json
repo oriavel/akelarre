@@ -2,7 +2,7 @@
   "name": "akelarre",
   "version": "1.0.0",
   "description": "Proyecto para la asignatura Desarrollo de Videouegos Web de la complu",
-  "main": "index.js",
+  "main": "index.html",
   "directories": {
     "lib": "lib"
   },
@@ -21,6 +21,10 @@
   },
   "homepage": "https://github.com/oriavel/akelarre#readme",
   "dependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "matter-js": "^0.19.0"
+  },
+  "devDependencies": {
+    "@types/matter-js": "^0.18.2"
   }
 }

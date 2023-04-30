@@ -1,11 +1,7 @@
 
-import atp_potion from './atp_Potion.js';
+import Potion from './Potion.js';
 
-<<<<<<< Updated upstream:src/js/scenes/atp_potion_pink.js
-export default class PotionGreen extends atp_potion{
-=======
 export default class PotionPink extends Potion{
->>>>>>> Stashed changes:src/js/scenes/AvoidThePotions/Potions/PotionGreen.js
   constructor(scene, x,y) {
     super(scene,x,y);
     // Agregar la clase al juego
@@ -33,7 +29,7 @@ export default class PotionPink extends Potion{
     var green_explosion = this.scene.add.sprite(potion.body.x+30, potion.body.y-35, 'exploding_poison_potion').setScale(1.15);
     var collider_fire = this.scene.fireGroup.create(potion.body.x+30, potion.body.y,"vacio").setScale(1.15);
     green_explosion.play('exploding_poison_potion');
-    this.scene.break_potion_audio.play();
+    
     collider_fire.body.allowGravity = false;
     collider_fire.setSize(37,80);
     collider_fire.tipo = "GREEN";

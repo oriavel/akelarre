@@ -1,3 +1,7 @@
+
+import Bat from "../../characters/goatrun/Bat.js";
+
+
 /**
  * Escena de Título.
  * @extends Phaser.Scene
@@ -9,7 +13,7 @@ export default class GoatRun extends Phaser.Scene {
 	 */
 	constructor() {
 		super({ key: 'goatrun' });
-        this.physicsPlugin = null;
+        this.physicsPlugin = null; // TODO: revisar si se puede quitar
 	}
 
     initPhysics(){
@@ -23,7 +27,10 @@ export default class GoatRun extends Phaser.Scene {
 	 */
 	preload(){
         this.load.image('cave', 'src/assets/cave_long.png');
-        this.load.image('ground', 'src/assets/platform.png');
+        this.load.image('cave2', 'src/assets/cave_marron.png');
+        this.load.image('cave3', 'src/assets/cave_lava.png'); // http://joyreactor.com/post/1390622
+        this.load.image('ground', 'src/assets/platform_1.png');
+        this.load.image('ground2', 'src/assets/platform_2.png');
         this.load.spritesheet('amaia_goatrun', 
             'src/assets/correr_spritesheet.png',
             { frameWidth: 48, frameHeight: 48 }
@@ -49,6 +56,12 @@ export default class GoatRun extends Phaser.Scene {
             'src/assets/amaia_agachada.png',
             { frameWidth: 48, frameHeight: 48 }
         );
+        this.load.spritesheet('hearts', 
+            'src/assets/hearts.png',
+            { frameWidth: 28, frameHeight: 24 }
+        );
+        this.load.image('heart', 'src/assets/heart.png');
+        this.load.image('heart-filled', 'src/assets/heart-filled.png');
 
     }
 	
@@ -59,21 +72,27 @@ export default class GoatRun extends Phaser.Scene {
     
 	create(){
         this.initPhysics();
-        var rocks;
+        // var rocks;
         var timer_rocks;
-        var bats;
+        // var bats;
         var timer_bats;
         // var deltaTime = 0; CREARLA FUERA
     
-        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave').setOrigin(0).setScrollFactor(0, 1);
+        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave3').setOrigin(0).setScrollFactor(0, 1);
+        this.background.setScale(2);
 
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(400, 500, 'ground').setScale(2).refreshBody();
+        this.platforms.create(400, 565, 'ground').setScale(2).refreshBody();
 
         this.player = this.physics.add.sprite(320, 400, 'amaia_goatrun').setOrigin(0.5, 0.3).setScale(1.6);
-        this.player.setSizethis.game.config.width(15,35);
+        this.player.setSize(15,35);
        //  player.setOrigin(0.5, 0.2);
-    
+
+        this.heart1 = this.add.sprite(680, 30, 'hearts');
+        this.heart2 = this.add.sprite(710, 30, 'hearts');
+        this.heart3 = this.add.sprite(740, 30, 'hearts');
+        
         this.rock = this.physics.add.sprite(700, 350, 'rock').setScale(0.6);
         this.rock.body.velocity.x = -150;
         
@@ -81,9 +100,11 @@ export default class GoatRun extends Phaser.Scene {
         this.rock2.body.velocity.x = -140;
         
         
-        this.goat = this.physics.add.sprite(50, 280, 'goat');
+        this.goat = this.physics.add.sprite(70, 280, 'goat');
+        this.goat.setSize(90, 180);
 
-        this.bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
+        this.bat = new Bat(this, 850, 300, 'bat', this.player);
+        // this.bat = this.physics.add.sprite(850, 300, 'bat').setScale(2);
         this.bat.body.allowGravity = false;
         this.bat.body.velocity.x = -150;
 
@@ -91,15 +112,18 @@ export default class GoatRun extends Phaser.Scene {
         this.bat2.body.allowGravity = false;
         this.bat2.body.velocity.x = -150;
 
+        const self = this;
+
         // 681 x 89
-        rocks = this.physics.add.group();
+        this.rocks = this.physics.add.group();
         timer_rocks = this.time.addEvent({
             delay: Phaser.Math.Between(2000, 5000),
             loop: true,
             callback: function() {
                 // Crear un objeto dentro del grupo y define su posición inicial
-                var objeto = rocks.create(900, 350, 'rock');
+                var objeto = self.rocks.create(900, 350, 'rock');
                 objeto.setScale(0.6);
+                objeto.setSize(80, 80);
 
                 // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
                 objeto.body.velocity.x = -100;
@@ -113,23 +137,29 @@ export default class GoatRun extends Phaser.Scene {
         });
 
         // this.start = this.getTime();
-        bats = this.physics.add.group();
+        this.bats = this.physics.add.group();
+        this.contBats = 0;
         timer_bats = this.time.addEvent({
             delay: Phaser.Math.Between(1000, 4000),
             loop: true,
             callback: function() {
                 // Crear un objeto dentro del grupo y define su posición inicial
-                var objeto = bats.create(900, 250, 'bat');
+                // var objeto = this.bats.create(900, 250, 'bat');
+                // var objeto = this.physics.add.sprite(900, 250, 'bat').setScale(2);
+                // var objeto = self.bats.create(900, 250, 'bat');
+                var objeto = new Bat(self, 900, 250, 'bat', self.player);
+                self.bats.add(objeto);
+                // let objeto = new Bat(this, 900, 250, 1, 'bat');
                 objeto.setScale(2);
                 objeto.anims.play('bat', true);
                 objeto.body.allowGravity = false;
-
+                this.contBats += 1;
                 //objeto.body.x += objeto.body.velocity.x * deltaTime;
 
                 // Mover el objeto verticalmente utilizando una onda sinusoidal
                 //objeto.body.y = 1000 + 2000 * Math.sin(0.02 * objeto.x);
 
-
+                // objeto.update();
                 // Definir la velocidad del objeto para que se mueva horizontalmente a la izquierda
                 objeto.body.velocity.x = -80;
                 console.log("mitad del callback de bats");
@@ -137,9 +167,10 @@ export default class GoatRun extends Phaser.Scene {
                 // Eliminar el objeto cuando salga de la pantalla
                 objeto.outOfBoundsKill = true;
                 objeto.checkWorldBounds = true;
-            }
+            },
         });
 
+        
 
         this.anims.create({
             key: 'right_amaia_goats',
@@ -206,6 +237,22 @@ export default class GoatRun extends Phaser.Scene {
             repeat: -1
         });
 
+        this.anims.create({
+            key: 'heart_filled',
+            frames: [ { key: 'hearts', frame: 1 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'heart_empty',
+            frames: [ { key: 'hearts', frame: 0 } ],
+            frameRate: 20
+        });
+
+        this.heart1.anims.play('heart_filled', true);
+        this.heart2.anims.play('heart_filled', true);
+        this.heart3.anims.play('heart_filled', true);
+
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -214,14 +261,37 @@ export default class GoatRun extends Phaser.Scene {
 
         this.bat.anims.play('bat', true);
         this.bat2.anims.play('bat', true);
+        this.goat.anims.play('right_goat', true);
 
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.goat, this.platforms);
         this.physics.add.collider(this.rock, this.platforms);
         this.physics.add.collider(this.rock2, this.platforms);
-        this.physics.add.collider(rocks, this.platforms);
-        this.physics.add.collider(bats, this.platforms);
-        console.log("Llega aquí por lo menos");
+        this.physics.add.collider(this.rocks, this.platforms);
+        this.physics.add.collider(this.bats, this.platforms);
+
+        /*
+        this.physics.add.collider(this.player, this.rocks, function(){
+            console.log("chocan");
+            self.collisionRocks();
+            console.log("chocan");
+        });
+        */
+
+        this.rocksCollider = this.physics.add.collider(this.player, this.rocks,function(){
+            console.log("chocan");
+            self.collisionRocks();
+        },
+            null,
+            this
+        );
+        
+        this.batsCollider = this.physics.add.overlap(this.player, this.bats, function(){
+            self.collisionBats();
+        },
+            null,
+            this
+        );
 
         this.scoreText = this.add.text(16, 16, 'distance: 0/20000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.player.anims.play('right_amaia_goats', true);
@@ -230,6 +300,10 @@ export default class GoatRun extends Phaser.Scene {
         var powerup_salto = false; // ¿meto power up para saltar más?
         this.changeCollider = true; // Para el cambio del tamaño de collider cuando se agacha
         this.amaiaIsDeath = false;
+        this.isInvulnerable = false;
+        this.livesPlayer = 3; // Nº de vidas del personaje
+        this.distance = 0;
+        
 
     }
 
@@ -237,11 +311,12 @@ export default class GoatRun extends Phaser.Scene {
 	* Loop del juego
 	*/
     update(){
+        console.log("Llega aquí por lo menos -update");
         this.background.tilePositionX += 0.15;
         this.distance += 1;
-        this.scoreText.setText('Distance: ' + this.distance + '/20000');
+        this.scoreText.setText('Distance: ' + (this.distance || '') + '/20000');
         // deltaTime = this.time.elapsed/1000;
-
+        this.movimientoBats();
         if(!this.amaiaIsDeath){
             if(this.cursors.up.isDown){
                 if(!this.jump){ // Si no está saltando
@@ -286,9 +361,10 @@ export default class GoatRun extends Phaser.Scene {
                 this.deathScene();
                 this.amaiaIsDeath = true;
             }
+
+            this.checkLives();
+            this.checkLevel();
         }
-
-
         
 
 
@@ -348,15 +424,64 @@ export default class GoatRun extends Phaser.Scene {
     }
 
 
+    // ANIADIR que los murcielagos se arrojen a por amaia cuando se acerquen a ella
+    movimientoBats(){
+        if(this.contBats > 0){
+            this.bats.getChildren().forEach(function(bat) {
+                bat.movimiento_bats();
+            }, this);
+        }
+    }   
+
+    /* Cosas que tengo que hacer
+    - Hacer clase murcielago separado
+    - Añadir corazones
+    - Controlar las colisiones:
+        - Con roca -> retrocedes un poco y parpadeas 3 segundos siendo inmune DONE
+        - Con murcielago -> pierdes corazon (tendrás tres imagino)
+    - Añadir los 3 niveles
+    - Arreglar lo de la distancia
+    - Añadir más enemigos en otros niveles ??
+    */
+
+    checkLives(){
+        if(this.livesPlayer > 0 && this.livesPlayer < 3){
+            switch(this.livesPlayer){
+                case 1: 
+                    this.heart2.anims.play('heart_empty', true);
+                    break;
+                case 2: 
+                    this.heart3.anims.play('heart_empty', true);
+                    console.log("cccc");
+                    break;
+            }
+        }
+        else{
+            if(this.livesPlayer <= 0){
+                this.heart1.anims.play('heart_empty', true);
+                this.deathScene();
+                this.amaiaIsDeath = true;
+            }
+            
+        }
+    }
+
+    checkLevel(){
+        if (this.distance > 20000){
+            // this.scene.stop('goatrun');
+            // this.scene.start('goatrun2');
+        }
+    }
+
     deathScene(){
         this.time.removeAllEvents(); // Dejamos de generar enemigos
-        // this.destroyEnemies();
-        this.cameras.main.fadeOut(12500);
+        this.destroyEnemies();
+        this.cameras.main.fadeOut(5500);
         this.player.anims.play('amaia_death', true);
         //this.background.setScrollFactor(0);
         //this.background.tilePositionX += 0.0;
         this.player.setSize(15,35);
-        this.player.setOrigin(0.5, 0.4).setScale(1.6);
+        this.player.setOrigin(0.5, 0.32).setScale(1.6);
         this.zoomEnPunto(this.player.body.x, this.player.body.y, 3);
         this.cameras.main.setZoom(2);
         // this.anims.pause(this.anims.currentAnim.frames[3]);
@@ -364,16 +489,76 @@ export default class GoatRun extends Phaser.Scene {
         
     }
 
-    /*
+    
     destroyEnemies(){
-        for(let i = 0; i < this.batsArray.length; i++) {
-            this.batsArray[i].destroy();
-        }
-        for(let i = 0; i < this.rocksArray.length; i++) {
-            this.rocksArray[i].destroy();
-        }
+        this.bats.getChildren().forEach(function(bat) {
+            bat.body.destroy();
+        }, this);    
+        this.contBats = 0;
+        this.rocks.getChildren().forEach(function(rock_) {
+            rock_.body.destroy();
+        }, this);
     }
-    */
+    
+
+    // Le resta un corazón a Amaia
+    collisionBats(){
+        this.makeInvulnerable();
+        this.livesPlayer--;
+        setTimeout(() => {
+            console.log("aaaa");
+            this.isInvulnerable = false; // hacer que el sprite sea vulnerable de nuevo
+            this.player.alpha = 1; // establecer la opacidad del sprite en 1 (completamente visible)
+            this.batsCollider.active = true;
+        }, 2900);
+    }
+
+    // Retrocede 50 metros a Amaia
+    collisionRocks() {
+        this.makeInvulnerable();
+        this.player.body.position.x -= 50; // Simplemente retrocedemos unos metros para atrás
+        this.player.setVelocityX(+0);
+        this.rocks.setVelocityX(-100);
+        setTimeout(() => {
+            console.log("aaaa");
+            this.isInvulnerable = false; // hacer que el sprite sea vulnerable de nuevo
+            this.player.alpha = 1; // establecer la opacidad del sprite en 1 (completamente visible)
+            this.rocksCollider.active = true;
+        }, 2900);
+    }
+
+
+    
+
+
+    makeInvulnerable() {
+        // Establece la variable isInvulnerable en true
+        this.isInvulnerable = true;
+        this.rocksCollider.active = false;
+        this.batsCollider.active = false;
+        // Hace que el sprite parpadee durante 4 segundos
+        /*
+        this.tweens.add({
+          targets: this,
+          alpha: 0.5,
+          duration: 4000,
+          yoyo: true,
+          repeat: 7,
+          onComplete: () => {
+            // Después de que termine el parpadeo, establece la variable isInvulnerable en false
+            this.isInvulnerable = false;
+          }
+        });
+        */
+        this.time.addEvent({
+            delay: 200, // cada 200 milisegundos (5 veces por segundo)
+            repeat: 15, // durante 30 ciclos (3 segundos en total)
+            callback: function() {
+              this.player.alpha = Phaser.Math.Between(0, 1); // cambiar la opacidad del sprite al azar
+            },
+            callbackScope: this,
+          });
+      }
 
     zoomEnPunto(x, y, zoom) {
         // Obtener las coordenadas de la esquina superior izquierda de la cámara
