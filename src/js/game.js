@@ -3,7 +3,7 @@
  */
 import GoatRun from "./scenes/GoatRun/goatrun.js";
 import Cueva from "./scenes/cueva.js";
-import Pinball from "./scenes/Pinball/pinball.js";
+import Pinball from "./scenes/Pinball/pinball.js"
 import AvoidThePotions from "./scenes/AvoidThePotions/avoidthepotions.js";
 import Intro from "./scenes/intro.js";
 
@@ -17,7 +17,7 @@ let config = {
   parent: "juego",
   width: 800,
   height: 600,
-  keys: 0, //Piezas de llaves para los minijuegos
+  keys: 0,  //Piezas de llaves para los minijuegos
   pixelArt: true,
   scale: {
     autoCenter: Phaser.Scale.CENTER_TOTAL,
@@ -44,7 +44,7 @@ let config = {
       gravity: { y: 0.5 }
     }
   },
-  scene: [Intro, Cueva, GoatRun, AvoidThePotions, Pinball],
+  scene: [Pinball],
 
   title: "Akelarre",
   version: "0.0.1",

@@ -1,3 +1,6 @@
+import Flipper from "./Flipper.js";
+import Ball from "./Ball.js";
+import Bumper from "./Bumpers.js";
 export default class Pinball extends Phaser.Scene {
   constructor() {
     super({
@@ -6,110 +9,88 @@ export default class Pinball extends Phaser.Scene {
         default: "matter",
         matter: {
           debug: true,
-          gravity: { y: 0.5 },
+          gravity: { y: 0.6 },
         },
       },
     });
   }
 
   initPhysics() {
-    this.X = 300;
+    this.X = 240;
     this.Y = 400;
-    this.LEVER = 64;
-    this.WIDTH = 112;
-    this.HEIGHT = 32;
-    this.STIFFNESS = 0.1;
-    this.MIN = Phaser.Math.DegToRad(32);
-    this.MAX = Phaser.Math.DegToRad(-15);
-  }
+    
+    this.ball = new Ball(this, this.X, 0, 16, 0xa3ff00);
+    this.leftFlipper = new Flipper(this, 260, 500);
+    this.rightFlipper = new Flipper(this, 550, 500);
+    
+    // Add bumpers to the group
+    const bumperPositions = [
+      { x: 200, y: 160 }, // left below
+      { x: 400, y: 160 }, // center below
+      { x: 600, y: 160 }, // right below
+      { x: 250, y: 110 }, // left above
+      { x: 550, y: 110 }, // right above
+      { x: 400, y: 90 } // center above
+    ]
 
-  flip(isDown) {
-    this.tweens.add({
-      targets: [this.tweener],
-      x: isDown ? this.MAX : this.MIN,
-      duration: 50,
-      onUpdateScope: this,
-      onUpdate: () => {
-        this.lever.setPosition(
-          this.X - Math.cos(this.tweener.x) * this.LEVER,
-          this.Y - Math.sin(this.tweener.x) * this.LEVER
-        );
-      },
+    this.bumpers = bumperPositions.map((position) => {
+      return new Bumper(this, position.x, position.y);
     });
+
   }
 
+initKeys(){
+  this.leftKey = this.input.keyboard.addKey("LEFT");
+  this.rightKey = this.input.keyboard.addKey("RIGHT");
+
+  this.leftKey.on("down", () => {
+    this.leftFlipper.flip(true);
+  });
+
+  this.leftKey.on("up", () => {
+    this.leftFlipper.flip(false);
+  });
+
+  this.rightKey.on("down", () => {
+    this.rightFlipper.flip(true);
+  });
+
+  this.rightKey.on("up", () => {
+    this.rightFlipper.flip(false);
+  });
+}
+
+initScore(){
+   // Create the score text and set its position
+   this.score = 500;
+   this.scoreText = this.add.text(15, 15, "Score: " + this.score, {
+    font: "28px Arial",
+    fill: "#ffffff"
+  });
+
+  // this.scoreText = this.add.text(100, 100, 'distance: 0/20000', { fontSize: '28px', fill: "#fff", fontFamily: 'Arial'});
+}
   create() {
     this.initPhysics();
-
-    // add rectangle and its physics
-    this.rectangle = this.add.rectangle(
-      this.X,
-      this.Y,
-      this.WIDTH,
-      this.HEIGHT,
-      0x5a0571
-    );
-    this.flipper = this.matter.add.gameObject(this.rectangle, {
-      friction: 1,
-    });
-    // tweens: manipulate properties of objects to any given value
-    this.tweener = {
-      x: this.MIN,
-    };
-
-    // Sensor to move the flipper more naturally and constraint how it moves
-    this.lever = this.matter.add
-      .image(
-        this.X - Math.cos(this.tweener.x) * this.LEVER,
-        this.Y - Math.sin(this.tweener.x) * this.LEVER,
-        null,
-        null,
-        {
-          isSensor: true,
-          isStatic: true,
-        }
-      )
-      .setVisible(false);
-
-    // fixed point in the middle of the flipper
-    this.matter.add.worldConstraint(this.flipper, 0, 1, {
-      pointA: new Phaser.Math.Vector2(this.X, this.Y),
-      pointB: new Phaser.Math.Vector2(),
-    });
-
-    this.matter.add.constraint(
-      this.flipper,
-      this.lever.body,
-      0,
-      this.STIFFNESS,
-      {
-        pointA: new Phaser.Math.Vector2(
-          (this.WIDTH - this.HEIGHT) / 2 + this.LEVER,
-          0
-        ),
-      }
-    );
-
-    // add ball
-    this.circle = this.add.circle(this.X, 0, 16, 0xa3ff00);
-    this.ball = this.matter.add.gameObject(this.circle).setCircle(16);
-
-    // input key for flipper
-    var space = this.input.keyboard.addKey("space");
-
-    space.on("down", () => {
-      this.flip(true);
-    });
-
-    space.on("up", () => {
-      this.flip(false);
-    });
+    this.initKeys();
+    this.initScore();
+   
   }
 
   update() {
-    if (Math.abs(this.ball.y) > this.game.config.height) {
-      this.ball.setPosition(this.X, 0);
-      this.ball.setVelocity(0);
+    if (Math.abs(this.ball.body.y) > this.game.config.height) {
+      this.ball.body.setPosition(this.X, 0);
+      this.ball.body.setVelocity(0);
+
+      // decrease the score by 100 points
+      this.score -= 100;
+      this.scoreText.setText("Score: " + this.score);
     }
+
+    if(this.score <= 0) {
+      this.ball.destroy();
+      // game over - lost
+    }
+  
   }
 }
