@@ -5,7 +5,7 @@ export default class Wall {
     this.y = y;
     this.color = 0xefb243;
     this.angle = angle;
-    var bar = "0 0 0 440 10 440 10 0";
+    var bar = "0 0 0 500 10 500 10 0";
     // add enclosing side bars
     this.poly = this.scene.add.polygon(this.x, this.y, bar, this.color, 0.2);
     this.scene.matter.add
@@ -14,6 +14,6 @@ export default class Wall {
         isStatic: true,
         angle: this.angle,
       })
-      .setBounce(0.9);
+      .setBounce(1);
   }
 }

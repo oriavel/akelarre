@@ -28,8 +28,8 @@ let config = {
       height: 188,
     },
     max: {
-      width: 1112,
-      height: 552,
+      width: 800,
+      height: 600,
     },
     zoom: 1,
   },

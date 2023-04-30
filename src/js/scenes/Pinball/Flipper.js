@@ -1,19 +1,24 @@
 export default class Flipper {
   constructor(scene, x, y, direction) {
     this.scene = scene;
-    this.X = x;
-    this.Y = y;
+    this.x = x;
+    this.y = y;
     this.direction = direction;
     this.LEVER = 50;
     this.WIDTH = 110;
     this.HEIGHT = 10;
     this.STIFFNESS = 0.1;
+    this.BOUNCE = 1.5; // When something hits it bounces with this power
+
+
+
+    // Left or right direction
     if (this.direction == "right") {
-      this.MIN = Phaser.Math.DegToRad(-32);
-      this.MAX = Phaser.Math.DegToRad(15);
+      this.MIN = Phaser.Math.DegToRad(-20);
+      this.MAX = Phaser.Math.DegToRad(20);
     } else {
-      this.MIN = Phaser.Math.DegToRad(32);
-      this.MAX = Phaser.Math.DegToRad(-15);
+      this.MIN = Phaser.Math.DegToRad(20);
+      this.MAX = Phaser.Math.DegToRad(-20);
     }
 
     this.init();
@@ -22,15 +27,15 @@ export default class Flipper {
   init() {
     // add rectangle and its physics
     this.rectangle = this.scene.add.rectangle(
-      this.X,
-      this.Y,
+      this.x,
+      this.y,
       this.WIDTH,
       this.HEIGHT,
       0x5a0571
     );
     this.flipper = this.scene.matter.add.gameObject(this.rectangle, {
       friction: 1,
-    }).setBounce(1.15);
+    }).setBounce(this.BOUNCE);
 
     // tweens: manipulate properties of objects to any given value
     this.tweener = {
@@ -40,8 +45,8 @@ export default class Flipper {
     // Sensor to move the flipper more naturally and constraint how it moves
     this.lever = this.scene.matter.add
       .image(
-        this.X - Math.cos(this.tweener.x) * this.LEVER,
-        this.Y - Math.sin(this.tweener.x) * this.LEVER,
+        this.x - Math.cos(this.tweener.x) * this.LEVER,
+        this.y - Math.sin(this.tweener.x) * this.LEVER,
         null,
         null,
         {
@@ -53,7 +58,7 @@ export default class Flipper {
 
     // fixed point in the middle of the flipper
     this.scene.matter.add.worldConstraint(this.flipper, 0, 1, {
-      pointA: new Phaser.Math.Vector2(this.X, this.Y),
+      pointA: new Phaser.Math.Vector2(this.x, this.y),
       pointB: new Phaser.Math.Vector2(),
     });
 
@@ -79,8 +84,8 @@ export default class Flipper {
       onUpdateScope: this,
       onUpdate: () => {
         this.lever.setPosition(
-          this.X - Math.cos(this.tweener.x) * this.LEVER,
-          this.Y - Math.sin(this.tweener.x) * this.LEVER
+          this.x - Math.cos(this.tweener.x) * this.LEVER,
+          this.y - Math.sin(this.tweener.x) * this.LEVER
         );
       },
     });
