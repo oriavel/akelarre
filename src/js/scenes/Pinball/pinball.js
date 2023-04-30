@@ -1,7 +1,7 @@
-import Flipper from "./Flipper.js";
-import Ball from "./Ball.js";
-import Bumper from "./Bumpers.js";
-import Wall from "./Wall.js";
+import Flipper from "./elements/Flipper.js";
+import Ball from "./elements/Ball.js";
+import Bumper from "./elements/Bumpers.js";
+import Wall from "./elements/Wall.js";
 export default class Pinball extends Phaser.Scene {
   constructor() {
     super({
@@ -16,20 +16,53 @@ export default class Pinball extends Phaser.Scene {
     });
   }
   preload() {
+    
+    //this.matter.world.setBounds(0, 0, this.game.config.width, this.game.config.height)
     this.load.image("ball", "./src/assets/Pinball/ball.png");
-    this.load.image("background", "./src/assets/Backgrounds/stary-night.webp")
+    this.load.image("background", "./src/assets/Backgrounds/stary-night.webp");
   }
-  initPhysics() {
-    this.initBall = { x: 130, y: 0 };
-    this.flipperY = 520;
-    this.halfWidth = this.game.config.width / 2;
 
-    this.ball = new Ball(this, this.initBall.x, this.initBall.y, 16, 0xa3ff00);
-    this.leftFlipper = new Flipper(this, this.halfWidth - 100, this.flipperY, "left");
-    this.rightFlipper = new Flipper(this, this.halfWidth + 100, this.flipperY, "right");
+  create() {
+    this.INIT_POS = { x: 130, y: 0 };
+    this.FLIPPERS_Y = 520;
+    this.HALF = this.game.config.width / 2;
+    const background = this.add.image(0, 0, "background").setOrigin(0, 0);
+    background.setScale(
+      this.game.config.width / background.width,
+      this.game.config.height / background.height
+    );
+    this.initPhysics();
+    this.initKeys();
+    this.initScore();
+  }
+
+  initPhysics() {
+    this.ball = new Ball(this, this.INIT_POS.x, this.INIT_POS.y, 16, 0xa3ff00);
+    this.leftFlipper = new Flipper(
+      this,
+      this.HALF - 100,
+      this.FLIPPERS_Y,
+      "left"
+    );
+    this.rightFlipper = new Flipper(
+      this,
+      this.HALF + 100,
+      this.FLIPPERS_Y,
+      "right"
+    );
     // walls
-    this.leftWall = new Wall(this, this.halfWidth - 245, this.flipperY - 235, -0.4);
-    this.rightWall = new Wall(this, this.halfWidth + 250, this.flipperY - 235, 0.4);
+    this.leftWall = new Wall(
+      this,
+      this.HALF - 245,
+      this.FLIPPERS_Y - 235,
+      -0.4
+    );
+    this.rightWall = new Wall(
+      this,
+      this.HALF + 250,
+      this.FLIPPERS_Y - 235,
+      0.4
+    );
     // Add bumpers to the group
     const bumperPositions = [
       { x: 200, y: 180 }, // left below
@@ -43,6 +76,7 @@ export default class Pinball extends Phaser.Scene {
     this.bumpers = bumperPositions.map((position) => {
       return new Bumper(this, position.x, position.y);
     });
+    
   }
 
   initKeys() {
@@ -76,16 +110,9 @@ export default class Pinball extends Phaser.Scene {
 
     // this.scoreText = this.add.text(100, 100, 'distance: 0/20000', { fontSize: '28px', fill: "#fff", fontFamily: 'Arial'});
   }
-  create() {
-    const background = this.add.image(0, 0, "background").setOrigin(0, 0);
-  background.setScale(this.game.config.width / background.width, this.game.config.height / background.height);
-    this.initPhysics();
-    this.initKeys();
-    this.initScore();
-  }
   update() {
     if (Math.abs(this.ball.body.y) > this.game.config.height) {
-      this.ball.body.setPosition(this.initBall.x, this.initBall.y);
+      this.ball.body.setPosition(this.INIT_POS.x, this.INIT_POS.y);
       this.ball.body.setVelocity(0);
 
       // decrease the score by 100 points
@@ -94,7 +121,10 @@ export default class Pinball extends Phaser.Scene {
     }
 
     if (this.score <= 0) {
+      this.score = 0;
+      
       this.ball.destroy();
+
       // game over - lost
     }
   }
