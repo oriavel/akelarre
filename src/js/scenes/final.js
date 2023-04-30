@@ -1,47 +1,21 @@
-
 let length = 0;
+let andar = false;
 export default class Intro extends Phaser.Scene {
 	
 	constructor() {
-		super({ key: 'intro' });
+		super({ key: 'final' });
 	}
 
 
 
-	preload(){
-
-        //Cargar cueva:
-        this.load.image('tiles', 'src/assets/Caves.png')
-        this.load.tilemapTiledJSON('tilemap', 'src/assets/Cueva.json')
-
-        //Cargar NPCs
-        this.load.spritesheet('bruja3', 'src/assets/Personajes/bruja3.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('bruja1', 'src/assets/Personajes/bruja1.png', { frameWidth: 21, frameHeight: 28});
-        this.load.spritesheet('bruja2', 'src/assets/Personajes/bruja2.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('gato', 'src/assets/Personajes/gatete.png', { frameWidth: 32, frameHeight: 32 });
-
-        //Cargar prota
-        this.load.spritesheet('amaia', 
-            'src/assets/Personajes/Prota.PNG',
-            { frameWidth: 34, frameHeight: 34 }
-        );
-
-
-    }
-	// inicializamos la escena
-
 	create() {
-
+        console.log("Ha entrado en Final");
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		const tileset = map.addTilesetImage('PatronCueva', 'tiles')
 		
 		var suelo = map.createLayer('suelo', tileset)
         var layer = map.createLayer('obstaculos', tileset)
-
-      
-
-        layer.setCollisionByExclusion([-1 , 0]);
 
         //Prota
         this.player = this.physics.add.sprite(975, 1450, 'amaia').setScale(2);
@@ -70,13 +44,6 @@ export default class Intro extends Phaser.Scene {
         this.bruja3.body.immovable = true;
 
 
-        this.gato = this.physics.add.sprite(690, 1360, 'gato').setScale(2);
-        this.gato.setSize(13, 20);
-        this.gato.setDepth(1);
-        this.gato.body.offset.x = 5;
-        //this.gato.body.offset.y = 7;
-        this.gato.body.immovable = true;
-
 
         //Pantallita del texto
         let graphics = this.add.graphics({x: 1200, y: 600});
@@ -85,7 +52,7 @@ export default class Intro extends Phaser.Scene {
         graphics.lineStyle(4, 0x000000, 1);
         graphics.strokeRect(0, 0, 700, 100);
 
-        this.grafico = graphics;
+        this.graficos = graphics;
         
         //El texto
         let text = this.add.text(400, 400, "Este es el texto de la ventana", { font: "24px Arial", fill: "#ffffff" });
@@ -113,7 +80,7 @@ export default class Intro extends Phaser.Scene {
         text.setVisible(true);
         textNombre.setVisible(true);
 
-        this.grafico.setVisible(true);
+        this.graficos.setVisible(true);
         this.graphicsN.setVisible(true);
         this.texto.setVisible(true);
         this.textN.setVisible(true);
@@ -149,57 +116,72 @@ export default class Intro extends Phaser.Scene {
             repeat: -1
         });
 
-        const dialogo = [ //Sorgina: 0, 3, 5, 8. Graciana: 1,6. Maria: 2, 4, 7, 9. Amaia: 10
-            "MUA JA JA JA JA, ¡Al fin!\n¡Hermanas, por fin tenemos un sacrificio para nuestro venerado \nBelzebut!", 
-            "¡Y pelirroja, estoy segura de que le encantará!",
+        const dialogo = [ //Sorgina: 0, 2, 4, 6, 8, 9, 12, 13, 15, 16. Graciana: 1, 5, 7, 14, 17. Maria: 3, 11, 18. Amaia: 10
+            "Ugh...Estoy agotada...",
+            "¡Hermana! ¿Que ha pasado? No me digas que esta humana...", 
+            "¡Silencio Graciana!...esta humana es mucho mas habil \nde lo que nunca me habría imaginado...",
+            "No se como has podido abrir los portales, pero me has impresionado.",
             "...",
-            "¿Pasa algo, María?",
-            "¡N- No Sorgina, para nada!",
-            "Eso pensaba, ¡Estupendo! Ahora solo queda terminar los \npreparativos para el ritual, ¡Graciana, vamos!",
-            "¡ji ji ji, que ganas!",
+            "Hermana...¿Que quieres que hagamos ahora?",
+            "Cuando nuestro señor recibe una ofrenda no solo \nabsorbe el cuerpo de el sacrificio, también su mente.",
+            "Entonces, si seguimos con el plan y sacrificamos \na esta chica...",
+            "Vería como perdí contra esta humana. \n¡No puedo permitirlo!",
+            "Tu, chica, puedes irte.",
+            "¿Cómo?",
+            "!!",
+            "No te pienses que te dejo ir sin más.\nEn cuanto salgas de esta cueva no recordarás nada \nde lo acontecido.",
+            "Te olvidarás de nosotras y de la cueva,\ncomo si nunca hubiera pasado nada.",
+            "Pero...",
+            "¡Silencio! Considera esto como premio por \nhaber conseguido las llaves",
+            "Verte solo me recuerda la humillación de la derrota,\n¡Vete ya antes de que cambie de opinión!",
             "...",
-            "¡María!, ya sabes que hacer, ¿Verdad?",
-            "S-Si hermana, ¡Voy!",
-            "",
-            "...",
-            "En menuda me he metido...",
+            "¡A-Adios!...",
+            ""
         ];
         
         this.dialog = dialogo;
 
         this.player.anims.play('stop_up_amaia', true);
+        
+        this.player.setPosition(980, 700);
+        this.bruja1.setPosition(980, 600);
+        this.bruja2.setPosition(880, 600);
+        this.bruja3.setPosition(1080, 600);
 
-        this.grafico.setPosition(this.bruja1.x - 355,this.bruja1.y + 260);
+        this.graficos.setPosition(this.bruja1.x - 355,this.bruja1.y + 260);
         this.graphicsN.setPosition(graphics.x, graphics.y - 30);
         this.texto.setPosition(this.bruja1.x - 350,this.bruja1.y + 270);
         this.textN.setPosition(this.graphicsN.x + 50, this.graphicsN.y + 15);
 
-
         
-        this.secuenciaDialogo(graphics, text, graphicsNombre, textNombre, dialogo);
+        this.secuenciaDialogo(graphics, this.bruja1, this.bruja2, this.bruja3, text, graphicsNombre, textNombre, dialogo);
+
+        this.anims.create({ //Aqui para testear final, se tiene que ir 
+            key: 'down_amaia',
+            frames: this.anims.generateFrameNumbers('amaia', { start: 0, end: 3 }),
+            frameRate: 4,
+            repeat: -1
+        });
 
 
 	}
 
-    secuenciaDialogo(graphics, text, graphicsN, textNombre, dialogo){
+    secuenciaDialogo(graphics, bruja1, bruja2, bruja3, text, graphicsN, textNombre, dialogo){
         
-        graphics.setVisible(true);
-        graphicsN.setVisible(true);
-        text.setVisible(true);
-        textNombre.setVisible(true);
 
         //Dialogo:
         if (length < dialogo.length) {
           text.setText(dialogo[length]);
           console.log(dialogo[length]);
           console.log(length);
-          if(length == 0 || length == 3 || length == 5 || length == 8){
+          if(length == 0 || length == 4 || length == 6 || length == 8 ||length == 9 ||
+             length == 12 || length == 13 || length == 15 || length == 16){
             textNombre.setText("Sorgina");
           }
-          else if(length == 1 || length == 6){
+          else if(length == 1 || length == 5 || length == 7 || length == 14 || length == 17){
             textNombre.setText("Graciana");
           }
-          else if(length == 11|| length == 12){
+          else if(length == 10){
             textNombre.setText("Amaia");
           }
           else
@@ -207,50 +189,41 @@ export default class Intro extends Phaser.Scene {
           
           length++;
         }
-
-        else if(dialogo.length == length){
+        else{
             graphics.setVisible(false);
             graphicsN.setVisible(false);
             text.setVisible(false);
             textNombre.setVisible(false);
             length = 0;
-            this.scene.stop('intro');
-            this.scene.start('cueva');
+            andar = true;
         }
+
     }
 
     update()
     {
 
-        if(Phaser.Input.Keyboard.JustDown(this.espacio) && length != 10){
-            this.secuenciaDialogo(this.grafico, this.texto, this.graphicsN, this.textN, this.dialog);
+        if(!andar){
+        if(Phaser.Input.Keyboard.JustDown(this.espacio)){
+            this.secuenciaDialogo(this.graficos, this.bruja1, this.bruja2, this.bruja3, this.texto, this.graphicsN, this.textN, this.dialog);
+            console.log(this.dialog.length);
         }
-
         
         if(Phaser.Input.Keyboard.JustDown(this.escape)){
             this.scene.stop('intro');
-            this.scene.start('final');
+            this.scene.start('cueva');
         }
-
-        if(length == 10){
-
-            this.grafico.setVisible(false);
-            this.graphicsN.setVisible(false);
-            this.texto.setVisible(false);
-            this.textN.setVisible(false);
-            if(this.bruja1.y > 1035){
-                this.bruja1.setVelocityY(-136);
-                this.bruja1.anims.play('up_bruja1', true);
-                this.bruja2.setVelocityY(-136);
-                this.bruja2.anims.play('up_bruja2', true);
-                this.bruja3.setVelocityY(-136);
-                this.bruja3.anims.play('up_bruja3', true);
+        }
+        else{
+            console.log(this.player.y);
+            if(this.player.y < 900){
+                this.player.setVelocityY(136);
+                this.player.anims.play('down_amaia', true);
             }
             else{
-                length++;
+                this.scene.stop('final');
             }
-        }
-
-       
+        }       
     }
+
 }
