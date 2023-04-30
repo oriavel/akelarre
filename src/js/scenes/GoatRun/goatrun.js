@@ -1,5 +1,4 @@
 
-import Bat from "../../characters/goatrun/Bat.js";
 
 
 /**

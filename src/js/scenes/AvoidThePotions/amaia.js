@@ -27,9 +27,11 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         if(this.isHurt != "none"){
             if(this.isHurt == "RED"){
                 this.anims.play("amaia_burning_red",true);
+                this.scene.fire_audio.play();
             }
             else if(this.isHurt == "GREEN"){
                 this.anims.play("amaia_burning_green",true);
+                this.scene.fire_audio.play();
             }
             else if(this.isHurt == "HIT"){
                 this.anims.play("amaia_hit",true);

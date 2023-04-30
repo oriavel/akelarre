@@ -1,5 +1,5 @@
 let length = 0;
-export default class Intro extends Phaser.Scene {
+export default class Contexto extends Phaser.Scene {
 	
 	constructor() {
 		super({ key: 'context' });
