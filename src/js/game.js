@@ -41,7 +41,7 @@ let config = {
             right: true
         }
     },
-    scene: [GoatRun_Nivel1, GoatRun_Nivel2, GoatRun_Nivel3, Cueva],
+    scene: [GoatRun_Nivel3, GoatRun_Nivel2, GoatRun_Nivel1, Cueva],
     title: "Akelarre",
     version: "0.0.1"
 };
