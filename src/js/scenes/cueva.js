@@ -364,7 +364,46 @@ export default class Cueva extends Phaser.Scene {
             }
 
         }
-      } else if (Phaser.Input.Keyboard.JustDown(this.escape)) {
+        else if(Phaser.Input.Keyboard.JustDown(this.escape)){
+            graphics.setVisible(false);
+            graphicsN.setVisible(false);
+            text.setVisible(false);
+            textNombre.setVisible(false);
+            hablando = false;
+            length = 0;
+        }      
+
+        });
+    }
+
+    addOverlapPortales(player, portal, graphics, text, dialogo, graphicsN, textNombre, nombre) {
+        this.physics.add.overlap(player, portal, () => {
+
+            graphics.setPosition(portal.x - 400,portal.y + 100);
+            graphicsN.setPosition(graphics.x, graphics.y - 30);
+            text.setPosition(portal.x - 395,portal.y + 120);
+            textNombre.setPosition(graphicsN.x + 50, graphicsN.y + 15);
+            textNombre.setText(nombre);
+            
+            if(Phaser.Input.Keyboard.JustDown(this.espacio) && this.portalesVisibles) {
+
+                graphics.setVisible(true);
+                graphicsN.setVisible(true);
+                text.setVisible(true);
+                textNombre.setVisible(true);
+                hablando = true;
+                enPortal = true;
+                this.portal = portal;
+                if(this.portal.x == this.portal1.x && this.game.config.keys != 2){
+                    text.setText("No deberia de entrar hasta que no tenga las otras \n2 piezas...");
+                } 
+                else{
+                text.setText(dialogo[0]);
+                }
+            }
+        });
+    }
+    salirPortal(graphics, text, graphicsN, textNombre){
         graphics.setVisible(false);
         graphicsN.setVisible(false);
         text.setVisible(false);
@@ -372,18 +411,9 @@ export default class Cueva extends Phaser.Scene {
         hablando = false;
         length = 0;
       }
-    });
-  }
-  addOverlapPortales(
-    player,
-    portal,
-    graphics,
-    text,
-    dialogo,
-    graphicsN,
-    textNombre,
-    nombre
-  ) {
+
+  
+  addOverlapPortales(player,portal,graphics,text,dialogo,graphicsN,textNombre,nombre) {
     this.physics.add.overlap(player, portal, () => {
       graphics.setPosition(portal.x - 400, portal.y + 100);
       graphicsN.setPosition(graphics.x, graphics.y - 30);
