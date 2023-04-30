@@ -373,6 +373,7 @@ export default class Cueva extends Phaser.Scene {
 
         });
     }
+
     addOverlapPortales(player, portal, graphics, text, dialogo, graphicsN, textNombre, nombre) {
         this.physics.add.overlap(player, portal, () => {
 
