@@ -1,8 +1,8 @@
 import BaseGoatRun from "./BaseGoatRun.js";
-import Bat from "../../characters/goatrun/bat.js";
-import Rock from "../../characters/goatrun/Rock.js";
-import Spell from "../../characters/goatrun/Spell.js";
-import BatDoble from "../../characters/goatrun/BatDoble.js";
+import Bat from "./characters/Bat.js";
+import Rock from "./characters/Rock.js";
+import Spell from "./characters/Spell.js";
+import BatDoble from "./characters/BatDoble.js";
 
 /**
  * Escena de Título.
