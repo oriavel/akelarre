@@ -1,5 +1,3 @@
-
-
 export default class Bat extends Phaser.GameObjects.Sprite {
 
     constructor(scene, x, y, sprite, player) {
@@ -44,6 +42,7 @@ export default class Bat extends Phaser.GameObjects.Sprite {
         }
     }
 
+
     collisionHandler(){
         if(this.scene.batCollision){
             this.scene.makeInvulnerable();
@@ -60,4 +59,3 @@ export default class Bat extends Phaser.GameObjects.Sprite {
         } 
     }
 }
-    

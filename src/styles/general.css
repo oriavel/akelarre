@@ -78,7 +78,11 @@ header{
   border-radius: 12%;
 }
 
+/* Juego - game*/
 
+#juego {
+  margin-top: 5em;
+}
 
 
 /** Authors **/
@@ -157,7 +161,3 @@ section {
   padding: 5em 10em;
 }
 
-
-#game{
-  display:block
-}

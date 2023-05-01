@@ -3,23 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="assets/witch.webp" type="image/png" />
+    <link rel="shortcut icon" href="./src/assets/Icon/witch.webp" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0">
-    <link rel="stylesheet" href="./styles/general.css">
-    <link rel="stylesheet" href="./styles/modals.css">
-    <link rel="stylesheet" href="./styles/game.css">
+    <link rel="stylesheet" href="./src/styles/general.css">
+    <link rel="stylesheet" href="./src/styles/modals.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bilbo+Swash+Caps&display=swap" rel="stylesheet">
     <script src="./lib/phaser.min.js"></script>
-    <script src="./modals.js" defer></script>
-    <script src="./node_modules/matter-js/build/matter.js" defer></script>
+    <script src="./node_modules/matter-js/build/matter.js"  defer></script>
+    <script src="./pages/modals.js" defer></script>
     <title>Akelarre</title>
 </head>
 
 <body>
-
+    <script src="./src/js/game.js" type = "module"></script>
     <header>
         <nav>
             <div id="links">
@@ -27,7 +26,7 @@
                 <button id="description-btn" onclick="openModal('description-modal')">Descripción</button>
                 <h1>Akelarre</h1>
                 <button id="instructions-btn" onclick="openModal('instructions-modal')"> Instrucciones</button>
-                <a href="authors.html">Ass.embly</a>
+                <a href="./pages/authors.html">Ass.embly</a>
             </div>
         </nav>
     </header>
@@ -38,11 +37,15 @@
                 <h3 class="modal-title">Instrucciones</h3>
                 <ul>
                     <li> Para poder explorar la cueva debes usar las <b>flechas del teclado</b>
-                    <img src="/assets/Instructions/flechas.png" class="instr-pic"></li>
-                    <li> Para interactuar con un elemento pulsa la tecla <i>espacio</i>
-                        <img src="/assets/Instructions/space.png" class="instr-pic">
+                        <img src="./src/assets/Instructions/flechas.png" class="instr-pic">
                     </li>
-                    <li> Para empezar un minijuego interactúa con cualquiera de los <b>3</b> portales </li>
+                    <li> Para interactuar con un elemento pulsa la tecla <i>espacio</i>
+                        <img src="./src/assets/Instructions/space.png" class="instr-pic">
+                    </li>
+                    <li> Para saltarte un dialogo /escena pulsa la tecla <i>escape</i>
+                        <img src="./src/assets/Instructions/space.png" class="instr-pic">
+                    </li>
+                    <li> Para empezar un minijuego interactúa con el centro de cualquiera de los <b>3</b> portales </li>
                 </ul>
             </div>
         </div>
@@ -54,20 +57,17 @@
                 <button onclick="closeModal('description-modal')" class="close">&times;</button>
                 <h3 class="modal-title">Descripción</h3>
                 <p> Las brujas de Zugarramurdi te han capturado para un sacrificio humano! :o </p>
-                <p> Si quieres escapar tendrás que completar una serie de arduas pruebas para conseguir la llave de la
-                    entrada, siempre y cuando no mueras en el intento >:) </p>
-                <p>Completa los retos propuestos por las brujas y pueden que decidan perdonarte la vida...</p>
+                <p> Si quieres escapar tendrás que completar una serie de arduas pruebas para conseguir la llave de la entrada, siempre y cuando no mueras en el intento >:) </p>
+                <p> Por desgracia para ti, las pruebas no están disponibles desde el inicio de la partida. Quien sabe, alomejor encuentras la forma de acceder a ellos explorando la cueva...</p>
             </div>
-        </div>
+        </div> 
     </section>
 
-    <section> 
-        <div id="juego">
-            <canvas id="game"></canvas>
-            <script id="script" src="src/js/game.js" type="module"></script>
-        </div>
+    <div id="juego">
+        <canvas id="game"></canvas>
+        <script id="script" src="src/js/game.js" type="module"></script>
+    </div>
 
-    </section>
 
 </body>
 
