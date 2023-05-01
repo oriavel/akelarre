@@ -20,18 +20,19 @@ export default class Ball {
 
     scene.matter.world.on("collisionstart", (event) => {
       event.pairs.forEach((collision) => {
-          if ((collision.bodyA.label === "Ball" && collision.bodyB.label === "Bumper") ||
-            (collision.bodyB.label === "Ball" && collision.bodyA.label === "Bumper")) {
-            this.handleCollision();
-          }
-
+        if (
+          (collision.bodyA.label === "Ball" &&
+            collision.bodyB.label === "Bumper") ||
+          (collision.bodyB.label === "Ball" &&
+            collision.bodyA.label === "Bumper")
+        ) {
+          this.handleCollision();
+        }
       });
     });
   }
   handleCollision() {
-    if (!this.hitBall) {
-      this.scene.score += 10;
-    }
+    this.scene.score.addPoints();
   }
   destroy() {
     this.image.destroy();
