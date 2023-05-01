@@ -1,7 +1,6 @@
 /**
  * Clase Game de Phaser: crear e iniciar juego
  */
-import GoatRun from './scenes/goatrun.js';
 import Cueva from './scenes/cueva.js';
 import Pinball from "./scenes/Pinball/pinball.js";
 import AvoidThePotions from "./scenes/AvoidThePotions/avoidthepotions.js";
@@ -45,7 +44,7 @@ let config = {
             right: true
         }
     },
-    scene: [Cueva, GoatRun],
+    scene: [Cueva, Pinball, AvoidThePotions, GoatRun_Nivel1, GoatRun_Nivel2, GoatRun_Nivel3, Intro, Final, Contexto],
     title: "Akelarre",
     version: "0.0.1"
 };
