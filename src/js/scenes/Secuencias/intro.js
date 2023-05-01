@@ -1,4 +1,5 @@
-
+import Prota from '../Cueva/Prota.js'
+import DialogoBox from '../Secuencias/dialogos.js'
 let length = 0;
 export default class Intro extends Phaser.Scene {
 	
@@ -15,9 +16,9 @@ export default class Intro extends Phaser.Scene {
         this.load.tilemapTiledJSON('tilemap', 'src/assets/Cueva.json')
 
         //Cargar NPCs
-        this.load.spritesheet('bruja3', 'src/assets/Personajes/bruja3.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('bruja3', 'src/assets/Personajes/bruja3.png', { frameWidth: 19, frameHeight: 28 });
         this.load.spritesheet('bruja1', 'src/assets/Personajes/bruja1.png', { frameWidth: 21, frameHeight: 28});
-        this.load.spritesheet('bruja2', 'src/assets/Personajes/bruja2.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('bruja2', 'src/assets/Personajes/bruja2.png', { frameWidth: 19, frameHeight: 28 });
         this.load.spritesheet('gato', 'src/assets/Personajes/gatete.png', { frameWidth: 32, frameHeight: 32 });
 
         //Cargar prota
@@ -31,7 +32,7 @@ export default class Intro extends Phaser.Scene {
 	// inicializamos la escena
 
 	create() {
-
+        this.game.config.minijuego = 0;
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		const tileset = map.addTilesetImage('PatronCueva', 'tiles')
@@ -44,11 +45,8 @@ export default class Intro extends Phaser.Scene {
         layer.setCollisionByExclusion([-1 , 0]);
 
         //Prota
-        this.player = this.physics.add.sprite(975, 1450, 'amaia').setScale(2);
-        this.player.setSize(15, 13);
-        this.player.body.offset.y = 20;
-        this.physics.add.collider(this.player, layer);
-        this.player.setDepth(2);
+        this.player = new Prota(this, 975, 1450);
+
         
         //NPCs
         this.bruja1 = this.physics.add.sprite(975, 1350, 'bruja1').setScale(2);
@@ -78,46 +76,11 @@ export default class Intro extends Phaser.Scene {
         this.gato.body.immovable = true;
 
 
-        //Pantallita del texto
-        let graphics = this.add.graphics({x: 1200, y: 600});
-        graphics.fillStyle(0x000000, 0.8);
-        graphics.fillRect(0, 0, 700, 100);
-        graphics.lineStyle(4, 0x000000, 1);
-        graphics.strokeRect(0, 0, 700, 100);
+        this.dialogBox = new DialogoBox(this);
+        this.dialogBox.createBox();
+        this.dialogBox.visible(true);
 
-        this.grafico = graphics;
-        
-        //El texto
-        let text = this.add.text(400, 400, "Este es el texto de la ventana", { font: "24px Arial", fill: "#ffffff" });
-        
-        this.texto = text;
-
-        //Gráfico adicional
-        let graphicsNombre = this.add.graphics({x: graphics.x, y: graphics.y - 30});
-        graphicsNombre.fillStyle(0x000000, 0.8);
-        graphicsNombre.fillRect(0, 0, 150, 30);
-        graphicsNombre.lineStyle(4, 0x000000, 1);
-        graphicsNombre.strokeRect(0, 0, 150, 30);
-
-        this.graphicsN = graphicsNombre;
-        
-        //Texto adicional
-        let textNombre = this.add.text(400, 400, 'AAAAA', {fontFamily: 'Arial', fontSize: '16px', color: '#ffffff'});
-        textNombre.setOrigin(0.5);
-
-        this.textN = textNombre;
-        
-        //Configuracion basica de la pantalla y texto
-        graphics.setVisible(true);
-        graphicsNombre.setVisible(true);
-        text.setVisible(true);
-        textNombre.setVisible(true);
-
-        this.grafico.setVisible(true);
-        this.graphicsN.setVisible(true);
-        this.texto.setVisible(true);
-        this.textN.setVisible(true);
-
+       
         //Teclas para dialogo
         this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -126,19 +89,19 @@ export default class Intro extends Phaser.Scene {
 
         this.anims.create({
             key: 'up_bruja1',
-            frames: this.anims.generateFrameNumbers('bruja1', { start: 1, end: 4 }),
+            frames: this.anims.generateFrameNumbers('bruja1', { start: 4, end: 7 }),
             frameRate: 4,
             repeat: -1
         });
         this.anims.create({
             key: 'up_bruja2',
-            frames: this.anims.generateFrameNumbers('bruja2', { start: 1, end: 4 }),
+            frames: this.anims.generateFrameNumbers('bruja2', { start: 4, end: 7 }),
             frameRate: 4,
             repeat: -1
         });
         this.anims.create({
             key: 'up_bruja3',
-            frames: this.anims.generateFrameNumbers('bruja3', { start: 1, end: 4 }),
+            frames: this.anims.generateFrameNumbers('bruja3', { start: 4, end: 7 }),
             frameRate: 4,
             repeat: -1
         });
@@ -149,70 +112,42 @@ export default class Intro extends Phaser.Scene {
             repeat: -1
         });
 
-        const dialogo = [ //Sorgina: 0, 3, 5, 8. Graciana: 1,6. Maria: 2, 4, 7, 9. Amaia: 10
-            "MUA JA JA JA JA, ¡Al fin!\n¡Hermanas, por fin tenemos un sacrificio para nuestro venerado \nBelzebut!", 
-            "¡Y pelirroja, estoy segura de que le encantará!",
-            "...",
-            "¿Pasa algo, María?",
-            "¡N- No Sorgina, para nada!",
-            "Eso pensaba, ¡Estupendo! Ahora solo queda terminar los \npreparativos para el ritual, ¡Graciana, vamos!",
-            "¡ji ji ji, que ganas!",
-            "...",
-            "¡María!, ya sabes que hacer, ¿Verdad?",
-            "S-Si hermana, ¡Voy!",
-            "",
-            "...",
-            "En menuda me he metido...",
-        ];
-        
-        this.dialog = dialogo;
 
         this.player.anims.play('stop_up_amaia', true);
 
-        this.grafico.setPosition(this.bruja1.x - 355,this.bruja1.y + 260);
-        this.graphicsN.setPosition(graphics.x, graphics.y - 30);
-        this.texto.setPosition(this.bruja1.x - 350,this.bruja1.y + 270);
-        this.textN.setPosition(this.graphicsN.x + 50, this.graphicsN.y + 15);
+        this.dialogBox.setPosicion(this.bruja1.x, this.bruja1.y + 100);
 
-
-        
-        this.secuenciaDialogo(graphics, text, graphicsNombre, textNombre, dialogo);
+        this.secuenciaDialogo();
 
 
 	}
 
-    secuenciaDialogo(graphics, text, graphicsN, textNombre, dialogo){
+    secuenciaDialogo(){
         
-        graphics.setVisible(true);
-        graphicsN.setVisible(true);
-        text.setVisible(true);
-        textNombre.setVisible(true);
-
         //Dialogo:
+        this.dialogBox.visible(true);
+        var dialogo = this.dialogBox.getDialogo(9);
         if (length < dialogo.length) {
-          text.setText(dialogo[length]);
+          this.dialogBox.setTexto(dialogo[length]);
           console.log(dialogo[length]);
           console.log(length);
           if(length == 0 || length == 3 || length == 5 || length == 8){
-            textNombre.setText("Sorgina");
+            this.dialogBox.setNombre("Sorgina");
           }
           else if(length == 1 || length == 6){
-            textNombre.setText("Graciana");
+            this.dialogBox.setNombre("Graciana");
           }
           else if(length == 11|| length == 12){
-            textNombre.setText("Amaia");
+            this.dialogBox.setNombre("Amaia");
           }
           else
-            textNombre.setText("María");
+          this.dialogBox.setNombre("María");
           
           length++;
         }
 
         else if(dialogo.length == length){
-            graphics.setVisible(false);
-            graphicsN.setVisible(false);
-            text.setVisible(false);
-            textNombre.setVisible(false);
+            this.dialogBox.visible(false);
             length = 0;
             this.scene.stop('intro');
             this.scene.start('cueva');
@@ -234,10 +169,7 @@ export default class Intro extends Phaser.Scene {
 
         if(length == 10){
 
-            this.grafico.setVisible(false);
-            this.graphicsN.setVisible(false);
-            this.texto.setVisible(false);
-            this.textN.setVisible(false);
+            this.dialogBox.visible(false);
             if(this.bruja1.y > 1035){
                 this.bruja1.setVelocityY(-136);
                 this.bruja1.anims.play('up_bruja1', true);
@@ -247,6 +179,7 @@ export default class Intro extends Phaser.Scene {
                 this.bruja3.anims.play('up_bruja3', true);
             }
             else{
+                
                 length++;
             }
         }

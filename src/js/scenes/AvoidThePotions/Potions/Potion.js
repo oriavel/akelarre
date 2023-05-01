@@ -43,12 +43,14 @@ export default class Potion extends Phaser.GameObjects.Sprite {
     // animacion pocion contra el suelo
     var default_explosion = this.scene.add.sprite(potion.body.x+26, potion.body.y+30, 'floor_kick').setScale(1.15);
     default_explosion.play('floor_kick');
+    this.scene.break_potion_audio.play();
     default_explosion.on('animationcomplete', () => {
       // Eliminar el sprite una vez que la animación haya terminado
       default_explosion.destroy();
     });
     potion.body.destroy();
     potion.destroy();
+    
   }
 
    
@@ -58,7 +60,7 @@ export default class Potion extends Phaser.GameObjects.Sprite {
     //Pocion Default
     amaia.canJump = false;
     amaia.jumpTimer = -1;
-    
+    amaia.pain_sound();
     potion.body.destroy();
     potion.destroy();
   }

@@ -1,5 +1,5 @@
 import Witch from "./witch.js";
-import Bat from "./Bats/Bats.js";
+import Bats from "./Bats/Bats.js";
 import GoldenBat from "./Bats/GoldenBats.js";
 import Potion from "./Potions/Potion.js";
 import PotionGreen from "./Potions/PotionGreen.js";
@@ -115,7 +115,7 @@ export default class AvoidThePotions extends Phaser.Scene {
       "cave",
       this.assetsUrl + "AvoidThePotions/cueva_potions.png"
     );
-    this.load.image("ground", this.assetsUrl + "AvoidThePotions/platform.png");
+    this.load.image("ground", this.assetsUrl + "AvoidThePotions/platform2.png");
 
     // Hacer una amaia original TODO
     this.load.spritesheet("amaia", this.assetsUrl + "Personajes/Prota.png", {
@@ -139,6 +139,12 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     this.loadMiniMalos();
     this.loadImages();
+
+    this.load.audio('break_potion_audio', '/src/audio/potion_break.mp3');
+    this.load.audio('bat_death_audio','/src/audio/bat_death.mp3');
+    this.load.audio('fire_audio','/src/audio/fire1.mp3');
+    this.load.audio('gameMusic_audio','/src/audio/avoidThePotion.ogg');
+    this.load.audio('ough_audio','/src/audio/ough.mp3');
   }
 
   create() {
@@ -335,7 +341,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     //Crea el suelo
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(400, 500, "ground").setScale(2).refreshBody();
+    this.platforms.create(400, 564, "ground").setScale(2).refreshBody();
 
     // Crea el sprite para el personaje "amaia"
     this.amaia = new Amaia(this, 300, 400);
@@ -355,7 +361,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     // Crea un grupo para los murciélagos
     this.batGroup = this.add.group({
-      classType: Bat,
+      classType: Bats,
       runChildUpdate: true,
     });
 
@@ -368,7 +374,7 @@ export default class AvoidThePotions extends Phaser.Scene {
     // Variable donde almaceno los fuegos de las pociones
     this.fireGroup = this.physics.add.group();
     // Duración de la partida
-    this.tiempoInicio = 62000;
+    this.tiempoInicio = 60000;
     this.temporizador = this.tiempoInicio;
     // Texto en pantalla
     this.livesLeft = this.add.text(16, 16, "Lives: " + this.amaia.lives, {
@@ -416,24 +422,51 @@ export default class AvoidThePotions extends Phaser.Scene {
     );
 
     this.startGame = false;
+    this.finishedGame = false;
+
+    this.break_potion_audio =this.sound.add('break_potion_audio');
+    this.bat_death_audio = this.sound.add('bat_death_audio');
+    this.fire_audio = this.sound.add('fire_audio');
+    this.gameMusic_audio = this.sound.add('gameMusic_audio');
+    this.ough_audio = this.sound.add('ough_audio');
   }
 
   update() {
     this.livesLeft.setText("Lives: " + this.amaia.lives);
-    if (!this.startGame && this.enterKey.isDown) {
+    if (!this.startGame && this.enterKey.isDown && !this.finishedGame) {
       this.text.setVisible(false);
       this.graphics.setVisible(false);
       this.startGame = true;
       this.tiempoInicio += this.time.now;
+      this.gameMusic_audio.play();
     }
-    if (this.escape.isDown) this.startGame = false;
+    else if(this.finishedGame){
+      if(this.enterKey.isDown){
+        this.gameMusic_audio.pause();
+        this.gameMusic_audio.currentTime = 0;
+        this.witch.death();
+        this.amaia.death();
+        this.create();
+      }
+      else if(Phaser.Input.Keyboard.JustDown(this.escape)){
+        this.gameMusic_audio.pause();
+        this.gameMusic_audio.currentTime = 0;
+        this.scene.stop("avoidthepotions");
+        this.scene.start("cueva");
+      }
+    }
+
+    
     // Selecciona la animación correcta para Amaia en cada momento
     this.amaia.setSprite();
 
     // Selecciona el sprite correcto para la bruja en cada momento
     this.witch.setSprite();
-
+    if (Phaser.Input.Keyboard.JustDown(this.escape)){
+      this.amaia.lives = 0;
+    }
     if (this.startGame && this.amaia.lives > 0 && this.temporizador > 0) {
+      
       this.timeLeft.setText(
         "Time Left: " +
           Math.floor(this.temporizador / 60000) +
@@ -505,7 +538,7 @@ export default class AvoidThePotions extends Phaser.Scene {
               100 + Math.random() * 200 * this.level
             );
           else
-            this.bat = new Bat(
+            this.bat = new Bats(
               this,
               20,
               375 + Math.random() * 80,
@@ -520,7 +553,7 @@ export default class AvoidThePotions extends Phaser.Scene {
               -100 + Math.random() * -200 * this.level
             );
           else
-            this.bat = new Bat(
+            this.bat = new Bats(
               this,
               this.game.config.width - 20,
               375 + Math.random() * 80,
@@ -585,14 +618,16 @@ export default class AvoidThePotions extends Phaser.Scene {
           this.amaia.speed = -this.amaia.speed;
         }
       }
-    } else if (this.amaia.lives < 1 || this.temporizador < 1) {
-      if (this.temporizador < 1) {
-        this.potionGroup.getChildren().forEach(function (potion) {
-          potion.death();
-        }, this);
-      }
+    } 
+    else if (this.amaia.lives < 1 || this.temporizador < 1) {
+      this.potionGroup.getChildren().forEach(function (potion) {
+         potion.death();
+      }, this);
+      this.batGroup.getChildren().forEach(function (bat) {
+        bat.death();
+     }, this);
       if (this.amaia.lives < 1) {
-        this.amaia.death();
+        this.amaia.setVisible(false);
         this.text.setText(
           "Has perdido, para volver a intentarlo pulsa Enter, \n para salir pulsa ESCAPE"
         );
@@ -606,7 +641,19 @@ export default class AvoidThePotions extends Phaser.Scene {
 
       this.text.setVisible(true);
       this.graphics.setVisible(true);
+        
       this.startGame = false;
+      this.finishedGame = true;
     }
   }
 }
+
+function cargarSonido (fuente) {
+  const sonido = document.createElement("audio");
+  sonido.src = fuente;
+  sonido.setAttribute("preload", "auto");
+  sonido.setAttribute("controls", "none");
+  sonido.style.display = "none"; // <-- oculto
+  document.body.appendChild(sonido);
+  return sonido;
+};
