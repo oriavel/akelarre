@@ -440,6 +440,7 @@ export default class AvoidThePotions extends Phaser.Scene {
   }
 
   update() {
+
     this.livesLeft.setText("Lives: " + this.amaia.lives);
     if (!this.startGame && this.enterKey.isDown && !this.finishedGame) {
       this.text.setVisible(false);
@@ -656,13 +657,3 @@ export default class AvoidThePotions extends Phaser.Scene {
     }
   }
 }
-
-function cargarSonido (fuente) {
-  const sonido = document.createElement("audio");
-  sonido.src = fuente;
-  sonido.setAttribute("preload", "auto");
-  sonido.setAttribute("controls", "none");
-  sonido.style.display = "none"; // <-- oculto
-  document.body.appendChild(sonido);
-  return sonido;
-};
