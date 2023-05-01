@@ -305,7 +305,7 @@ export default class Cueva extends Phaser.Scene {
         this.scene.start('pinball');
       } else if (this.portal == this.portal3) {
         this.scene.stop(this);
-        this.scene.start("goatrun");
+        this.scene.start('goatrun_nivel1');
       }
     } else if (Phaser.Input.Keyboard.JustDown(this.escape) && enPortal) {
       this.salirPortal(this.dialogBox);

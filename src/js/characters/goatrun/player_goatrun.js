@@ -50,7 +50,7 @@ export default class Player_Goatrun extends Phaser.GameObjects.Sprite {
     }
 
     deathfromGoat(){
-        this.player.body.position.x += 50;
+        this.body.position.x += 50;
     }
 
     reachEnd(){
