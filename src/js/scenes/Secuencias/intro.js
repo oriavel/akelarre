@@ -32,7 +32,7 @@ export default class Intro extends Phaser.Scene {
 	// inicializamos la escena
 
 	create() {
-
+        this.game.config.minijuego = 0;
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		const tileset = map.addTilesetImage('PatronCueva', 'tiles')

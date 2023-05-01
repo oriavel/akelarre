@@ -1,7 +1,7 @@
-import Rock from "../../characters/goatrun/Rock.js";
-import Bat from "../../characters/goatrun/bat.js";
-import Spell from "../../characters/goatrun/Spell.js";
-import Player_Goatrun from "../../characters/goatrun/player_goatrun.js";
+import Rock from "./characters/Rock.js";
+import Bat from "./characters/Bat.js";
+import Spell from "./characters/Spell.js";
+import Player_Goatrun from "./characters/player_goatrun.js";
 
 
 /**
@@ -91,7 +91,7 @@ export default class BaseGoatRun extends Phaser.Scene {
 	
     
 	create(){
-
+        this.game.config.minijuego = 1;
         this.initPhysics();
 
         this.createBackground();
@@ -320,8 +320,9 @@ export default class BaseGoatRun extends Phaser.Scene {
         this.graphics.strokeRect(0, 0, 700, 100);
         //El texto
         this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 1: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
+        this.text_ = this.add.text(this.graphics.x + 160, this.graphics.y+70, "(↑) para saltar, (↓) para agacharse", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
     }
 
@@ -334,6 +335,7 @@ export default class BaseGoatRun extends Phaser.Scene {
             this.text.setVisible(false);
             this.text_.setVisible(false);
             this.graphics.setVisible(false);
+            this.text_.setVisible(false);
             this.startGame = true;
         }
         if (this.startGame && !this.restart){
@@ -403,7 +405,7 @@ export default class BaseGoatRun extends Phaser.Scene {
                 this.scene.start('goatrun_nivel1');
             }
             
-            else if (this.cursors.left.isDown) {// (this.escape.isDown){ // Vuelve a la cueva
+            else if (this.escape.isDown) {// (this.escape.isDown){ // Vuelve a la cueva
                 this.scene.stop(this.key);
                 this.scene.start('cueva');
             }
@@ -497,7 +499,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         this.graphics2.strokeRect(0, 0, 700, 100);
         //El texto
         this.text2 = this.add.text(this.graphics2.x + 265, this.graphics2.y+20, "GAME OVER!", { font: "24px Arial", fill: "#ffffff" });
-        this.text3 = this.add.text(this.graphics2.x + 115, this.graphics2.y+60, "(<-) para salir, Enter para empezar de nuevo", { font: "24px Arial", fill: "#ffffff" });
+        this.text3 = this.add.text(this.graphics2.x + 115, this.graphics2.y+60, "ESC para salir, Enter para empezar de nuevo", { font: "24px Arial", fill: "#ffffff" });
         this.restart = true;
     }
     

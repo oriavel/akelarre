@@ -11,11 +11,8 @@ import GoatRun_Nivel2 from './scenes/GoatRun/goatrun_nivel2.js';
 import GoatRun_Nivel3 from './scenes/GoatRun/goatrun_nivel3.js';
 import GoatRun_Nivel1 from './scenes/GoatRun/goatrun_nivel1.js';
 
-var gameManager = {
-    keys: 0,
-    minijuego : 1, //Para saber si viene de un minijuego
-  
-  };
+
+
   
   let config = {
     type: Phaser.CANVAS,
@@ -24,6 +21,7 @@ var gameManager = {
     width: 800,
     height: 600,
     keys: 0,  //Piezas de llaves para los minijuegos
+    minijuego: 0,
     pixelArt: true,
     scale: {
       autoCenter: Phaser.Scale.CENTER_TOTAL,
@@ -59,5 +57,5 @@ var gameManager = {
   
   };
 
-new Phaser.Game(config, gameManager);
+new Phaser.Game(config);
 

@@ -6,7 +6,6 @@ import DialogoBox from '../Secuencias/dialogos.js'
  */
 
 //import * as Matter from 'akelarre/node_modules/matter-js/build/matter.js';
-let hablando = false;
 let length = 0;
 let enPortal = false;
 export default class Cueva extends Phaser.Scene {
@@ -48,7 +47,7 @@ export default class Cueva extends Phaser.Scene {
 	create(){
         
         this.game.config.keys = 2;
-        this.game.config.minijuego = 1; //No entiendo la forma de usar esto sin declararlo aqui
+        
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		    const tileset = map.addTilesetImage('PatronCueva', 'tiles')
@@ -209,7 +208,11 @@ export default class Cueva extends Phaser.Scene {
         
         console.log(this.game.config.keys);
         if(this.game.config.minijuego == 1){
-            //this.player.setPosition(980, 700);
+          this.portal1.setVisible(true);
+          this.portal2.setVisible(true);
+          this.portal3.setVisible(true);
+          this.portalesVisibles = true;
+          this.player.setPosition(980, 700);
 
         }
 
@@ -224,7 +227,7 @@ export default class Cueva extends Phaser.Scene {
           
           if(Phaser.Input.Keyboard.JustDown(this.espacio)) {
             this.dialogBox.visible(true);
-            hablando = true;
+            this.player.setHablando(true);
 
             if (length < dialogo.length) {
               this.dialogBox.setTexto(dialogo[length]);
@@ -242,14 +245,14 @@ export default class Cueva extends Phaser.Scene {
             }
             
             this.dialogBox.visible(false);
-            hablando = false;
+            this.player.setHablando(false);
             length = 0;
             }
 
         }
         else if(Phaser.Input.Keyboard.JustDown(this.escape)){
             this.dialogBox.visible(false);
-            hablando = false;
+            this.player.setHablando(false);
             length = 0;
         }      
 
@@ -266,7 +269,7 @@ export default class Cueva extends Phaser.Scene {
             if(Phaser.Input.Keyboard.JustDown(this.espacio) && this.portalesVisibles) {
 
               this.dialogBox.visible(true);
-                hablando = true;
+                this.player.setHablando(true);
                 enPortal = true;
                 this.portal = portal;
                 if(this.portal.x == this.portal1.x && this.game.config.keys != 2){
@@ -281,7 +284,8 @@ export default class Cueva extends Phaser.Scene {
 
     salirPortal(){
       this.dialogBox.visible(false);
-        hablando = false;
+        this.player.setHablando(false);
+        enPortal = false;
         length = 0;
     }
 
@@ -290,14 +294,16 @@ export default class Cueva extends Phaser.Scene {
     //console.log(this.player.x);
     //console.log(this.player.y);
     
-    if(!hablando || !enPortal){
+    if(!this.player.hablando || !enPortal){
       this.player.checkMovement(this.cursors);
     }
 
     this.player.setSprite();
 
     if (Phaser.Input.Keyboard.JustDown(this.enter) && enPortal) {
+      this.enPortal = false;
       if (this.portal == this.portal1 && this.game.config.keys == 2) {
+        
         this.scene.stop(this);
         this.scene.start("avoidthepotions");
       } else if (this.portal == this.portal2) {

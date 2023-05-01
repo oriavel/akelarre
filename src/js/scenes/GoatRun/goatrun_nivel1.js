@@ -1,8 +1,8 @@
 
 import BaseGoatRun from "./BaseGoatRun.js";
-import Spell from "../../characters/goatrun/Spell.js";
-import Bat from "../../characters/goatrun/bat.js";
-import Rock from "../../characters/goatrun/Rock.js";
+import Spell from "./characters/Spell.js";
+import Bat from "./characters/Bat.js";
+import Rock from "./characters/Rock.js";
 
 /**
  * Escena de Título.
@@ -48,8 +48,9 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
         this.graphics.strokeRect(0, 0, 700, 100);
         //El texto
         this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 1: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
-        this.text_ = this.add.text(this.graphics.x + 160, this.graphics.y+70, "(↑) para saltar, (↓) para agacharse", { font: "24px Arial", fill: "#ffffff" });
+        this.text_ = this.add.text(this.graphics.x + 100, this.graphics.y+70, "Controles: (↑) para saltar, (↓) para agacharse", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     }
 
     createEnemies(){
