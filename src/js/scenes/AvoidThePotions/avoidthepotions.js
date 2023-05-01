@@ -1,7 +1,3 @@
-/**
- * Escena de Título.
- * @extends Phaser.Scene
- */
 import Witch from "./witch.js";
 import Bats from "./Bats/Bats.js";
 import GoldenBat from "./Bats/GoldenBats.js";
@@ -12,10 +8,6 @@ import PotionPink from "./Potions/PotionPink.js";
 import Amaia from "./amaia.js";
 
 export default class AvoidThePotions extends Phaser.Scene {
-  /**
-   * Escena principal.
-   * @extends Phaser.Scene
-   */
   constructor() {
     super({ key: "avoidthepotions" });
   }
