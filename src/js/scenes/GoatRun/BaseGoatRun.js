@@ -1,7 +1,7 @@
-import Rock from "../characters/goatrun/Rock.js";
-import Bat from "../characters/goatrun/bat.js";
-import Spell from "../characters/goatrun/Spell.js";
-import Player_Goatrun from "./player_goatrun.js";
+import Rock from "../../characters/goatrun/Rock.js";
+import Bat from "../../characters/goatrun/bat.js";
+import Spell from "../../characters/goatrun/Spell.js";
+import Player_Goatrun from "../../characters/goatrun/player_goatrun.js";
 
 
 /**
@@ -29,52 +29,52 @@ export default class BaseGoatRun extends Phaser.Scene {
 	 * Cargamos todos los assets que vamos a necesitar
 	 */
 	preload(){
-        this.load.image('cave', 'src/assets/cave_long.png');
-        this.load.image('cave2', 'src/assets/cave_marron.png');
-        this.load.image('cave3', 'src/assets/cave_lava.png');
-        this.load.image('ground', 'src/assets/platform_1.png');
-        this.load.image('ground2', 'src/assets/platform_2.png');
-        this.load.image('ground3', 'src/assets/platform_3.png');
+        this.load.image('cave', 'src/assets/GoatRun/cave_long.png');
+        this.load.image('cave2', 'src/assets/GoatRun/cave_marron.png');
+        this.load.image('cave3', 'src/assets/GoatRun/cave_lava.png');
+        this.load.image('ground', 'src/assets/GoatRun/platform_1.png');
+        this.load.image('ground2', 'src/assets/GoatRun/platform_2.png');
+        this.load.image('ground3', 'src/assets/GoatRun/platform_3.png');
         this.load.spritesheet('amaia_goatrun', 
-            'src/assets/correr_spritesheet.png',
+            'src/assets/GoatRun/correr_spritesheet.png',
             { frameWidth: 48, frameHeight: 48 }
         );
         this.load.spritesheet('goat', 
-            'src/assets/goat_run.png',
+            'src/assets/GoatRun/goat_run.png',
             { frameWidth: 144, frameHeight: 144 }
         );
         this.load.spritesheet('amaia_jump', 
-            'src/assets/amaia_jump.png',
+            'src/assets/GoatRun/amaia_jump.png',
             { frameWidth: 48, frameHeight: 48 }
         );
         this.load.spritesheet('bat',
-            'src/assets/bat_spritesheet.png', 
+            'src/assets/GoatRun/bat_spritesheet.png', 
             { frameWidth: 32, frameHeight: 32 }
         );
         this.load.spritesheet('bat_doble',
-            'src/assets/bat_doble.png',
+            'src/assets/GoatRun/bat_doble.png',
             { frameWidth: 32, frameHeight: 32 }
         );
-        this.load.image('rock', 'src/assets/rock_1.png');
-        this.load.image('rock2', 'src/assets/rock_2.png');
-        this.load.image('rock3', 'src/assets/rock_3.png');
+        this.load.image('rock', 'src/assets/GoatRun/rock_1.png');
+        this.load.image('rock2', 'src/assets/GoatRun/rock_2.png');
+        this.load.image('rock3', 'src/assets/GoatRun/rock_3.png');
         this.load.spritesheet('amaia_death', 
-            'src/assets/amaia_death.png',
+            'src/assets/GoatRun/amaia_death.png',
             { frameWidth: 64, frameHeight: 64}
         );
         this.load.spritesheet('amaia_agachada', 
-            'src/assets/amaia_agachada.png',
+            'src/assets/GoatRun/amaia_agachada.png',
             { frameWidth: 48, frameHeight: 48 }
         );
         this.load.spritesheet('hearts', 
-            'src/assets/hearts.png',
+            'src/assets/GoatRun/hearts.png',
             { frameWidth: 28, frameHeight: 24 }
         );
-        this.load.image('heart', 'src/assets/heart.png');
-        this.load.image('heart-filled', 'src/assets/heart-filled.png');
+        this.load.image('heart', 'src/assets/GoatRun/heart.png');
+        this.load.image('heart-filled', 'src/assets/GoatRun/heart-filled.png');
 
         this.load.spritesheet('spell_gravity', 
-            'src/assets/gravity_spell.png',
+            'src/assets/GoatRun/gravity_spell.png',
             { frameWidth: 100, frameHeight: 53 }
         );
 
@@ -84,7 +84,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         for (i = 1; i < 15; i++) {
         this.load.image(
             "fire_column_" + i,
-            "src/assets/fire" + "/fire_column_medium_" + i + ".png"
+            "src/assets/GoatRun/fire" + "/fire_column_medium_" + i + ".png"
         );
         }
     }

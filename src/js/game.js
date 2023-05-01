@@ -3,9 +3,9 @@
  */
 import Cueva from './scenes/cueva.js';
 import pociones from './scenes/avoidthepotions.js'
-import GoatRun_Nivel2 from './scenes/goatrun_nivel2.js';
-import GoatRun_Nivel3 from './scenes/goatrun_nivel3.js';
-import GoatRun_Nivel1 from './scenes/goatrun_nivel1.js';
+import GoatRun_Nivel2 from './scenes/GoatRun/goatrun_nivel2.js';
+import GoatRun_Nivel3 from './scenes/GoatRun/goatrun_nivel3.js';
+import GoatRun_Nivel1 from './scenes/GoatRun/goatrun_nivel1.js';
 
 let config = {
     type: Phaser.CANVAS,

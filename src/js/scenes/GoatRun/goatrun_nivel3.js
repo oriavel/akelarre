@@ -1,20 +1,22 @@
-import Rock from "../characters/goatrun/Rock.js";
-import Bat from "../characters/goatrun/bat.js";
-import Spell from "../characters/goatrun/Spell.js";
-import BatDoble from "../characters/goatrun/BatDoble.js";
+
 import BaseGoatRun from "./BaseGoatRun.js";
+import Rock from "../../characters/goatrun/Rock.js";
+import Bat from "../../characters/goatrun/bat.js";
+import BatDoble from "../../characters/goatrun/BatDoble.js";
+import Spell from "../../characters/goatrun/Spell.js";
+import FireRock from "../../characters/goatrun/FireRock.js";
 
 /**
  * Escena de Título.
  * @extends Phaser.Scene
  */
-export default class GoatRun_Nivel2 extends BaseGoatRun {
+export default class GoatRun_Nivel3 extends BaseGoatRun {
 	/**
 	 * Escena principal.
 	 * @extends Phaser.Scene
 	 */
 	constructor() {
-		super('goatrun_nivel2');
+		super('goatrun_nivel3');
         
 	}
 	
@@ -33,10 +35,11 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
     }
 
     createBackground(){
-        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave2').setOrigin(0).setScrollFactor(0, 1);
+        this.background = this.add.tileSprite(0, 0, 800, 500, 'cave3').setOrigin(0).setScrollFactor(0, 1);
+        this.background.setScale(2);
         this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(400, 500, 'ground2').setScale(2).refreshBody();
-        this.platforms.create(400, 565, 'ground2').setScale(2).refreshBody();
+        this.platforms.create(400, 500, 'ground3').setScale(2).refreshBody();
+        this.platforms.create(400, 565, 'ground3').setScale(2).refreshBody();
     }
 
     createInitialScreen(){
@@ -47,7 +50,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
         this.graphics.lineStyle(4, 0x000000, 1);
         this.graphics.strokeRect(0, 0, 700, 100);
         //El texto
-        this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 2: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
+        this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 3: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 
@@ -64,8 +67,15 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
                 callback: function(){
                     var numAleatorio = Math.random();
                     if(numAleatorio < 0.5){ // Generamos una piedra
-                        var objeto = new Rock(self, 950, 350, 'rock2', self.player, 2); 
-                        self.rocks.add(objeto);
+                        var nA = Math.random();
+                        if(nA > 0.5){
+                            var objeto = new Rock(self, 950, 350, 'rock3', self.player, 3); 
+                            self.rocks.add(objeto);
+                        }
+                        else{ // 1 de cada 2 aproximadamente son rocas que te matan (llenas de fuego)
+                            var objeto = new FireRock(self, 950, 350, 'fire_column_1', self.player, 3);
+                            self.rocks.add(objeto);
+                        }
                     }
                     else{ // Generamos un murcielago
                         var nAleatorio = Math.random();
@@ -103,7 +113,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
                     this.physics.pause();
                     this.scene.start('goatrun_nivel3');
                     this.firstTime = true;
-                } 
+                }
             }, 3000); 
         }
     }
