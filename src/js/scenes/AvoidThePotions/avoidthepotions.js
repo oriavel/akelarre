@@ -3,7 +3,7 @@
  * @extends Phaser.Scene
  */
 import Witch from "./witch.js";
-import Bat from "./Bats/Bats.js";
+import Bats from "./Bats/Bats.js";
 import GoldenBat from "./Bats/GoldenBats.js";
 import Potion from "./Potions/Potion.js";
 import PotionGreen from "./Potions/PotionGreen.js";
@@ -148,15 +148,11 @@ export default class AvoidThePotions extends Phaser.Scene {
     this.loadMiniMalos();
     this.loadImages();
 
-<<<<<<< Updated upstream
-    
-=======
     this.load.audio('break_potion_audio', '/src/audio/potion_break.mp3');
     this.load.audio('bat_death_audio','/src/audio/bat_death.mp3');
     this.load.audio('fire_audio','/src/audio/fire1.mp3');
     this.load.audio('gameMusic_audio','/src/audio/avoidThePotion.ogg');
     this.load.audio('ough_audio','/src/audio/ough.mp3');
->>>>>>> Stashed changes
   }
 
   create() {
@@ -373,7 +369,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     // Crea un grupo para los murciélagos
     this.batGroup = this.add.group({
-      classType: Bat,
+      classType: Bats,
       runChildUpdate: true,
     });
 
@@ -550,7 +546,7 @@ export default class AvoidThePotions extends Phaser.Scene {
               100 + Math.random() * 200 * this.level
             );
           else
-            this.bat = new Bat(
+            this.bat = new Bats(
               this,
               20,
               375 + Math.random() * 80,
@@ -565,7 +561,7 @@ export default class AvoidThePotions extends Phaser.Scene {
               -100 + Math.random() * -200 * this.level
             );
           else
-            this.bat = new Bat(
+            this.bat = new Bats(
               this,
               this.game.config.width - 20,
               375 + Math.random() * 80,
