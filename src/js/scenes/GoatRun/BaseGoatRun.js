@@ -496,7 +496,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         this.graphics2.strokeRect(0, 0, 700, 100);
         //El texto
         this.text2 = this.add.text(this.graphics2.x + 265, this.graphics2.y+20, "GAME OVER!", { font: "24px Arial", fill: "#ffffff" });
-        this.text3 = this.add.text(this.graphics2.x + 115, this.graphics2.y+60, "Esc para salir, Enter para empezar de nuevo", { font: "24px Arial", fill: "#ffffff" });
+        this.text3 = this.add.text(this.graphics2.x + 115, this.graphics2.y+60, "(<-) para salir, Enter para empezar de nuevo", { font: "24px Arial", fill: "#ffffff" });
         this.restart = true;
     }
     
