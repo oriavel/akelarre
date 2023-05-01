@@ -1,7 +1,6 @@
 import Rock from "../characters/goatrun/Rock.js";
 import Bat from "../characters/goatrun/bat.js";
 import Spell from "../characters/goatrun/Spell.js";
-import BatDoble from "../characters/goatrun/BatDoble.js";
 import Player_Goatrun from "./player_goatrun.js";
 
 
@@ -32,7 +31,7 @@ export default class BaseGoatRun extends Phaser.Scene {
 	preload(){
         this.load.image('cave', 'src/assets/cave_long.png');
         this.load.image('cave2', 'src/assets/cave_marron.png');
-        this.load.image('cave3', 'src/assets/cave_lava.png'); // http://joyreactor.com/post/1390622
+        this.load.image('cave3', 'src/assets/cave_lava.png');
         this.load.image('ground', 'src/assets/platform_1.png');
         this.load.image('ground2', 'src/assets/platform_2.png');
         this.load.image('ground3', 'src/assets/platform_3.png');
@@ -109,7 +108,6 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         this.createEnemies();
 
-    
         this.anims.create({
             key: 'right_amaia_goats',
             frames: this.anims.generateFrameNumbers('amaia_goatrun', { start: 0, end: 7 }),
@@ -233,7 +231,6 @@ export default class BaseGoatRun extends Phaser.Scene {
         // this.player.setCollideWorldBounds(true);
         this.goat.setCollideWorldBounds(true);
 
-
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.goat, this.platforms);
         this.physics.add.collider(this.rocks, this.platforms);
@@ -241,15 +238,11 @@ export default class BaseGoatRun extends Phaser.Scene {
         this.physics.add.collider(this.spells, this.platforms);
         this.physics.add.overlap(this.player, this.goat, this.goatKills, null, this);
 
-
-
         this.createInitialScreen();
-
 
         this.scoreText = this.add.text(16, 16, 'Distance: 0/15000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.hechizoText = this.add.text(16, 46, 'Hechizo de gravedad - Activado', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.hechizoText.setVisible(false);
-
 
         // Def variables para el update
         this.jump = false; // para evitar el doble salto
@@ -264,6 +257,8 @@ export default class BaseGoatRun extends Phaser.Scene {
         this.firstStart = true; // Para la primera vez que se comienza
         this.hechizado = false; // Si el personaje está bajo el hechizo de la gravedad
         this.restart = false; // Para cuando muere el personaje
+        this.endGame = false; // Cuando termina el juego
+        this.firstTime = false; // Auxiliar para el correcto cambio entre escenas
         
 
     }
@@ -326,7 +321,8 @@ export default class BaseGoatRun extends Phaser.Scene {
         //El texto
         this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 1: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+
     }
 
 	/**
@@ -358,6 +354,10 @@ export default class BaseGoatRun extends Phaser.Scene {
                     }
                     if(this.jump){ // Si está saltando ya 
                         this.player.alreadyJumping();
+                        if(this.cursors.down.isDown && this.player.body.touching.down){
+                            this.player.agacharse();
+                            this.jump = false;
+                        }
                     }
             
                     if (this.player.body.touching.down && !this.cursors.down.isDown){ // Si amaia está tocando el suelo
@@ -390,19 +390,23 @@ export default class BaseGoatRun extends Phaser.Scene {
                     }
 
                     this.checkLives();
+                   // if(!this.endGame){
                     this.checkLevel();
+                    // }
             }
         
         }
         else if (this.restart){
             if (this.enterKey.isDown) { // Reinicia el juego
                 this.scene.stop(this.key);
-                this.scene.start('goatrun_nivel2');
+                this.scene.start('goatrun_nivel1');
             }
-            else if (Phaser.Input.Keyboard.JustDown(this.escape)) {// (this.escape.isDown){ // Vuelve a la cueva
+            
+            else if (this.cursors.left.isDown) {// (this.escape.isDown){ // Vuelve a la cueva
                 this.scene.stop(this.key);
                 this.scene.start('cueva');
             }
+            
         }
         
     }

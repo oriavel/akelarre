@@ -1,4 +1,4 @@
-import GoatRun from "../../scenes/goatrun.js";
+
 
 export default class Rock extends Phaser.GameObjects.Sprite {
 
@@ -23,8 +23,6 @@ export default class Rock extends Phaser.GameObjects.Sprite {
         this.body.velocity.x = -200;
         this.outOfBoundsKill = true;
         this.checkWorldBounds = true;
-        this.anims.play('rock', true);
-
         this.scene.physics.add.overlap(this.scene.player, this, this.collisionHandler, null, this);
     }
 

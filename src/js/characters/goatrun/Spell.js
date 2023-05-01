@@ -1,4 +1,4 @@
-import GoatRun from "../../scenes/goatrun.js";
+
 
 export default class Spell extends Phaser.GameObjects.Sprite {
 
@@ -9,7 +9,8 @@ export default class Spell extends Phaser.GameObjects.Sprite {
         scene.physics.world.enable(this);
         this.player = player;
         this.body.velocity.x = -200;
-        this.outOfBoundsKill = true;
+        // this.outOfBoundsKill = true;
+        this.firstTime = false;
         this.checkWorldBounds = true;
         this.body.setSize(40, 40);
         this.anims.play('spell_gravity', true);
@@ -27,10 +28,13 @@ export default class Spell extends Phaser.GameObjects.Sprite {
         this.scene.hechizado = true;
         const self = this;
         setTimeout(() => {
-            self.scene.physics.world.gravity.y = 400;
-            this.scene.hechizado = false;
-            this.body.destroy();
-            this.destroy();
+            if(!this.firstTime){
+                self.scene.physics.world.gravity.y = 400;
+                this.scene.hechizado = false;
+                this.body.destroy();
+                this.destroy();
+                this.firstTime = true;
+            } 
         }, 8000);
 
     }

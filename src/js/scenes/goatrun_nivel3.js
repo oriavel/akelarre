@@ -107,8 +107,12 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
             this.changeScene();
             this.isInvulnerable = false;
             setTimeout(() => {
-                this.scene.stop('goatrun_nivel2');
-                this.scene.start('goatrun_nivel3');
+                if(!this.firstTime){
+                    this.scene.stop('goatrun_nivel2');
+                    this.physics.pause();
+                    this.scene.start('goatrun_nivel3');
+                    this.firstTime = true;
+                }
             }, 3000); 
         }
     }

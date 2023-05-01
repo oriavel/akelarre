@@ -94,12 +94,16 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
     }
 
     checkLevel(){
-        if (this.distance > 1000){
+        if (this.distance > 15000){
             this.changeScene();
             this.isInvulnerable = false;
             setTimeout(() => {
-                this.scene.stop('goatrun_nivel2');
-                this.scene.start('goatrun_nivel3');
+                if(!this.firstTime){
+                    this.scene.stop('goatrun_nivel2');
+                    this.physics.pause();
+                    this.scene.start('goatrun_nivel3');
+                    this.firstTime = true;
+                } 
             }, 3000); 
         }
     }

@@ -1,9 +1,7 @@
 import Rock from "../characters/goatrun/Rock.js";
 import Bat from "../characters/goatrun/bat.js";
 import Spell from "../characters/goatrun/Spell.js";
-import BatDoble from "../characters/goatrun/BatDoble.js";
 import BaseGoatRun from "./BaseGoatRun.js";
-import FireRock from "../characters/goatrun/FireRock.js";
 
 /**
  * Escena de Título.
@@ -79,7 +77,6 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
                         setTimeout(() => {
                             let objeto = new Spell(self, 950, 350, 'spell_gravity', self.player);
                             self.spells.add(objeto);
-                            console.log("spell");
                         }, 1000);
                     }
     
@@ -92,8 +89,12 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
             this.changeScene();
             this.isInvulnerable = false;
             setTimeout(() => {
-                this.scene.stop('goatrun_nivel1');
-                this.scene.start('goatrun_nivel2');
+                if(!this.firstTime){
+                    this.scene.stop('goatrun_nivel1');
+                    this.physics.pause();
+                    this.scene.start('goatrun_nivel2');
+                    this.firstTime = true;
+                }
             }, 3000); 
         }
     }
