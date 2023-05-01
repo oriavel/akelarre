@@ -17,7 +17,7 @@ export default class Contexto extends Phaser.Scene {
             "Tres mujeres con vestidos largos negros y sombrero corriendo \nhacia ella fue lo ultimo que vió antes de perder el conocimiento...\n",
             "Poco tiempo después nuestra protagonista despierta\nen el interior de la cueva, con dolor de cabeza y las 3 mujeres de \nantes mirandola fijamente...\n",
             ""
-        ]
+        ];
 
         //Pantallita del texto
         this.dialog = dialogoContexto;

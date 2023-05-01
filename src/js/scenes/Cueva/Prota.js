@@ -75,7 +75,10 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
             this.body.velocity.x = 0;
             this.body.velocity.y = 0;
         }
-        
+    }
+    move(eje, vel){
+        if(eje == 'Y')
+            this.body.velocity.y = vel;
     }
 
     
