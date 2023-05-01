@@ -50,7 +50,7 @@ import GoatRun_Nivel1 from './scenes/GoatRun/goatrun_nivel1.js';
       }
     },
 
-    scene: [AvoidThePotions,Contexto, Intro, Cueva, Pinball,  GoatRun_Nivel1, GoatRun_Nivel2, GoatRun_Nivel3, Final],
+    scene: [Contexto, Intro, Cueva, Pinball, AvoidThePotions, GoatRun_Nivel1, GoatRun_Nivel2, GoatRun_Nivel3, Final],
   
     title: "Akelarre",
     version: "0.0.1",
