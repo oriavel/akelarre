@@ -209,7 +209,7 @@ export default class Cueva extends Phaser.Scene {
         
         console.log(this.game.config.keys);
         if(this.game.config.minijuego == 1){
-            //this.player.setPosition(980, 700);
+            this.player.setPosition(980, 700);
 
         }
 
@@ -297,7 +297,9 @@ export default class Cueva extends Phaser.Scene {
     this.player.setSprite();
 
     if (Phaser.Input.Keyboard.JustDown(this.enter) && enPortal) {
+      this.enPortal = false;
       if (this.portal == this.portal1 && this.game.config.keys == 2) {
+        
         this.scene.stop(this);
         this.scene.start("avoidthepotions");
       } else if (this.portal == this.portal2) {
