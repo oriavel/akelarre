@@ -9,7 +9,6 @@ export default class Spell extends Phaser.GameObjects.Sprite {
         scene.physics.world.enable(this);
         this.player = player;
         this.body.velocity.x = -200;
-        // this.outOfBoundsKill = true;
         this.firstTime = false;
         this.checkWorldBounds = true;
         this.body.setSize(40, 40);
