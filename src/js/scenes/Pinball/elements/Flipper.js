@@ -9,16 +9,16 @@ export default class Flipper {
     this.HEIGHT = 10;
     this.STIFFNESS = 0.1;
     this.BOUNCE = 1.5; // When something hits it bounces with this power
-
+    this.ANGLE = 25;
 
 
     // Left or right direction
     if (this.direction == "right") {
-      this.MIN = Phaser.Math.DegToRad(-20);
-      this.MAX = Phaser.Math.DegToRad(20);
+      this.MIN = Phaser.Math.DegToRad(-this.ANGLE);
+      this.MAX = Phaser.Math.DegToRad(this.ANGLE);
     } else {
-      this.MIN = Phaser.Math.DegToRad(20);
-      this.MAX = Phaser.Math.DegToRad(-20);
+      this.MIN = Phaser.Math.DegToRad(this.ANGLE);
+      this.MAX = Phaser.Math.DegToRad(-this.ANGLE);
     }
 
     this.init();

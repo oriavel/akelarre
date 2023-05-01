@@ -1,4 +1,3 @@
-
 export default class Bumper {
   constructor(scene, x, y) {
     this.scene = scene;
@@ -6,8 +5,7 @@ export default class Bumper {
     this.y = y;
     this.color = 0xefb243;
     this.radius = 20;
-    this.points = 10;
-
+   
     this.circle = this.scene.add.circle(
       this.x,
       this.y,
@@ -16,7 +14,9 @@ export default class Bumper {
     );
     this.body = this.scene.matter.add
       .gameObject(this.circle, { friction: 1 })
-      .setCircle(this.radius)
+      .setCircle(this.radius, {
+        label: "Bumper"
+      })
       .setBounce(1.2);
 
     // Make the balls stick
@@ -24,11 +24,16 @@ export default class Bumper {
       pointA: new Phaser.Math.Vector2(this.x, this.y),
       pointB: new Phaser.Math.Vector2(),
     });
-
-    // handle collisions
-    // Add the bumper to a group
-    this.group = scene.add.group();
-    this.group.add(this.circle);
-    this.body.isSensor = true;
+  
   }
-}
+  }
+
+  // update() {
+  //   // reset hitByBall flag when ball is no longer in contact with bumper
+  //   if (this.hitByBall && !this.body.isCollidingWithBody(this.scene.ball.body)) {
+  //     this.hitByBall = false;
+  //     this.color = 0xefb243;
+  //     this.circle.setFillStyle(this.color);
+  //   }
+  // }
+
