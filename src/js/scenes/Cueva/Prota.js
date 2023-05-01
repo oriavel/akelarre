@@ -6,48 +6,53 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
       
         // Agregar la física al objeto
         scene.physics.add.existing(this);
-        this.scene.physics.add.collider(this, this.scene.platforms, null,null, this);
+        this.scene.physics.add.collider(this, this.scene.layer, null,null, this);
 
         // Configurar las propiedades de la física
-        this.body.setCollideWorldBounds(true);
+        this.body.setCollideWorldBounds(false);
     
-        this.play("amaia_stay").setScale(2);
-        this.body.setSize(16,25);
-        this.body.setOffset(9,8);
+        this.play("stop_up_amaia").setScale(2);
+        this.body.setSize(15,13);
+        this.body.setOffset(11,20);
         this.speed = 200;
-        this.canJump = true;
-        this.inversedControlsTimer = 0;
-        this.jumpTimer = 0;
-        this.nKills = 0;
-        this.lives = 2;
-        this.isHurt = "none";
+        
+        this.animation = 3; //Para saber en que animacion estaba antes de parar
+
+      
     
     }    
     setSprite(){
-        if(this.isHurt != "none"){
-            if(this.isHurt == "RED"){
-                this.anims.play("amaia_burning_red",true);
-            }
-            else if(this.isHurt == "GREEN"){
-                this.anims.play("amaia_burning_green",true);
-            }
-            else if(this.isHurt == "HIT"){
-                this.anims.play("amaia_hit",true);
-            }
-            this.on('animationcomplete', () => {
-                // Una vez termina la animacion, se desactiva la animación
-                this.isHurt = "none";
-            });
-        }
-        else if(this.body.velocity.x > 0){
-            this.play("amaia_running_right",true);
+        if(this.body.velocity.x > 0){
+            this.play("right_amaia",true);
+            this.animation = 1;
         }
         else if (this.body.velocity.x < 0){
-            this.play("amaia_running_left",true);
+            this.play("left_amaia",true);
+            this.animation = 2;
         }
-        else if (this.body.velocity.x == 0){
-            this.play("amaia_stay",true);
+        else if(this.body.velocity.y > 0){
+            this.play("down_amaia",true);
+            this.animation = 3;
         }
+        else if (this.body.velocity.y < 0){
+            this.play("up_amaia",true);
+            this.animation = 4;
+        }
+        else {
+             if (this.animation == 1) 
+                 this.anims.play("stop_right_amaia", true);
+             else if (this.animation == 2) {
+               this.anims.play("stop_left_amaia", true);
+             }
+             else if (this.animation == 3) {
+                this.anims.play("stop_down_amaia", true);
+              } 
+             else if (this.animation == 4) {
+               this.anims.play("stop_up_amaia", true);
+             } 
+             
+        }
+        
     }
     checkMovement(cursors){
         if (cursors.left.isDown){ 
@@ -58,7 +63,7 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         this.body.velocity.x = +this.speed;
         this.body.velocity.y = 0;
         }
-        if (cursors.up.isDown){ 
+        else if (cursors.up.isDown){ 
             this.body.velocity.y = -this.speed;
             this.body.velocity.x = 0;
         }
@@ -66,9 +71,15 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         this.body.velocity.y = +this.speed;
         this.body.velocity.x = 0;
         }
-        if(!cursors.left.isDown && !cursors.right.isDown) 
+        else{
             this.body.velocity.x = 0;
-        
+            this.body.velocity.y = 0;
+        }
     }
+    move(eje, vel){
+        if(eje == 'Y')
+            this.body.velocity.y = vel;
+    }
+
     
 }

@@ -7,8 +7,8 @@ import Cueva from "./scenes/Cueva/cueva.js";
 import Pinball from "./scenes/Pinball/pinball.js";
 import AvoidThePotions from "./scenes/AvoidThePotions/avoidthepotions.js";
 import Intro from "./scenes/Secuencias/intro.js";
-import Final from './scenes/final.js';
-import Contexto from './scenes/contexto.js';
+import Final from './scenes/Secuencias/final.js';
+import Contexto from './scenes/Secuencias/contexto.js';
 
 var gameManager = {
   keys: 0,
