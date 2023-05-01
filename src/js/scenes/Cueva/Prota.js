@@ -88,6 +88,13 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         else
             this.hablando = false;
     }
+    isHablando(){
+        return this.hablando;
+    }
+    resetMov(){
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+    }
 
     
 }
