@@ -301,7 +301,9 @@ export default class Cueva extends Phaser.Scene {
     this.player.setSprite();
 
     if (Phaser.Input.Keyboard.JustDown(this.enter) && enPortal) {
+      this.enPortal = false;
       if (this.portal == this.portal1 && this.game.config.keys == 2) {
+        
         this.scene.stop(this);
         this.scene.start("avoidthepotions");
       } else if (this.portal == this.portal2) {
@@ -309,7 +311,7 @@ export default class Cueva extends Phaser.Scene {
         this.scene.start('pinball');
       } else if (this.portal == this.portal3) {
         this.scene.stop(this);
-        this.scene.start("goatrun");
+        this.scene.start('goatrun_nivel1');
       }
     } else if (Phaser.Input.Keyboard.JustDown(this.escape) && enPortal) {
       this.salirPortal(this.dialogBox);

@@ -3,7 +3,7 @@
  * @extends Phaser.Scene
  */
 import Witch from "./witch.js";
-import Bat from "./Bats/Bats.js";
+import Bats from "./Bats/Bats.js";
 import GoldenBat from "./Bats/GoldenBats.js";
 import Potion from "./Potions/Potion.js";
 import PotionGreen from "./Potions/PotionGreen.js";
@@ -363,7 +363,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     // Crea un grupo para los murciélagos
     this.batGroup = this.add.group({
-      classType: Bat,
+      classType: Bats,
       runChildUpdate: true,
     });
 
@@ -533,7 +533,7 @@ export default class AvoidThePotions extends Phaser.Scene {
               100 + Math.random() * 200 * this.level
             );
           else
-            this.bat = new Bat(
+            this.bat = new Bats(
               this,
               20,
               375 + Math.random() * 80,
@@ -548,7 +548,7 @@ export default class AvoidThePotions extends Phaser.Scene {
               -100 + Math.random() * -200 * this.level
             );
           else
-            this.bat = new Bat(
+            this.bat = new Bats(
               this,
               this.game.config.width - 20,
               375 + Math.random() * 80,

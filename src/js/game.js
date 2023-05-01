@@ -1,14 +1,15 @@
 /**
  * Clase Game de Phaser: crear e iniciar juego
  */
-
-import GoatRun from "./scenes/GoatRun/goatrun.js";
-import Cueva from "./scenes/Cueva/cueva.js";
+import Cueva from './scenes/Cueva/cueva.js';
 import Pinball from "./scenes/Pinball/pinball.js";
 import AvoidThePotions from "./scenes/AvoidThePotions/avoidthepotions.js";
 import Intro from "./scenes/Secuencias/intro.js";
 import Final from './scenes/Secuencias/final.js';
 import Contexto from './scenes/Secuencias/contexto.js';
+import GoatRun_Nivel2 from './scenes/GoatRun/goatrun_nivel2.js';
+import GoatRun_Nivel3 from './scenes/GoatRun/goatrun_nivel3.js';
+import GoatRun_Nivel1 from './scenes/GoatRun/goatrun_nivel1.js';
 
 
 
@@ -35,31 +36,26 @@ import Contexto from './scenes/Secuencias/contexto.js';
         height: 600,
       },
       zoom: 1,
-    
-    max: {
-      width: 1112,
-      height: 552,
     },
-    zoom: 1,
-  },
-  physics: {
-    default: "arcade",
-    arcade: {
-      debug: true,
-      gravity: { y: 0 }
+    physics: {
+      default: "arcade",
+      arcade: {
+        debug: true,
+        gravity: { y: 0 }
+      },
+  
+      matter: {
+        debug: true,
+        gravity: { y: 0.5 }
+      }
     },
 
-    matter: {
-      debug: true,
-      gravity: { y: 0.5 }
-    }
-  },
-  scene: [Contexto, Intro, Cueva, GoatRun, AvoidThePotions,Pinball, Final],
-
-  title: "Akelarre",
-  version: "0.0.1",
-
-
-};
+    scene: [Contexto, Intro, Cueva, Pinball, AvoidThePotions, GoatRun_Nivel1, GoatRun_Nivel2, GoatRun_Nivel3, Final],
+  
+    title: "Akelarre",
+    version: "0.0.1",
+  
+  };
 
 new Phaser.Game(config);
+
