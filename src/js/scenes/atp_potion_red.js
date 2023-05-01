@@ -52,23 +52,15 @@ export default class PotionRed extends atp_potion{
   }
 
   seQUEMA(amaia,col){
+    amaia.pain_sound();
     col.disableBody(true,true);
-    /*
-    col.disableBody(true,true);
-    
-    if(col.tipo == "GREEN"){
-        amaia.speed /=2;
-    }
-    else if(col.tipo == "RED"){
-      */
     amaia.isHurt = col.tipo;
     amaia.lives--;
     
-    console.log("Te quemas, te quedan "+amaia.lives+" vidas...");
   }
 
   potionCollisionHandler(amaia, potion){
-    console.log("Daño de pocion: " + potion.getData("type"));
+    amaia.pain_sound();
     amaia.lives = 0; //muere
     potion.body.destroy();
     potion.destroy();
