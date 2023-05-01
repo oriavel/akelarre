@@ -43,11 +43,12 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
         //Pantallita del texto
         this.graphics = this.add.graphics({x: this.game.config.width/15, y: this.game.config.height/3});
         this.graphics.fillStyle(0x000000, 0.8);
-        this.graphics.fillRect(0, 0, 700, 100);
+        this.graphics.fillRect(0, 0, 700, 150);
         this.graphics.lineStyle(4, 0x000000, 1);
         this.graphics.strokeRect(0, 0, 700, 100);
         //El texto
         this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 1: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
+        this.text_ = this.add.text(this.graphics.x + 160, this.graphics.y+70, "(↑) para saltar, (↓) para agacharse", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 
