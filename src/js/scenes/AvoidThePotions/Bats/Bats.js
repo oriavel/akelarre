@@ -1,6 +1,6 @@
 import AvoidThePotions from "../avoidthepotions.js";
 
-export default class Bat extends Phaser.Physics.Arcade.Sprite {
+export default class Bats extends Phaser.Physics.Arcade.Sprite {
 
   constructor(scene, x,y) {
     super(scene,x,y);
