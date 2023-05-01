@@ -16,9 +16,9 @@ export default class Intro extends Phaser.Scene {
         this.load.tilemapTiledJSON('tilemap', 'src/assets/Cueva.json')
 
         //Cargar NPCs
-        this.load.spritesheet('bruja3', 'src/assets/Personajes/bruja3.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('bruja3', 'src/assets/Personajes/bruja3.png', { frameWidth: 19, frameHeight: 28 });
         this.load.spritesheet('bruja1', 'src/assets/Personajes/bruja1.png', { frameWidth: 21, frameHeight: 28});
-        this.load.spritesheet('bruja2', 'src/assets/Personajes/bruja2.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('bruja2', 'src/assets/Personajes/bruja2.png', { frameWidth: 19, frameHeight: 28 });
         this.load.spritesheet('gato', 'src/assets/Personajes/gatete.png', { frameWidth: 32, frameHeight: 32 });
 
         //Cargar prota
@@ -89,19 +89,19 @@ export default class Intro extends Phaser.Scene {
 
         this.anims.create({
             key: 'up_bruja1',
-            frames: this.anims.generateFrameNumbers('bruja1', { start: 1, end: 4 }),
+            frames: this.anims.generateFrameNumbers('bruja1', { start: 4, end: 7 }),
             frameRate: 4,
             repeat: -1
         });
         this.anims.create({
             key: 'up_bruja2',
-            frames: this.anims.generateFrameNumbers('bruja2', { start: 1, end: 4 }),
+            frames: this.anims.generateFrameNumbers('bruja2', { start: 4, end: 7 }),
             frameRate: 4,
             repeat: -1
         });
         this.anims.create({
             key: 'up_bruja3',
-            frames: this.anims.generateFrameNumbers('bruja3', { start: 1, end: 4 }),
+            frames: this.anims.generateFrameNumbers('bruja3', { start: 4, end: 7 }),
             frameRate: 4,
             repeat: -1
         });
