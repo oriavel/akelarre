@@ -228,6 +228,7 @@ export default class Cueva extends Phaser.Scene {
           if(Phaser.Input.Keyboard.JustDown(this.espacio)) {
             this.dialogBox.visible(true);
             this.player.setHablando(true);
+            this.player.resetMov();
 
             if (length < dialogo.length) {
               this.dialogBox.setTexto(dialogo[length]);
@@ -270,6 +271,7 @@ export default class Cueva extends Phaser.Scene {
 
               this.dialogBox.visible(true);
                 this.player.setHablando(true);
+                this.player.resetMov();
                 enPortal = true;
                 this.portal = portal;
                 if(this.portal.x == this.portal1.x && this.game.config.keys != 2){
@@ -294,16 +296,15 @@ export default class Cueva extends Phaser.Scene {
     //console.log(this.player.x);
     //console.log(this.player.y);
     
-    if(!this.player.hablando || !enPortal){
+    if(!this.player.isHablando() && !enPortal){
       this.player.checkMovement(this.cursors);
     }
 
     this.player.setSprite();
 
     if (Phaser.Input.Keyboard.JustDown(this.enter) && enPortal) {
-      this.enPortal = false;
+      enPortal = false;
       if (this.portal == this.portal1 && this.game.config.keys == 2) {
-        
         this.scene.stop(this);
         this.scene.start("avoidthepotions");
       } else if (this.portal == this.portal2) {
