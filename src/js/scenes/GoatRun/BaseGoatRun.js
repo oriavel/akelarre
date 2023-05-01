@@ -332,6 +332,7 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         if (this.enterKey.isDown) {
             this.text.setVisible(false);
+            this.text_.setVisible(false);
             this.graphics.setVisible(false);
             this.startGame = true;
         }
