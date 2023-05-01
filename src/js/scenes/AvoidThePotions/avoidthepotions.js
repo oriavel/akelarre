@@ -628,6 +628,7 @@ export default class AvoidThePotions extends Phaser.Scene {
       }
     } 
     else if (this.amaia.lives < 1 || this.temporizador < 1) {
+      this.gameMusic_audio.stop();
       this.potionGroup.getChildren().forEach(function (potion) {
          potion.death();
       }, this);
