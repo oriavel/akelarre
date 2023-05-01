@@ -18,7 +18,7 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         
         this.animation = 3; //Para saber en que animacion estaba antes de parar
 
-      
+        this.hablando = false; //Para movimiento
     
     }    
     setSprite(){
@@ -55,6 +55,7 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         
     }
     checkMovement(cursors){
+        if(!this.hablando){
         if (cursors.left.isDown){ 
             this.body.velocity.x = -this.speed;
             this.body.velocity.y = 0;
@@ -76,9 +77,16 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
             this.body.velocity.y = 0;
         }
     }
+    }
     move(eje, vel){
         if(eje == 'Y')
             this.body.velocity.y = vel;
+    }
+    setHablando(val){
+        if(val)
+            this.hablando = true;
+        else
+            this.hablando = false;
     }
 
     

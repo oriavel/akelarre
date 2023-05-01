@@ -91,7 +91,7 @@ export default class BaseGoatRun extends Phaser.Scene {
 	
     
 	create(){
-
+        this.game.config.minijuego = 1;
         this.initPhysics();
 
         this.createBackground();
@@ -334,6 +334,7 @@ export default class BaseGoatRun extends Phaser.Scene {
         if (this.enterKey.isDown) {
             this.text.setVisible(false);
             this.graphics.setVisible(false);
+            this.text_.setVisible(false);
             this.startGame = true;
         }
         if (this.startGame && !this.restart){
