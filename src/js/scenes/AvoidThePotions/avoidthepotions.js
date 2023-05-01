@@ -148,11 +148,15 @@ export default class AvoidThePotions extends Phaser.Scene {
     this.loadMiniMalos();
     this.loadImages();
 
+<<<<<<< Updated upstream
+    
+=======
     this.load.audio('break_potion_audio', '/src/audio/potion_break.mp3');
     this.load.audio('bat_death_audio','/src/audio/bat_death.mp3');
     this.load.audio('fire_audio','/src/audio/fire1.mp3');
     this.load.audio('gameMusic_audio','/src/audio/avoidThePotion.ogg');
     this.load.audio('ough_audio','/src/audio/ough.mp3');
+>>>>>>> Stashed changes
   }
 
   create() {
