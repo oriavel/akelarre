@@ -42,6 +42,7 @@ export default class PotionGreen extends Potion{
     if(amaia.speed >0){
       amaia.speed = -amaia.speed;
     }
+    amaia.pain_sound();
     amaia.inversedControlsTimer = -1;
     potion.body.destroy();
     potion.destroy();

@@ -52,6 +52,7 @@ export default class PotionPink extends Potion{
   }
 
   potionCollisionHandler(amaia,potion){    
+    amaia.pain_sound();
     //velocidad movimiento amaia a un cuarto hasta que mate un murciélago
     amaia.speed = 50;
     potion.body.destroy();
