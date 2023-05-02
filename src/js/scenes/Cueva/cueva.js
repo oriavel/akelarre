@@ -1,5 +1,6 @@
 import Prota from './Prota.js'
 import DialogoBox from '../Secuencias/dialogos.js'
+import NPC from './NPC.js'
 /**
  * Escena de Título.
  * @extends Phaser.Scene
@@ -73,12 +74,8 @@ export default class Cueva extends Phaser.Scene {
         this.bruja3.body.offset.y = 16;
         //this.bruja3.body.immovable = true;
 
-        this.motos = this.physics.add.sprite(1595, 1100, 'motos').setScale(2);
-        this.motos.setSize(13, 20);
-        this.motos.setDepth(1);
-        this.motos.body.offset.x = 5;
-        this.motos.body.offset.y = 7;
-        this.motos.body.immovable = true;
+        this.motos = new NPC(this, 1595, 1100, 1, 5, 7, 13, 20);
+        this.motos.createSprite('motos');
 
         this.gato = this.physics.add.sprite(690, 1360, 'gato').setScale(2);
         this.gato.setSize(13, 20);
