@@ -417,7 +417,7 @@ export default class AvoidThePotions extends Phaser.Scene {
     this.text = this.add.text(
       this.graphics.x + 150,
       this.graphics.y + 10,
-      "Para empezar la partida, pulsa ENTER \n   (↑) para saltar, (⇆) para moverte\n           ESCAPE para acabar",
+      "Para empezar la partida, pulsa ENTER \n   (↑) para saltar, (⇆) para moverte\n           ESCAPE para salir",
       { font: "24px Arial", fill: "#ffffff" }
     );
 
@@ -650,11 +650,8 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.text.setText(
           "Has Ganado! Si quieres volver a jugar pulsa Enter, \n para salir pulsa ESCAPE"
         );
-<<<<<<< Updated upstream
-=======
         this.hasGanado = true;
         this.game.config.keys++;
->>>>>>> Stashed changes
         this.amaia.gana();
       }
       this.witch.huye();
