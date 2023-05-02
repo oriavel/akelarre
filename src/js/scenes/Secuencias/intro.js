@@ -20,7 +20,7 @@ export default class Intro extends Phaser.Scene {
         this.load.spritesheet('bruja1', 'src/assets/Personajes/bruja1.png', { frameWidth: 21, frameHeight: 28});
         this.load.spritesheet('bruja2', 'src/assets/Personajes/bruja2.png', { frameWidth: 19, frameHeight: 28 });
         this.load.spritesheet('gato', 'src/assets/Personajes/gatete.png', { frameWidth: 32, frameHeight: 32 });
-
+        this.load.audio('cueva_audio','src/audio/cueva.mp3');
         //Cargar prota
         this.load.spritesheet('amaia', 
             'src/assets/Personajes/Prota.PNG',
@@ -136,6 +136,9 @@ export default class Intro extends Phaser.Scene {
         this.dialogBoxBruja3.setPosicion(this.bruja1.x, this.bruja1.y + 100);
         this.dialogBoxProta.setPosicion(this.bruja1.x, this.bruja1.y + 100);
 
+        this.audioCueva = this.sound.add('cueva_audio');
+        this.audioCueva.play();
+
         this.secuenciaDialogo();
 
 
@@ -153,9 +156,6 @@ export default class Intro extends Phaser.Scene {
            
             if (length < dialogo.length) {
               this.dialogBoxBruja1.setTexto(dialogo[length]);
-              console.log(dialogo[length]);
-              console.log(length);
-              
               length++;
             }  
         }
@@ -167,9 +167,6 @@ export default class Intro extends Phaser.Scene {
           
             if (length < dialogo.length) {
               this.dialogBoxBruja2.setTexto(dialogo[length]);
-              console.log(dialogo[length]);
-              console.log(length);
-
               length++;
             }
         }
@@ -181,9 +178,6 @@ export default class Intro extends Phaser.Scene {
         
             if (length < dialogo.length) {
               this.dialogBoxProta.setTexto(dialogo[length]);
-              console.log(dialogo[length]);
-              console.log(length);
-            
               length++;
         }
         }
@@ -194,10 +188,7 @@ export default class Intro extends Phaser.Scene {
             this.dialogBoxProta.visible(false);
 
         if (length < dialogo.length) {
-          this.dialogBoxBruja3.setTexto(dialogo[length]);
-          console.log(dialogo[length]);
-          console.log(length);
-          
+          this.dialogBoxBruja3.setTexto(dialogo[length]); 
           length++;
         }
         }
@@ -208,6 +199,8 @@ export default class Intro extends Phaser.Scene {
             this.dialogBoxBruja3.visible(false);
             this.dialogBoxProta.visible(false);
             length = 0;
+            this.audioCueva.pause();
+            this.audioCueva.currentTime = 0;
             this.scene.stop('intro');
             this.scene.start('cueva');
         }
@@ -222,6 +215,8 @@ export default class Intro extends Phaser.Scene {
 
         
         if(Phaser.Input.Keyboard.JustDown(this.escape)){
+            this.audioCueva.pause();
+            this.audioCueva.currentTime = 0;
             this.scene.stop('intro');
             this.scene.start('final');
         }

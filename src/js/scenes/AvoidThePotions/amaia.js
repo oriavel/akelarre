@@ -21,7 +21,6 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         this.nKills = 0;
         this.lives = 2;
         this.isHurt = "none";
-    
     }    
     setSprite(){
         if(this.isHurt != "none"){
@@ -71,5 +70,6 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
     gana(){
         this.body.velocity.x = 250;
         this.body.setCollideWorldBounds(false);
+        this.game.config.keys++;
     }
 }

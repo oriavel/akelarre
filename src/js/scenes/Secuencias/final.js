@@ -12,7 +12,6 @@ export default class Intro extends Phaser.Scene {
 
 
 	create() {
-        console.log("Ha entrado en Final");
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		const tileset = map.addTilesetImage('PatronCueva', 'tiles')
@@ -91,8 +90,7 @@ export default class Intro extends Phaser.Scene {
         //Dialogo:
         if (length < dialogo.length) {
           
-          console.log(dialogo[length]);
-          console.log(length);
+
           if(length == 0 || length == 2 || length == 3 || length == 6 || length == 8 ||length == 9 ||
              length == 12 || length == 13 || length == 15 || length == 16){
                 this.dialogBoxBruja1.visible(true);
@@ -150,7 +148,6 @@ export default class Intro extends Phaser.Scene {
         }
         }
         else{
-            console.log(this.player.y);
             if(this.player.y < 900){
                 this.player.move('Y',136);
                 this.player.anims.play('down_amaia', true);
