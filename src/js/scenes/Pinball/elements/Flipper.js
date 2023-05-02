@@ -3,19 +3,18 @@ export default class Flipper {
     this.scene = scene;
     this.x = x;
     this.y = y;
-    this.direction = direction;
     this.LEVER = 50;
     this.WIDTH = 110;
     this.HEIGHT = 10;
     this.STIFFNESS = 0.1;
     this.BOUNCE = 1.5; // When something hits it bounces with this power
     this.ANGLE = 25;
-
+    console.log(direction);
     // Left or right direction
-    if (this.direction == "right") {
+    if (direction == "right") {
       this.MIN = Phaser.Math.DegToRad(-this.ANGLE);
       this.MAX = Phaser.Math.DegToRad(this.ANGLE);
-    } else {
+    } else if (direction == "left") {
       this.MIN = Phaser.Math.DegToRad(this.ANGLE);
       this.MAX = Phaser.Math.DegToRad(-this.ANGLE);
     }
@@ -101,5 +100,12 @@ export default class Flipper {
         );
       },
     });
+  }
+
+  destroy() {
+    this.flipper.destroy();
+    this.rectangle.destroy();
+    this.lever.destroy();
+    this.tweener.destroy();
   }
 }

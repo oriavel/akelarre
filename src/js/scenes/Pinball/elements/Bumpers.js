@@ -5,17 +5,16 @@ export default class Bumper {
     this.y = y;
     this.color = 0xefb243;
     this.radius = 20;
-   
-    this.circle = this.scene.add.circle(
-      this.x,
-      this.y,
-      this.radius,
-      this.color
-    );
+
+    this.circle = this.scene.physics.add
+      .image(this.x, this.y, "rock")
+      .setDisplaySize(this.radius * 2, this.radius * 2)
+      .setCircle(1);
+
     this.body = this.scene.matter.add
       .gameObject(this.circle, { friction: 1 })
       .setCircle(this.radius, {
-        label: "Bumper"
+        label: "Bumper",
       })
       .setBounce(1.2);
 
@@ -24,16 +23,10 @@ export default class Bumper {
       pointA: new Phaser.Math.Vector2(this.x, this.y),
       pointB: new Phaser.Math.Vector2(),
     });
-  
-  }
   }
 
-  // update() {
-  //   // reset hitByBall flag when ball is no longer in contact with bumper
-  //   if (this.hitByBall && !this.body.isCollidingWithBody(this.scene.ball.body)) {
-  //     this.hitByBall = false;
-  //     this.color = 0xefb243;
-  //     this.circle.setFillStyle(this.color);
-  //   }
-  // }
-
+  destroy() {
+    this.body.destroy();
+    this.circle.destroy();
+  }
+}

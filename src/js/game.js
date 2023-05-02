@@ -48,15 +48,15 @@ let config = {
   },
 
   scene: [
-    Contexto,
-    Intro,
+    // Contexto,
+    // Intro,
+    //Pinball,
     Cueva,
-    Pinball,
-    AvoidThePotions,
-    GoatRun_Nivel1,
-    GoatRun_Nivel2,
-    GoatRun_Nivel3,
-    Final,
+    // AvoidThePotions,
+    // GoatRun_Nivel1,
+    // GoatRun_Nivel2,
+    // GoatRun_Nivel3,
+    // Final,
   ],
 
   title: "Akelarre",

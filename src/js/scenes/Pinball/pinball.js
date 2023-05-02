@@ -1,7 +1,9 @@
-import { Level } from "./Level.js";
-import config from "./levelsConfig/level1";
+import Level from "./Level.js";
+import config from "./configNiveles/nivel1.js";
 export default class Pinball extends Level {
   constructor() {
-    super({ config });
+    super(...Object.values(config));
+
+    console.log(config);
   }
 }
