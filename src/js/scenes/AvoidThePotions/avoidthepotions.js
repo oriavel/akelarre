@@ -432,7 +432,10 @@ export default class AvoidThePotions extends Phaser.Scene {
     this.startGame = false;
     this.finishedGame = false;
     this.hasGanado = false;
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     this.break_potion_audio =this.sound.add('break_potion_audio');
     this.bat_death_audio = this.sound.add('bat_death_audio');
     this.fire_audio = this.sound.add('fire_audio');
@@ -452,6 +455,7 @@ export default class AvoidThePotions extends Phaser.Scene {
     }
     else if(this.finishedGame){
       if(this.enterKey.isDown){
+        this.hasGanado=false;
         this.gameMusic_audio.pause();
         this.gameMusic_audio.currentTime = 0;
         this.witch.death();
@@ -462,10 +466,9 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.gameMusic_audio.pause();
         this.gameMusic_audio.currentTime = 0;
         this.scene.stop("avoidthepotions");
-        if(!this.hasGanado){
-          this.scene.start("cueva");
-        }
-        else this.scene.start("final");
+        if(this.hasGanado) this.scene.start("final");
+        else this.scene.start("cueva");
+        
         
       }
     }
@@ -653,6 +656,7 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.hasGanado = true;
         this.game.config.keys++;
         this.amaia.gana();
+        this.hasGanado = true;
       }
       this.witch.huye();
 
