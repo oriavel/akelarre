@@ -74,10 +74,12 @@ GoatRun!
 
 ![image](https://user-images.githubusercontent.com/79701191/228316353-aaf989c8-25e1-40d8-822b-3fd0c5bffe01.png)
 
-Bocetos de los minijuegos restantes:
+Pinball
 
-![image](https://user-images.githubusercontent.com/79701191/228317241-2bf213d1-8097-46ff-90f8-2ddd8340dea2.png)
+![image](https://imgur.com/EhbQrdY)
 
-![image](https://user-images.githubusercontent.com/79701191/228317259-1dd32785-e3e6-4522-93ea-20a3aee1b1dd.png)
+Avoid the Potions 
+
+![image](https://imgur.com/DgczHpO)
 
 
