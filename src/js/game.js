@@ -50,12 +50,40 @@ import GoatRun_Nivel1 from './scenes/GoatRun/goatrun_nivel1.js';
       }
     },
 
+<<<<<<< Updated upstream
     scene: [Contexto, Intro, Cueva, Pinball, AvoidThePotions, GoatRun_Nivel1, GoatRun_Nivel2, GoatRun_Nivel3, Final],
   
     title: "Akelarre",
     version: "0.0.1",
   
   };
+=======
+    matter: {
+      debug: true,
+      gravity: { y: 0.5 },
+    },
+  },
+
+  scene: [
+    
+    
+    Portada,
+    Contexto,
+    Intro,
+    Cueva,
+    Pinball,
+    GoatRun_Nivel1,
+    GoatRun_Nivel2,
+    GoatRun_Nivel3,
+    AvoidThePotions,
+    Final,
+    PantallaFinal
+  ],
+
+  title: "Akelarre",
+  version: "0.0.1",
+};
+>>>>>>> Stashed changes
 
 new Phaser.Game(config);
 
