@@ -205,7 +205,7 @@ export default class Intro extends Phaser.Scene {
             this.audioCueva.pause();
             this.audioCueva.currentTime = 0;
             this.scene.stop('intro');
-            this.scene.start('final');
+            this.scene.start('cueva');
         }
 
         if(length == 11){
