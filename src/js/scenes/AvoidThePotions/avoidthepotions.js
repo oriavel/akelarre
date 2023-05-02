@@ -1,7 +1,3 @@
-/**
- * Escena de Título.
- * @extends Phaser.Scene
- */
 import Witch from "./witch.js";
 import Bats from "./Bats/Bats.js";
 import GoldenBat from "./Bats/GoldenBats.js";
@@ -12,10 +8,6 @@ import PotionPink from "./Potions/PotionPink.js";
 import Amaia from "./amaia.js";
 
 export default class AvoidThePotions extends Phaser.Scene {
-  /**
-   * Escena principal.
-   * @extends Phaser.Scene
-   */
   constructor() {
     super({ key: "avoidthepotions" });
   }
@@ -148,11 +140,11 @@ export default class AvoidThePotions extends Phaser.Scene {
     this.loadMiniMalos();
     this.loadImages();
 
-    this.load.audio('break_potion_audio', '/src/audio/potion_break.mp3');
-    this.load.audio('bat_death_audio','/src/audio/bat_death.mp3');
-    this.load.audio('fire_audio','/src/audio/fire1.mp3');
-    this.load.audio('gameMusic_audio','/src/audio/avoidThePotion.ogg');
-    this.load.audio('ough_audio','/src/audio/ough.mp3');
+    this.load.audio('break_potion_audio', 'src/audio/potion_break.mp3');
+    this.load.audio('bat_death_audio','src/audio/bat_death.mp3');
+    this.load.audio('fire_audio','src/audio/fire1.mp3');
+    this.load.audio('gameMusic_audio','src/audio/avoidThePotion.ogg');
+    this.load.audio('ough_audio','src/audio/ough.mp3');
   }
 
   create() {
@@ -641,20 +633,20 @@ export default class AvoidThePotions extends Phaser.Scene {
       this.batGroup.getChildren().forEach(function (bat) {
         bat.death();
      }, this);
+
       if (this.amaia.lives < 1) {
         this.amaia.setVisible(false);
+        this.text.setPosition(this.graphics.x + 70, this.graphics.y + 30);
         this.text.setText(
-          "Has perdido, para volver a intentarlo pulsa Enter, \n para salir pulsa ESCAPE"
+          "Has perdido, para volver a intentarlo pulsa Enter, \n                     para salir pulsa ESCAPE"
         );
       } else {
+        this.text.setPosition(this.graphics.x + 70, this.graphics.y + 30);
         this.text.setText(
-          "Has Ganado! Si quieres volver a jugar pulsa Enter, \n para salir pulsa ESCAPE"
+          "Has Ganado! Si quieres volver a jugar pulsa Enter, \n                     para salir pulsa ESCAPE"
         );
-<<<<<<< Updated upstream
-=======
         this.hasGanado = true;
         this.game.config.keys++;
->>>>>>> Stashed changes
         this.amaia.gana();
       }
       this.witch.huye();

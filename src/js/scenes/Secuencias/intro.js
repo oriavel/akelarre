@@ -1,5 +1,6 @@
 import Prota from '../Cueva/Prota.js'
 import DialogoBox from '../Secuencias/dialogos.js'
+import NPC from '../Cueva/NPC.js'
 let length = 0;
 export default class Intro extends Phaser.Scene {
 	
@@ -11,16 +12,15 @@ export default class Intro extends Phaser.Scene {
 
 	preload(){
 
-        //Cargar cueva:
-        this.load.image('tiles', 'src/assets/Caves.png')
-        this.load.tilemapTiledJSON('tilemap', 'src/assets/Cueva.json')
-
+       //Cargar cueva:
+       this.load.image('tiles', 'src/assets/Cueva/Caves.png');
+       this.load.tilemapTiledJSON('tilemap', 'src/assets/Cueva/Cueva.json');
         //Cargar NPCs
         this.load.spritesheet('bruja3', 'src/assets/Personajes/bruja3.png', { frameWidth: 19, frameHeight: 28 });
         this.load.spritesheet('bruja1', 'src/assets/Personajes/bruja1.png', { frameWidth: 21, frameHeight: 28});
         this.load.spritesheet('bruja2', 'src/assets/Personajes/bruja2.png', { frameWidth: 19, frameHeight: 28 });
         this.load.spritesheet('gato', 'src/assets/Personajes/gatete.png', { frameWidth: 32, frameHeight: 32 });
-
+        this.load.audio('cueva_audio','src/audio/cueva.mp3');
         //Cargar prota
         this.load.spritesheet('amaia', 
             'src/assets/Personajes/Prota.PNG',
@@ -68,17 +68,29 @@ export default class Intro extends Phaser.Scene {
         this.bruja3.body.immovable = true;
 
 
-        this.gato = this.physics.add.sprite(690, 1360, 'gato').setScale(2);
-        this.gato.setSize(13, 20);
-        this.gato.setDepth(1);
-        this.gato.body.offset.x = 5;
-        //this.gato.body.offset.y = 7;
-        this.gato.body.immovable = true;
+        this.gato = new NPC(this,690,1360,2,5,0,13,20);
+        this.gato.createSprite('gato');
 
 
-        this.dialogBox = new DialogoBox(this);
-        this.dialogBox.createBox();
-        this.dialogBox.visible(true);
+        this.dialogBoxBruja1 = new DialogoBox(this, 0x711e7c);
+        this.dialogBoxBruja1.createBox();
+        this.dialogBoxBruja1.visible(false);
+        this.dialogBoxBruja1.setNombre("Sorgina");
+
+        this.dialogBoxBruja2 = new DialogoBox(this, 0x1c105e);
+        this.dialogBoxBruja2.createBox();
+        this.dialogBoxBruja2.visible(false);
+        this.dialogBoxBruja2.setNombre("Graciana");
+
+        this.dialogBoxBruja3 = new DialogoBox(this, 0x205b17);
+        this.dialogBoxBruja3.createBox();
+        this.dialogBoxBruja3.visible(false);
+        this.dialogBoxBruja3.setNombre("María");
+
+        this.dialogBoxProta = new DialogoBox(this, 0x000000);
+        this.dialogBoxProta.createBox();
+        this.dialogBoxProta.visible(false);
+        this.dialogBoxProta.setNombre("Amaia");
 
        
         //Teclas para dialogo
@@ -115,7 +127,13 @@ export default class Intro extends Phaser.Scene {
 
         this.player.anims.play('stop_up_amaia', true);
 
-        this.dialogBox.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+        this.dialogBoxBruja1.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+        this.dialogBoxBruja2.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+        this.dialogBoxBruja3.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+        this.dialogBoxProta.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+
+        this.audioCueva = this.sound.add('cueva_audio');
+        this.audioCueva.play();
 
         this.secuenciaDialogo();
 
@@ -125,30 +143,60 @@ export default class Intro extends Phaser.Scene {
     secuenciaDialogo(){
         
         //Dialogo:
-        this.dialogBox.visible(true);
-        var dialogo = this.dialogBox.getDialogo(9);
-        if (length < dialogo.length) {
-          this.dialogBox.setTexto(dialogo[length]);
-          console.log(dialogo[length]);
-          console.log(length);
-          if(length == 0 || length == 3 || length == 5 || length == 8){
-            this.dialogBox.setNombre("Sorgina");
-          }
-          else if(length == 1 || length == 6){
-            this.dialogBox.setNombre("Graciana");
-          }
-          else if(length == 11|| length == 12){
-            this.dialogBox.setNombre("Amaia");
-          }
-          else
-          this.dialogBox.setNombre("María");
+        var dialogo = this.dialogBoxBruja1.getDialogo(9);
+        if(length == 0 || length == 3 || length == 5 || length == 8){ //Sorgina
+            this.dialogBoxBruja1.visible(true);
+            this.dialogBoxBruja2.visible(false);
+            this.dialogBoxBruja3.visible(false);
+            this.dialogBoxProta.visible(false);
+           
+            if (length < dialogo.length) {
+              this.dialogBoxBruja1.setTexto(dialogo[length]);
+              length++;
+            }  
+        }
+        else if(length == 1 || length == 6){//Graciana
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(true);
+            this.dialogBoxBruja3.visible(false);
+            this.dialogBoxProta.visible(false);
           
+            if (length < dialogo.length) {
+              this.dialogBoxBruja2.setTexto(dialogo[length]);
+              length++;
+            }
+        }
+        else if(length == 12|| length == 13){ //Amaia
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(false);
+            this.dialogBoxBruja3.visible(false);
+            this.dialogBoxProta.visible(true);
+        
+            if (length < dialogo.length) {
+              this.dialogBoxProta.setTexto(dialogo[length]);
+              length++;
+        }
+        }
+        else{ //Maria
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(false);
+            this.dialogBoxBruja3.visible(true);
+            this.dialogBoxProta.visible(false);
+
+        if (length < dialogo.length) {
+          this.dialogBoxBruja3.setTexto(dialogo[length]); 
           length++;
         }
+        }
 
-        else if(dialogo.length == length){
-            this.dialogBox.visible(false);
+        if(dialogo.length == length){
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(false);
+            this.dialogBoxBruja3.visible(false);
+            this.dialogBoxProta.visible(false);
             length = 0;
+            this.audioCueva.pause();
+            this.audioCueva.currentTime = 0;
             this.scene.stop('intro');
             this.scene.start('cueva');
         }
@@ -157,19 +205,22 @@ export default class Intro extends Phaser.Scene {
     update()
     {
 
-        if(Phaser.Input.Keyboard.JustDown(this.espacio) && length != 10){
+        if(Phaser.Input.Keyboard.JustDown(this.espacio) && length != 11){
             this.secuenciaDialogo(this.grafico, this.texto, this.graphicsN, this.textN, this.dialog);
         }
 
         
         if(Phaser.Input.Keyboard.JustDown(this.escape)){
+            this.audioCueva.pause();
+            this.audioCueva.currentTime = 0;
             this.scene.stop('intro');
-            this.scene.start('final');
+            this.scene.start('cueva');
         }
 
-        if(length == 10){
-
-            this.dialogBox.visible(false);
+        if(length == 11){
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(false);
+            this.dialogBoxBruja3.visible(false);
             if(this.bruja1.y > 1035){
                 this.bruja1.setVelocityY(-136);
                 this.bruja1.anims.play('up_bruja1', true);
@@ -179,7 +230,6 @@ export default class Intro extends Phaser.Scene {
                 this.bruja3.anims.play('up_bruja3', true);
             }
             else{
-                
                 length++;
             }
         }
