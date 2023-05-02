@@ -2,7 +2,6 @@
  * Clase Game de Phaser: crear e iniciar juego
  */
 import Cueva from "./scenes/Cueva/cueva.js";
-import Pinball from "./scenes/Pinball/pinball.js";
 import AvoidThePotions from "./scenes/AvoidThePotions/avoidthepotions.js";
 import Intro from "./scenes/Secuencias/intro.js";
 import Final from "./scenes/Secuencias/final.js";
@@ -12,6 +11,8 @@ import GoatRun_Nivel3 from "./scenes/GoatRun/goatrun_nivel3.js";
 import GoatRun_Nivel1 from "./scenes/GoatRun/goatrun_nivel1.js";
 import Portada from "./scenes/Secuencias/Portada.js";
 import PantallaFinal from "./scenes/Secuencias/pantallaFinal.js";
+import PinballLevel1 from "./scenes/Pinball/levels/PinballLevel1.js";
+import PinballLevel2 from "./scenes/Pinball/levels/PinballLevel2.js";
 
 let config = {
   type: Phaser.CANVAS,
@@ -39,12 +40,12 @@ let config = {
   physics: {
     default: "arcade",
     arcade: {
-      debug: true,
+      debug: false,
       gravity: { y: 0 },
     },
 
     matter: {
-      debug: true,
+      debug: false,
       gravity: { y: 0.5 },
     },
   },
@@ -54,13 +55,14 @@ let config = {
     Contexto,
     Intro,
     Cueva,
-    Pinball,
+    PinballLevel1,
+    PinballLevel2,
     AvoidThePotions,
     GoatRun_Nivel1,
     GoatRun_Nivel2,
     GoatRun_Nivel3,
     Final,
-    PantallaFinal
+    PantallaFinal,
   ],
 
   title: "Akelarre",

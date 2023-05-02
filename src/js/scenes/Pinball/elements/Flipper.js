@@ -1,27 +1,27 @@
 export default class Flipper {
-  constructor(scene, x, y, direction) {
+  constructor(scene, x, y, direction, key) {
     this.scene = scene;
     this.x = x;
     this.y = y;
-    this.direction = direction;
     this.LEVER = 50;
-    this.WIDTH = 110;
+    this.WIDTH = 120;
     this.HEIGHT = 10;
     this.STIFFNESS = 0.1;
-    this.BOUNCE = 1.5; // When something hits it bounces with this power
+    this.BOUNCE = 1.2; // When something hits it bounces with this power
     this.ANGLE = 25;
-
+    this.COLOR = 0xa3ff00;
 
     // Left or right direction
-    if (this.direction == "right") {
+    if (direction == "right") {
       this.MIN = Phaser.Math.DegToRad(-this.ANGLE);
       this.MAX = Phaser.Math.DegToRad(this.ANGLE);
-    } else {
+    } else if (direction == "left") {
       this.MIN = Phaser.Math.DegToRad(this.ANGLE);
       this.MAX = Phaser.Math.DegToRad(-this.ANGLE);
     }
 
     this.init();
+    this.addKey(key);
   }
 
   init() {
@@ -31,11 +31,13 @@ export default class Flipper {
       this.y,
       this.WIDTH,
       this.HEIGHT,
-      0x5a0571
+      this.COLOR
     );
-    this.flipper = this.scene.matter.add.gameObject(this.rectangle, {
-      friction: 1,
-    }).setBounce(this.BOUNCE);
+    this.flipper = this.scene.matter.add
+      .gameObject(this.rectangle, {
+        friction: 1,
+      })
+      .setBounce(this.BOUNCE);
 
     // tweens: manipulate properties of objects to any given value
     this.tweener = {
@@ -76,6 +78,16 @@ export default class Flipper {
     );
   }
 
+  addKey(key) {
+    this.key = this.scene.input.keyboard.addKey(key);
+    this.key.on("down", () => {
+      this.flip(true);
+    });
+    this.key.on("up", () => {
+      this.flip(false);
+    });
+  }
+
   flip(isDown) {
     this.scene.tweens.add({
       targets: [this.tweener],
@@ -89,5 +101,12 @@ export default class Flipper {
         );
       },
     });
+  }
+
+  destroy() {
+    this.flipper.destroy();
+    this.rectangle.destroy();
+    this.lever.destroy();
+    this.tweener.destroy();
   }
 }
