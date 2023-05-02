@@ -1,4 +1,4 @@
-const HALF = 400;
+const HALF = 400 - 5;
 const FLIPPERS_Y = 520;
 
 const config = {
@@ -8,7 +8,7 @@ const config = {
   assets: [
     {
       label: "background",
-      url: "./src/assets/Backgrounds/stary-night.webp",
+      url: "./src/assets/Backgrounds/cave.jpg",
     },
     {
       label: "ball",
@@ -21,8 +21,8 @@ const config = {
   ],
   ball: { x: 130, y: 0 },
   flippers: [
-    { x: HALF + 80, y: FLIPPERS_Y, direction: "right", key: "RIGHT" },
-    { x: HALF - 80, y: FLIPPERS_Y, direction: "left", key: "LEFT" },
+    { x: HALF + 90, y: FLIPPERS_Y, direction: "right", key: "RIGHT" },
+    { x: HALF - 90, y: FLIPPERS_Y, direction: "left", key: "LEFT" },
   ],
   bumpers: [
     { x: 200, y: 180 },
@@ -33,10 +33,21 @@ const config = {
     { x: 400, y: 110 },
   ],
   walls: [
-    { x: HALF - 245, y: FLIPPERS_Y - 235, slope: -0.4 },
-    { x: HALF + 245, y: FLIPPERS_Y - 235, slope: 0.4 },
+    {
+      x: HALF - 255,
+      y: FLIPPERS_Y - 255,
+      slope: -0.45,
+      bar: "0 0 0 600 10 600 10 0",
+    },
+    {
+      x: HALF + 255,
+      y: FLIPPERS_Y - 255,
+      slope: 0.45,
+      bar: "0 0 0 600 10 600 10 0",
+    },
+    { x: HALF, y: -10, slope: 1.571, bar: "0 0 0 830 10 830 10 0" }, // horizontal wall above
   ],
-  scoring: { goal: 1000, hitPoints: 10, lifes: 3 },
+  scoring: { goal: 100, hitPoints: 10, lifes: 3 },
 };
 
 export default config;

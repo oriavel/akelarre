@@ -9,7 +9,7 @@ export default class Flipper {
     this.STIFFNESS = 0.1;
     this.BOUNCE = 1.5; // When something hits it bounces with this power
     this.ANGLE = 25;
-    console.log(direction);
+
     // Left or right direction
     if (direction == "right") {
       this.MIN = Phaser.Math.DegToRad(-this.ANGLE);

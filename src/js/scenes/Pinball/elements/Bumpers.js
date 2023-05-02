@@ -24,9 +24,4 @@ export default class Bumper {
       pointB: new Phaser.Math.Vector2(),
     });
   }
-
-  destroy() {
-    this.body.destroy();
-    this.circle.destroy();
-  }
 }

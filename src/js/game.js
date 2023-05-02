@@ -52,13 +52,13 @@ let config = {
   scene: [
     //Portada,
     //Contexto,
-    Intro,
-    Cueva,
+    //Intro,
+    //Cueva,
     Pinball,
     //AvoidThePotions,
     //GoatRun_Nivel1,
     //GoatRun_Nivel2,
-    GoatRun_Nivel3,
+    //GoatRun_Nivel3,
     //Final,
     //PantallaFinal
   ],

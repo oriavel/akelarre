@@ -33,15 +33,14 @@ export default class Ball {
   handleCollision() {
     this.scene.score.addPoints();
   }
-  destroy() {
-    this.image.destroy();
-    this.body.destroy();
-  }
+
   update() {
-    if (Math.abs(this.body.y) > this.scene.game.config.height) {
-      this.body.setPosition(this.x, this.y); // bring to the initial position
-      this.body.setVelocity(0); // reset velocity
-      this.scene.score.decreaseLife(); // decrease life
+    if (this.body && this.image) {
+      if (Math.abs(this.body.y) > this.scene.game.config.height) {
+        this.body.setPosition(this.x, this.y); // bring to the initial position
+        this.body.setVelocity(0); // reset velocity
+        this.scene.score.decreaseLife(); // decrease life
+      }
     }
   }
 }

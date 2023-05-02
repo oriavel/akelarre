@@ -6,7 +6,7 @@ export default class Wall {
     this.color = 0xefb243;
     this.angle = angle;
     // add enclosing side bars
-    this.poly = this.scene.add.polygon(this.x, this.y, bar, this.color, 0.2);
+    this.poly = this.scene.add.polygon(this.x, this.y, bar, this.color, 1);
     this.scene.matter.add
       .gameObject(this.poly, {
         shape: { type: "fromVerts", verts: bar, flagInternal: true },

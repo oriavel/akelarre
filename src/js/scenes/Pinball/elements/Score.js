@@ -9,17 +9,22 @@ export default class Score {
     this.score = 0; // add +HIT_POINTS when ball hits bumpers
     this.scoreText = this.scene.add.text(
       20,
-      50,
+      scene.game.config.height - 95,
       "Score: " + this.score + "/" + this.GOAL,
       {
         font: "24px Arial",
         fill: "#ffffff",
       }
     );
-    this.lifeText = this.scene.add.text(20, 20, "Vidas: " + this.lifes, {
-      font: "24px Arial",
-      fill: "#ffffff",
-    });
+    this.lifeText = this.scene.add.text(
+      20,
+      scene.game.config.height - 60,
+      "Vidas: " + this.lifes,
+      {
+        font: "24px Arial",
+        fill: "#ffffff",
+      }
+    );
   }
   updateTexts() {
     this.scoreText.setText("Score: " + this.score + "/" + this.GOAL);

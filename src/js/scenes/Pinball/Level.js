@@ -37,18 +37,19 @@ export default class Level extends Phaser.Scene {
   }
 
   preload() {
-    console.log(this.ASSETS);
     this.ASSETS.forEach((asset) => {
       this.load.image(asset.label, asset.url);
     });
   }
 
   create() {
+    this.over = false;
     const background = this.add.image(0, 0, "background").setOrigin(0, 0);
     background.setScale(
       this.game.config.width / background.width,
       this.game.config.height / background.height
     );
+    background.alpha = 0.3; // Set background opacity to 50%
     // Init scoring
     this.score = new Score(
       this,
@@ -81,30 +82,51 @@ export default class Level extends Phaser.Scene {
   }
 
   update() {
-    this.ball.update(); // Check if the ball falls out of the screen
+    if (!this.over) {
+      this.ball.update(); // Check if the ball falls out of the screen
+    }
   }
 
   gameOver(isWin) {
     // Add black rectangle to cover the screen
+
+    this.over = true;
     const graphics = this.add.graphics();
-    graphics.fillStyle(0x000000, 0.7);
+    graphics.fillStyle(0x000000, 0.9);
     graphics.fillRect(0, 0, this.game.config.width, this.game.config.height);
 
     // Display game over text
-    const message = isWin ? "You Win!" : "Game Over";
+    console.log(this.score);
+    const message = isWin
+      ? {
+          banner: "You Win!",
+          instructions:
+            "Presiona: \nR para volver a jugar, \nESC para salir, \nENTER para siguiente nivel",
+        }
+      : {
+          banner: "Game Over",
+          instructions:
+            "Presiona: \nR para volver a intentar, \nESC para salir",
+        };
+
     const gameOverText = this.add.text(
       this.game.config.width / 2,
       this.game.config.height / 2,
-      message,
+      message.banner,
       { fontSize: "64px", fill: "#fff" }
     );
     gameOverText.setOrigin(0.5, 0.5);
 
+    const status = this.add.text(
+      this.game.config.width / 2,
+      this.game.config.height / 2 - 200,
+      this.score.scoreText._text + "\n" + this.score.lifeText._text,
+      { fontSize: "28px", fill: "#fff" }
+    );
+    status.setOrigin(0.5, 0.5);
     // Add keyboard input to restart or exit
     const restartKey = this.input.keyboard.addKey("R");
     const exitKey = this.input.keyboard.addKey("ESC");
-    const enterKey = this.input.keyboard.addKey("ENTER");
-
     restartKey.on("down", () => {
       this.scene.restart();
     });
@@ -113,33 +135,21 @@ export default class Level extends Phaser.Scene {
       this.scene.stop();
       this.scene.start("cueva");
     });
-
-    enterKey.on("down", () => {
-      this.scene.stop();
-      this.scene.start(this.NEXT_LEVEL);
-    });
+    if (isWin) {
+      const enterKey = this.input.keyboard.addKey("ENTER");
+      enterKey.on("down", () => {
+        this.scene.stop();
+        this.scene.start(this.NEXT_LEVEL);
+      });
+    }
 
     // Display instructions to the player
     const instructionsText = this.add.text(
       this.game.config.width / 2,
-      this.game.config.height - 50,
-      "Presiona: \nR para volver a jugar, \nESC para salir, \nENTER para siguiente nivel",
-      { fontSize: "28px", fill: "#fff" }
+      this.game.config.height - 70,
+      message.instructions,
+      { fontSize: "24px", fill: "#fff" }
     );
     instructionsText.setOrigin(0.5, 0.5);
-  }
-
-  destroyElements() {
-    this.flippers.forEach((flipper) => {
-      flipper.destroy();
-    });
-    this.bumpers.forEach((bumper) => {
-      bumper.destroy();
-    });
-    this.wall.forEach((wall) => {
-      wall.destroy();
-    });
-    this.ball.destroy();
-    this.scoring.destroy();
   }
 }
