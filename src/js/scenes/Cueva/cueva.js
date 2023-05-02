@@ -26,19 +26,15 @@ export default class Cueva extends Phaser.Scene {
 
 	preload(){
 
-        //Cargar cueva:
-        this.load.image('tiles', 'src/assets/Caves.png')
-        this.load.tilemapTiledJSON('tilemap', 'src/assets/Cueva.json')
-
         //Cargar NPCs
         this.load.spritesheet('motos', 'src/assets/Personajes/PabloM.png', { frameWidth: 32, frameHeight: 32 });
 
-        this.load.spritesheet('vacio','src/assets/vacio.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('vacio','src/assets/Cueva/vacio.png', { frameWidth: 32, frameHeight: 32 });
 
         //Cargar portales:
-        this.load.image('portal1', 'src/assets/Portal1.png');
-        this.load.image('portal2', 'src/assets/Portal2.png');
-        this.load.image('portal3', 'src/assets/Portal3.png');
+        this.load.image('portal1', 'src/assets/Cueva/Portal1.png');
+        this.load.image('portal2', 'src/assets/Cueva/Portal2.png');
+        this.load.image('portal3', 'src/assets/Cueva/Portal3.png');
         
     }
 	

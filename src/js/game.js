@@ -10,6 +10,8 @@ import Contexto from "./scenes/Secuencias/contexto.js";
 import GoatRun_Nivel2 from "./scenes/GoatRun/goatrun_nivel2.js";
 import GoatRun_Nivel3 from "./scenes/GoatRun/goatrun_nivel3.js";
 import GoatRun_Nivel1 from "./scenes/GoatRun/goatrun_nivel1.js";
+import Portada from "./scenes/Secuencias/Portada.js";
+import PantallaFinal from "./scenes/Secuencias/pantallaFinal.js";
 
 let config = {
   type: Phaser.CANVAS,
@@ -48,6 +50,7 @@ let config = {
   },
 
   scene: [
+    Portada,
     Contexto,
     Intro,
     Cueva,
@@ -57,6 +60,7 @@ let config = {
     GoatRun_Nivel2,
     GoatRun_Nivel3,
     Final,
+    PantallaFinal
   ],
 
   title: "Akelarre",

@@ -79,7 +79,8 @@ export default class Intro extends Phaser.Scene {
         this.dialogBoxProta.setPosicion(this.bruja1.x, this.bruja1.y + 100);
 
         this.secuenciaDialogo();
-
+        this.audioCueva = this.sound.add('cueva_audio');
+        this.audioCueva.play();
 
 
 	}
@@ -143,8 +144,8 @@ export default class Intro extends Phaser.Scene {
         }
         
         if(Phaser.Input.Keyboard.JustDown(this.escape)){
-            this.scene.stop('intro');
-            this.scene.start('cueva');
+            this.scene.stop('final');
+            this.scene.start('pantallaFinal');
         }
         }
         else{
@@ -153,7 +154,9 @@ export default class Intro extends Phaser.Scene {
                 this.player.anims.play('down_amaia', true);
             }
             else{
+                this.audioCueva.stop();
                 this.scene.stop('final');
+                this.scene.start('pantallaFinal');
             }
         }       
     }
