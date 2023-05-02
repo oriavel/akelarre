@@ -103,7 +103,7 @@ export default class AvoidThePotions extends Phaser.Scene {
       );
     }
 
-    this.load.image("vacio", this.assetsUrl + "vacio.png");
+    this.load.image("vacio", this.assetsUrl + "/cueva/vacio.png");
   }
   preload() {
     this.assetsUrl = "./src/assets/";
@@ -408,8 +408,8 @@ export default class AvoidThePotions extends Phaser.Scene {
     // El texto de inicio de partida
     this.text = this.add.text(
       this.graphics.x + 150,
-      this.graphics.y + 30,
-      "Para empezar la partida, pulsa enter",
+      this.graphics.y + 10,
+      "Para empezar la partida, pulsa ENTER \n   (↑) para saltar, (⇆) para moverte\n           ESCAPE para acabar",
       { font: "24px Arial", fill: "#ffffff" }
     );
 
@@ -423,6 +423,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     this.startGame = false;
     this.finishedGame = false;
+    this.hasGanado = false;
 
     this.break_potion_audio =this.sound.add('break_potion_audio');
     this.bat_death_audio = this.sound.add('bat_death_audio');
@@ -432,6 +433,7 @@ export default class AvoidThePotions extends Phaser.Scene {
   }
 
   update() {
+
     this.livesLeft.setText("Lives: " + this.amaia.lives);
     if (!this.startGame && this.enterKey.isDown && !this.finishedGame) {
       this.text.setVisible(false);
@@ -452,7 +454,11 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.gameMusic_audio.pause();
         this.gameMusic_audio.currentTime = 0;
         this.scene.stop("avoidthepotions");
-        this.scene.start("cueva");
+        if(!this.hasGanado){
+          this.scene.start("cueva");
+        }
+        else this.scene.start("final");
+        
       }
     }
 
@@ -620,6 +626,7 @@ export default class AvoidThePotions extends Phaser.Scene {
       }
     } 
     else if (this.amaia.lives < 1 || this.temporizador < 1) {
+      this.gameMusic_audio.stop();
       this.potionGroup.getChildren().forEach(function (potion) {
          potion.death();
       }, this);
@@ -638,6 +645,7 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.text.setText(
           "Has Ganado! Si quieres volver a jugar pulsa Enter, \n                     para salir pulsa ESCAPE"
         );
+        this.hasGanado = true;
         this.game.config.keys++;
         this.amaia.gana();
       }
@@ -651,13 +659,3 @@ export default class AvoidThePotions extends Phaser.Scene {
     }
   }
 }
-
-function cargarSonido (fuente) {
-  const sonido = document.createElement("audio");
-  sonido.src = fuente;
-  sonido.setAttribute("preload", "auto");
-  sonido.setAttribute("controls", "none");
-  sonido.style.display = "none"; // <-- oculto
-  document.body.appendChild(sonido);
-  return sonido;
-};
