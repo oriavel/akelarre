@@ -80,6 +80,6 @@ Pinball
 
 Avoid the Potions 
 
-![image](https://imgur.com/DgczHpO)
+![image](https://i.imgur.com/DgczHpO_d.webp?maxwidth=760&fidelity=grand)
 
 
