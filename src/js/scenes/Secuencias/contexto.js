@@ -7,15 +7,15 @@ export default class Contexto extends Phaser.Scene {
 
     create(){
         var dialogoContexto = [
-            "Nuestra historia comienza con Amaia, una joven estudiante de \nBiologia en la UCM.\n",
+            "Nuestra historia comienza con Amaia, una joven estudiante de \nBiología en la UCM.\n",
             "Tras mucho tiempo dudando, Amaia decidió que haría su TFG \nsobre unos animales aparentemente mutados que estaban apareciendo\nen Zugarramurdi.\n",
-            "Este pueblo tenía fama por haber sido hogar de muchas brujas en el \npasado y es por esto que habian surgido teorias por todo internet acerca\nde los animales mutados.\n",
-            "A Amaia todo esto le daba igual, hasta que un dia,\nmientras Amaia investigaba los alrededores de la cueva en el que se \nhabian visto a estas sospechosas criaturas,",
+            "Este pueblo tenía fama por haber sido hogar de muchas brujas en el \npasado y es por esto que habían surgido teorías por todo internet acerca\nde los animales mutados.\n",
+            "A Amaia todo esto le daba igual, hasta que un día,\nmientras Amaia investigaba los alrededores de la cueva en la que se \nhabían visto a estas sospechosas criaturas,",
             "empezó a oir y ver \nfiguras que le extrañaron.\n¿Hola? ¿Hay alguien ahí? Dijo la pobre e ilusa Amaia pensando que \npodrían ser habitantes del pueblo.",
             "Derrepente, Amaia pudo ver como las \nfiguras sospechosas se paraban en seco, girando sus cuerpos hacia ella.\n",
             "Atemorizada, Amaia empezó a correr de vuelta al pueblo, pero ya era \ndemasiado tarde.\n",
             "Tres mujeres con vestidos largos negros y sombrero corriendo \nhacia ella fue lo ultimo que vió antes de perder el conocimiento...\n",
-            "Poco tiempo después nuestra protagonista despierta\nen el interior de la cueva, con dolor de cabeza y las 3 mujeres de \nantes mirandola fijamente...\n",
+            "Poco tiempo después nuestra protagonista despierta\nen el interior de la cueva, con dolor de cabeza y las 3 mujeres de \nantes mirándola fijamente...\n",
             ""
         ];
 
