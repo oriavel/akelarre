@@ -638,6 +638,7 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.text.setText(
           "Has Ganado! Si quieres volver a jugar pulsa Enter, \n                     para salir pulsa ESCAPE"
         );
+        this.game.config.keys++;
         this.amaia.gana();
       }
       this.witch.huye();

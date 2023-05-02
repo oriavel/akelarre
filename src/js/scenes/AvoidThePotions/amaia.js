@@ -70,6 +70,6 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
     gana(){
         this.body.velocity.x = 250;
         this.body.setCollideWorldBounds(false);
-        this.game.config.keys++;
+        
     }
 }
