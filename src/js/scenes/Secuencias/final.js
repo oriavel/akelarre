@@ -44,10 +44,28 @@ export default class Intro extends Phaser.Scene {
 
 
 
-        this.dialogBox = new DialogoBox(this);
-        this.dialogBox.createBox();
-        this.dialogBox.visible(true);
 
+        this.dialogBoxBruja1 = new DialogoBox(this, 0x711e7c);
+        this.dialogBoxBruja1.createBox();
+        this.dialogBoxBruja1.visible(false);
+        this.dialogBoxBruja1.setNombre("Sorgina");
+
+        this.dialogBoxBruja2 = new DialogoBox(this, 0x1c105e);
+        this.dialogBoxBruja2.createBox();
+        this.dialogBoxBruja2.visible(false);
+        this.dialogBoxBruja2.setNombre("Graciana");
+
+        this.dialogBoxBruja3 = new DialogoBox(this, 0x205b17);
+        this.dialogBoxBruja3.createBox();
+        this.dialogBoxBruja3.visible(false);
+        this.dialogBoxBruja3.setNombre("María");
+
+        this.dialogBoxProta = new DialogoBox(this, 0x000000);
+        this.dialogBoxProta.createBox();
+        this.dialogBoxProta.visible(false);
+        this.dialogBoxProta.setNombre("Amaia");
+
+       
         //Teclas para dialogo
         this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -56,7 +74,10 @@ export default class Intro extends Phaser.Scene {
 
         this.player.anims.play('stop_up_amaia', true);
 
-        this.dialogBox.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+        this.dialogBoxBruja1.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+        this.dialogBoxBruja2.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+        this.dialogBoxBruja3.setPosicion(this.bruja1.x, this.bruja1.y + 100);
+        this.dialogBoxProta.setPosicion(this.bruja1.x, this.bruja1.y + 100);
 
         this.secuenciaDialogo();
 
@@ -66,29 +87,49 @@ export default class Intro extends Phaser.Scene {
 
     secuenciaDialogo(){
         
-        var dialogo = this.dialogBox.getDialogo(10);
+        var dialogo = this.dialogBoxBruja1.getDialogo(10);
         //Dialogo:
         if (length < dialogo.length) {
-          this.dialogBox.setTexto(dialogo[length]);
+          
           console.log(dialogo[length]);
           console.log(length);
-          if(length == 0 || length == 4 || length == 6 || length == 8 ||length == 9 ||
+          if(length == 0 || length == 2 || length == 3 || length == 6 || length == 8 ||length == 9 ||
              length == 12 || length == 13 || length == 15 || length == 16){
-                this.dialogBox.setNombre("Sorgina");
+                this.dialogBoxBruja1.visible(true);
+                this.dialogBoxBruja2.visible(false);
+                this.dialogBoxBruja3.visible(false);
+                this.dialogBoxProta.visible(false);
+                this.dialogBoxBruja1.setTexto(dialogo[length]);
           }
           else if(length == 1 || length == 5 || length == 7 || length == 14 || length == 17){
-            this.dialogBox.setNombre("Graciana");
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(true);
+            this.dialogBoxBruja3.visible(false);
+            this.dialogBoxProta.visible(false);
+            this.dialogBoxBruja2.setTexto(dialogo[length]);
           }
           else if(length == 10){
-            this.dialogBox.setNombre("Amaia");
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(false);
+            this.dialogBoxBruja3.visible(false);
+            this.dialogBoxProta.visible(true);
+            this.dialogBoxProta.setTexto(dialogo[length]);
           }
-          else
-          this.dialogBox.setNombre("María");
+          else{
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(false);
+            this.dialogBoxBruja3.visible(true);
+            this.dialogBoxProta.visible(false);
+            this.dialogBoxBruja3.setTexto(dialogo[length]);
+          }
           
           length++;
         }
         else{
-            this.dialogBox.visible(false);
+            this.dialogBoxBruja1.visible(false);
+            this.dialogBoxBruja2.visible(false);
+            this.dialogBoxBruja3.visible(false);
+            this.dialogBoxProta.visible(false);
             length = 0;
             andar = true;
         }
