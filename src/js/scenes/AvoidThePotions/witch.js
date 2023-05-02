@@ -13,6 +13,7 @@ export default class Witch extends Phaser.GameObjects.Sprite{
         this.play('witch_right');
         this.setScale(2.25);
         this.setSize(35,25);
+        this.body.setOffset(10,0);
         this.body.allowGravity = false;
     }
 

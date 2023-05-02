@@ -1,12 +1,12 @@
 import Prota from './Prota.js'
 import DialogoBox from '../Secuencias/dialogos.js'
+import NPC from './NPC.js'
 /**
  * Escena de Título.
  * @extends Phaser.Scene
  */
 
 //import * as Matter from 'akelarre/node_modules/matter-js/build/matter.js';
-let hablando = false;
 let length = 0;
 let enPortal = false;
 export default class Cueva extends Phaser.Scene {
@@ -26,20 +26,16 @@ export default class Cueva extends Phaser.Scene {
 
 	preload(){
 
-        //Cargar cueva:
-        this.load.image('tiles', 'src/assets/Caves.png')
-        this.load.tilemapTiledJSON('tilemap', 'src/assets/Cueva.json')
-
         //Cargar NPCs
         this.load.spritesheet('motos', 'src/assets/Personajes/PabloM.png', { frameWidth: 32, frameHeight: 32 });
 
-        this.load.spritesheet('vacio','src/assets/vacio.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('vacio','src/assets/Cueva/vacio.png', { frameWidth: 32, frameHeight: 32 });
 
         //Cargar portales:
-        this.load.image('portal1', 'src/assets/Portal1.png');
-        this.load.image('portal2', 'src/assets/Portal2.png');
-        this.load.image('portal3', 'src/assets/Portal3.png');
-
+        this.load.image('portal1', 'src/assets/Cueva/Portal1.png');
+        this.load.image('portal2', 'src/assets/Cueva/Portal2.png');
+        this.load.image('portal3', 'src/assets/Cueva/Portal3.png');
+        
     }
 	
 	/**
@@ -48,7 +44,9 @@ export default class Cueva extends Phaser.Scene {
 	create(){
         
         this.game.config.keys = 2;
-        this.game.config.minijuego = 1; //No entiendo la forma de usar esto sin declararlo aqui
+        this.audioCueva = this.sound.add('cueva_audio');
+        this.audioCueva.play();
+
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		    const tileset = map.addTilesetImage('PatronCueva', 'tiles')
@@ -68,34 +66,23 @@ export default class Cueva extends Phaser.Scene {
         this.player.setDepth(2);
         
         //NPCs
-        this.bruja3 = this.physics.add.sprite(1555, 390, 'bruja3').setScale(2);
-        this.bruja3.setSize(15, 15);
-        this.bruja3.setDepth(1);
-        this.bruja3.body.offset.y = 16;
-        //this.bruja3.body.immovable = true;
+       
+        this.bruja3 = new NPC(this,1555,390, 0,0,16,15,15);
+        this.bruja3.createSprite('bruja3');
 
-        this.motos = this.physics.add.sprite(1595, 1100, 'motos').setScale(2);
-        this.motos.setSize(13, 20);
-        this.motos.setDepth(1);
-        this.motos.body.offset.x = 5;
-        this.motos.body.offset.y = 7;
-        this.motos.body.immovable = true;
+        this.motos = new NPC(this, 1595, 1100, 1, 5, 7, 13, 20);
+        this.motos.createSprite('motos');
 
-        this.gato = this.physics.add.sprite(690, 1360, 'gato').setScale(2);
-        this.gato.setSize(13, 20);
-        this.gato.setDepth(1);
-        this.gato.body.offset.x = 5;
-        //this.gato.body.offset.y = 7;
-        this.gato.body.immovable = true;
+        this.gato = new NPC(this,690,1360,2,5,0,13,20);
+        this.gato.createSprite('gato');
 
         //Objetos interactuables
-        this.estanteria = this.physics.add.sprite(400, 390, 'vacio').setScale(2);
-        this.estanteria.setSize(25,27);
-        this.estanteria.body.offset.x = 8;
         
-        this.caldero = this.physics.add.sprite(465, 400, 'vacio').setScale(2);
-        this.caldero.setSize(15,20);
-        this.caldero.body.offset.x = 8;
+        this.estanteria = new NPC(this, 400, 390, 3, 8, 15, 25, 27);
+        this.estanteria.createSprite('vacio');
+        
+        this.caldero = new NPC(this, 465, 400, 4, 8, 15, 15, 20);
+        this.caldero.createSprite('vacio');
 
         this.portal1 = this.physics.add.sprite(1030, 540, 'portal1').setScale(0.6); //El rojo (pociones)
         this.portal1.setSize(50,50);
@@ -121,23 +108,25 @@ export default class Cueva extends Phaser.Scene {
 
         this.portalesVisibles = false; //Para saber si estan visibles o no
 
-        this.dialogBox = new DialogoBox(this);
+        this.dialogBox = new DialogoBox(this, 0x000000);
         this.dialogBox.createBox();
+        
+        this.dialogBoxBruja3 = new DialogoBox(this, 0x205b17);
+        this.dialogBoxBruja3.createBox();
         
         //Teclas para dialogo
         this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-        
 
-        this.addOverlap(this.player,this.bruja3, this.dialogBox.getDialogo(0),"María" );
-        this.addOverlap(this.player,this.motos, this.dialogBox.getDialogo(1),"Pablo Motos" );
-        this.addOverlap(this.player,this.gato, this.dialogBox.getDialogo(2), "Gato" );
-        this.addOverlap(this.player,this.estanteria, this.dialogBox.getDialogo(3),"Amaia" );
-        this.addOverlap(this.player,this.caldero, this.dialogBox.getDialogo(4),"Amaia" );
-        this.addOverlap(this.player,this.cartel1, this.dialogBox.getDialogo(5),"Amaia" );
-        this.addOverlap(this.player,this.cartel2, this.dialogBox.getDialogo(6),"Amaia" );
-        this.addOverlap(this.player,this.cartel3, this.dialogBox.getDialogo(7),"Amaia" );
+        this.addOverlap(this.player,this.bruja3, this.dialogBox.getDialogo(0),"María",this.dialogBoxBruja3 );
+        this.addOverlap(this.player,this.motos, this.dialogBox.getDialogo(1),"Pablo Motos",this.dialogBox );
+        this.addOverlap(this.player,this.gato, this.dialogBox.getDialogo(2), "Gato",this.dialogBox );
+        this.addOverlap(this.player,this.estanteria, this.dialogBox.getDialogo(3),"Amaia",this.dialogBox );
+        this.addOverlap(this.player,this.caldero, this.dialogBox.getDialogo(4),"Amaia",this.dialogBox );
+        this.addOverlap(this.player,this.cartel1, this.dialogBox.getDialogo(5),"Amaia",this.dialogBox );
+        this.addOverlap(this.player,this.cartel2, this.dialogBox.getDialogo(6),"Amaia",this.dialogBox );
+        this.addOverlap(this.player,this.cartel3, this.dialogBox.getDialogo(7),"Amaia",this.dialogBox );
 
         this.addOverlapPortales(this.player,this.portal1,this.dialogBox.getDialogo(8),"Amaia" );
         this.addOverlapPortales(this.player,this.portal2,this.dialogBox.getDialogo(8),"Amaia" );
@@ -206,50 +195,50 @@ export default class Cueva extends Phaser.Scene {
 
         this.player.anims.play('stop_up_amaia', true);
 
-        
-        console.log(this.game.config.keys);
         if(this.game.config.minijuego == 1){
-            //this.player.setPosition(980, 700);
+          this.portal1.setVisible(true);
+          this.portal2.setVisible(true);
+          this.portal3.setVisible(true);
+          this.portalesVisibles = true;
+          this.player.setPosition(980, 700);
 
         }
 
     }
 
-    addOverlap(player, npc, dialogo, nombre ) {
+    addOverlap(player, npc, dialogo, nombre, dialogBox) {
 
         this.physics.add.overlap(player, npc, () => {
-          this.dialogBox.setPosicion(npc.x, npc.y);
+        dialogBox.setPosicion(npc.x, npc.y);
           
-          this.dialogBox.setNombre(nombre);
-          
+          dialogBox.setNombre(nombre);
           if(Phaser.Input.Keyboard.JustDown(this.espacio)) {
-            this.dialogBox.visible(true);
-            hablando = true;
+            dialogBox.visible(true);
+            this.player.setHablando(true);
+            this.player.resetMov();
 
             if (length < dialogo.length) {
-              this.dialogBox.setTexto(dialogo[length]);
-              console.log(dialogo[length]);
-              console.log(length);
+              dialogBox.setTexto(dialogo[length]);
               length++;
             }
 
             else{
-            if(this.dialogBox.getNombre() == "María"){
+            if(nombre == "María"){
                 this.portal1.setVisible(true);
                 this.portal2.setVisible(true);
                 this.portal3.setVisible(true);
                 this.portalesVisibles = true;
             }
             
-            this.dialogBox.visible(false);
-            hablando = false;
+            dialogBox.visible(false);
+            this.player.setHablando(false);
             length = 0;
             }
 
         }
         else if(Phaser.Input.Keyboard.JustDown(this.escape)){
-            this.dialogBox.visible(false);
-            hablando = false;
+            dialogBox.visible(false);
+            this.player.setHablando(false);
             length = 0;
         }      
 
@@ -266,7 +255,8 @@ export default class Cueva extends Phaser.Scene {
             if(Phaser.Input.Keyboard.JustDown(this.espacio) && this.portalesVisibles) {
 
               this.dialogBox.visible(true);
-                hablando = true;
+                this.player.setHablando(true);
+                this.player.resetMov();
                 enPortal = true;
                 this.portal = portal;
                 if(this.portal.x == this.portal1.x && this.game.config.keys != 2){
@@ -281,28 +271,31 @@ export default class Cueva extends Phaser.Scene {
 
     salirPortal(){
       this.dialogBox.visible(false);
-        hablando = false;
+        this.player.setHablando(false);
+        enPortal = false;
         length = 0;
     }
 
   //Loop del juego
   update() {
-    //console.log(this.player.x);
-    //console.log(this.player.y);
-    
-    if(!hablando || !enPortal){
+
+    if(!this.player.isHablando() && !enPortal){
       this.player.checkMovement(this.cursors);
     }
 
     this.player.setSprite();
 
     if (Phaser.Input.Keyboard.JustDown(this.enter) && enPortal) {
+      enPortal = false;
+      this.game.config.minijuego = 1;
+      this.audioCueva.pause();
+      this.audioCueva.currentTime = 0;
       if (this.portal == this.portal1 && this.game.config.keys == 2) {
         this.scene.stop(this);
         this.scene.start("avoidthepotions");
       } else if (this.portal == this.portal2) {
         this.scene.stop(this);
-        this.scene.start('pinball');
+        this.scene.start('Pinball');
       } else if (this.portal == this.portal3) {
         this.scene.stop(this);
         this.scene.start('goatrun_nivel1');
@@ -310,7 +303,9 @@ export default class Cueva extends Phaser.Scene {
     } else if (Phaser.Input.Keyboard.JustDown(this.escape) && enPortal) {
       this.salirPortal(this.dialogBox);
     }
-
+    if (!this.audioCueva.isPlaying){
+      this.audioCueva.play();
+    }
   }
 }
 

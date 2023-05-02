@@ -60,7 +60,7 @@ export default class Potion extends Phaser.GameObjects.Sprite {
     //Pocion Default
     amaia.canJump = false;
     amaia.jumpTimer = -1;
-    
+    amaia.pain_sound();
     potion.body.destroy();
     potion.destroy();
   }

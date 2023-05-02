@@ -21,17 +21,18 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         this.nKills = 0;
         this.lives = 2;
         this.isHurt = "none";
-    
     }    
     setSprite(){
         if(this.isHurt != "none"){
             if(this.isHurt == "RED"){
-                this.anims.play("amaia_burning_red",true);
+                this.scene.fire_audio.currentTime = 0;
                 this.scene.fire_audio.play();
+                this.anims.play("amaia_burning_red",true);
             }
             else if(this.isHurt == "GREEN"){
-                this.anims.play("amaia_burning_green",true);
+                this.scene.fire_audio.currentTime = 0;
                 this.scene.fire_audio.play();
+                this.anims.play("amaia_burning_green",true);                
             }
             else if(this.isHurt == "HIT"){
                 this.anims.play("amaia_hit",true);
@@ -60,11 +61,15 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
             this.body.velocity.y = -250;
         
     }
+    pain_sound(){
+        this.scene.ough_audio.play();
+    }
     death(){
         this.destroy();
     }
     gana(){
         this.body.velocity.x = 250;
         this.body.setCollideWorldBounds(false);
+        
     }
 }
