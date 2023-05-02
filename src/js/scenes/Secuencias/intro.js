@@ -1,6 +1,6 @@
 import Prota from '../Cueva/Prota.js'
 import DialogoBox from '../Secuencias/dialogos.js'
-import NPC from '../Cueva/NPC.js'
+
 let length = 0;
 export default class Intro extends Phaser.Scene {
 	
@@ -51,25 +51,16 @@ export default class Intro extends Phaser.Scene {
         //NPCs
         this.bruja1 = this.physics.add.sprite(975, 1350, 'bruja1').setScale(2);
         this.bruja1.setSize(15, 15);
-        this.bruja1.setDepth(1);
-        this.bruja1.body.offset.y = 16;
-        this.bruja1.body.immovable = true;
 
         this.bruja2 = this.physics.add.sprite(875, 1350, 'bruja2').setScale(2);
         this.bruja2.setSize(15, 15);
-        this.bruja2.setDepth(1);
-        this.bruja2.body.offset.y = 16;
-        this.bruja2.body.immovable = true;
 
         this.bruja3 = this.physics.add.sprite(1075, 1350, 'bruja3').setScale(2);
         this.bruja3.setSize(15, 15);
-        this.bruja3.setDepth(1);
-        this.bruja3.body.offset.y = 16;
-        this.bruja3.body.immovable = true;
 
 
-        this.gato = new NPC(this,690,1360,2,5,0,13,20);
-        this.gato.createSprite('gato');
+        this.gato = this.physics.add.sprite(690, 1360, 'gato').setScale(2);
+        this.gato.setSize(15, 15);
 
 
         this.dialogBoxBruja1 = new DialogoBox(this, 0x711e7c);
@@ -214,7 +205,7 @@ export default class Intro extends Phaser.Scene {
             this.audioCueva.pause();
             this.audioCueva.currentTime = 0;
             this.scene.stop('intro');
-            this.scene.start('cueva');
+            this.scene.start('final');
         }
 
         if(length == 11){

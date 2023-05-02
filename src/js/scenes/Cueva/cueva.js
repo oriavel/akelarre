@@ -1,6 +1,6 @@
 import Prota from './Prota.js'
 import DialogoBox from '../Secuencias/dialogos.js'
-import NPC from './NPC.js'
+
 /**
  * Escena de Título.
  * @extends Phaser.Scene
@@ -66,24 +66,40 @@ export default class Cueva extends Phaser.Scene {
         this.player.setDepth(2);
         
         //NPCs
-       
-        this.bruja3 = new NPC(this,1555,390, 0,0,16,15,15);
-        this.bruja3.createSprite('bruja3');
 
-        this.motos = new NPC(this, 1595, 1100, 1, 5, 7, 13, 20);
-        this.motos.createSprite('motos');
+        this.bruja3 = this.physics.add.sprite(1555,390, 'bruja1').setScale(2);
+        this.bruja3.setSize(15, 15);
+        this.bruja3.setDepth(1);
+        this.bruja3.body.offset.y = 16;
+        this.bruja3.body.immovable = true;
 
-        this.gato = new NPC(this,690,1360,2,5,0,13,20);
-        this.gato.createSprite('gato');
+        this.motos = this.physics.add.sprite(1595, 1100, 'motos').setScale(2);
+        this.motos.setSize(15, 15);
+        this.motos.setDepth(1);
+        this.motos.body.offset.y = 16;
+        this.motos.body.immovable = true;
+        
+        this.gato = this.physics.add.sprite(690,1360, 'gato').setScale(2);
+        this.gato.setSize(15, 15);
+        this.gato.setDepth(1);
+        this.gato.body.offset.y = 16;
+        this.gato.body.immovable = true;
 
         //Objetos interactuables
         
-        this.estanteria = new NPC(this, 400, 390, 3, 8, 15, 25, 27);
-        this.estanteria.createSprite('vacio');
-        
-        this.caldero = new NPC(this, 465, 400, 4, 8, 15, 15, 20);
-        this.caldero.createSprite('vacio');
+        this.estanteria = this.physics.add.sprite(400, 390, 'vacio').setScale(2);
+        this.estanteria.setSize(15, 15);
+        this.estanteria.setDepth(1);
+        this.estanteria.body.offset.y = 16;
+        this.estanteria.body.immovable = true;
 
+        this.caldero = this.physics.add.sprite(465, 400, 'vacio').setScale(2);
+        this.caldero.setSize(15, 15);
+        this.caldero.setDepth(1);
+        this.caldero.body.offset.y = 16;
+        this.caldero.body.immovable = true;
+
+       
         this.portal1 = this.physics.add.sprite(1030, 540, 'portal1').setScale(0.6); //El rojo (pociones)
         this.portal1.setSize(50,50);
         this.portal1.body.offset.x = 90;

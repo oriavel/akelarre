@@ -23,26 +23,15 @@ export default class Intro extends Phaser.Scene {
         this.player = new Prota(this,980, 700);
         
         //NPCs
+
         this.bruja1 = this.physics.add.sprite(980, 600, 'bruja1').setScale(2);
         this.bruja1.setSize(15, 15);
-        this.bruja1.setDepth(1);
-        this.bruja1.body.offset.y = 16;
-        this.bruja1.body.immovable = true;
         
         this.bruja2 = this.physics.add.sprite(880, 600, 'bruja2').setScale(2);
         this.bruja2.setSize(15, 15);
-        this.bruja2.setDepth(1);
-        this.bruja2.body.offset.y = 16;
-        this.bruja2.body.immovable = true;
 
         this.bruja3 = this.physics.add.sprite(1080, 600, 'bruja3').setScale(2);
         this.bruja3.setSize(15, 15);
-        this.bruja3.setDepth(1);
-        this.bruja3.body.offset.y = 16;
-        this.bruja3.body.immovable = true;
-
-
-
 
         this.dialogBoxBruja1 = new DialogoBox(this, 0x711e7c);
         this.dialogBoxBruja1.createBox();
@@ -152,6 +141,7 @@ export default class Intro extends Phaser.Scene {
             if(this.player.y < 900){
                 this.player.move('Y',136);
                 this.player.anims.play('down_amaia', true);
+
             }
             else{
                 this.audioCueva.stop();
