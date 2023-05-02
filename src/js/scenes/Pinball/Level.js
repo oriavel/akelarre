@@ -34,6 +34,8 @@ export default class Level extends Phaser.Scene {
     this.SCORING = scoring;
     this.ASSETS = assets;
     this.NEXT_LEVEL = nextLevel;
+    this.GWIDTH = this.game.config.width;
+    this.GHEIGHT = this.game.config.height;
   }
 
   preload() {
@@ -46,8 +48,8 @@ export default class Level extends Phaser.Scene {
     this.over = false;
     const background = this.add.image(0, 0, "background").setOrigin(0, 0);
     background.setScale(
-      this.game.config.width / background.width,
-      this.game.config.height / background.height
+      this.GWIDTH / background.width,
+      this.GHEIGHT / background.height
     );
     background.alpha = 0.3; // Set background opacity to 50%
     // Init scoring
@@ -89,19 +91,17 @@ export default class Level extends Phaser.Scene {
 
   gameOver(isWin) {
     // Add black rectangle to cover the screen
-
     this.over = true;
     const graphics = this.add.graphics();
     graphics.fillStyle(0x000000, 0.9);
-    graphics.fillRect(0, 0, this.game.config.width, this.game.config.height);
+    graphics.fillRect(0, 0, this.GWIDTH, this.GHEIGHT);
 
     // Display game over text
-    console.log(this.score);
     const message = isWin
       ? {
           banner: "You Win!",
           instructions:
-            "Presiona: \nR para volver a jugar, \nESC para salir, \nENTER para siguiente nivel",
+            "Presiona: \nR para volver a jugar, \nESC para salir, \nENTER para continuar",
         }
       : {
           banner: "Game Over",
@@ -110,18 +110,18 @@ export default class Level extends Phaser.Scene {
         };
 
     const gameOverText = this.add.text(
-      this.game.config.width / 2,
-      this.game.config.height / 2,
+      this.GWIDTH / 2,
+      this.GHEIGHT / 2,
       message.banner,
-      { fontSize: "64px", fill: "#fff" }
+      { fontSize: "64px", fill: "#8811b6" }
     );
     gameOverText.setOrigin(0.5, 0.5);
 
     const status = this.add.text(
-      this.game.config.width / 2,
-      this.game.config.height / 2 - 200,
+      this.GWIDTH / 2,
+      this.GHEIGHT / 2 - 200,
       this.score.scoreText._text + "\n" + this.score.lifeText._text,
-      { fontSize: "28px", fill: "#fff" }
+      { fontSize: "28px", fill: "#fff", align: "center" }
     );
     status.setOrigin(0.5, 0.5);
     // Add keyboard input to restart or exit
@@ -135,8 +135,22 @@ export default class Level extends Phaser.Scene {
       this.scene.stop();
       this.scene.start("cueva");
     });
-    if (isWin) {
+    if (!isWin) {
+      console.log(this.game.config);
       const enterKey = this.input.keyboard.addKey("ENTER");
+      if ((this.NEXT_LEVEL = "cueva" && this.game.config.keys < 2)) {
+        this.game.config.keys++;
+        let newKey = this.add.text(
+          this.GWIDTH / 2,
+          this.GHEIGHT / 2 - 100,
+          "Alaaaa, de tanto golpear rocas has \nencontrado una llave oculta entre ellas \n\nAhora tienes " +
+            this.game.config.keys +
+            " llaves!",
+          { fontSize: "16px", fill: "#a3ff00", align: "center" }
+        );
+        newKey.setOrigin(0.5, 0.5);
+      }
+
       enterKey.on("down", () => {
         this.scene.stop();
         this.scene.start(this.NEXT_LEVEL);
@@ -145,10 +159,10 @@ export default class Level extends Phaser.Scene {
 
     // Display instructions to the player
     const instructionsText = this.add.text(
-      this.game.config.width / 2,
-      this.game.config.height - 70,
+      this.GWIDTH / 2,
+      this.GHEIGHT - 70,
       message.instructions,
-      { fontSize: "24px", fill: "#fff" }
+      { fontSize: "20px", fill: "#fff" }
     );
     instructionsText.setOrigin(0.5, 0.5);
   }

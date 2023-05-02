@@ -1,6 +1,6 @@
-import Prota from './Prota.js'
-import DialogoBox from '../Secuencias/dialogos.js'
-import NPC from './NPC.js'
+import Prota from "./Prota.js";
+import DialogoBox from "../Secuencias/dialogos.js";
+import NPC from "./NPC.js";
 /**
  * Escena de Título.
  * @extends Phaser.Scene
@@ -10,276 +10,333 @@ import NPC from './NPC.js'
 let length = 0;
 let enPortal = false;
 export default class Cueva extends Phaser.Scene {
+  /**
+   * Escena principal.
+   * @extends Phaser.Scene
+   */
 
-	/**
-	 * Escena principal.
-	 * @extends Phaser.Scene
-	 */
-    
-	constructor() {
-		super({ key: 'cueva' });
-	}
+  constructor() {
+    super({ key: "cueva" });
+  }
 
-	/**
-	 * Cargamos todos los assets que vamos a necesitar
-	 */
+  /**
+   * Cargamos todos los assets que vamos a necesitar
+   */
 
-	preload(){
+  preload() {
+    //Cargar NPCs
+    this.load.spritesheet("motos", "src/assets/Personajes/PabloM.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
 
-        //Cargar NPCs
-        this.load.spritesheet('motos', 'src/assets/Personajes/PabloM.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet("vacio", "src/assets/Cueva/vacio.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
 
-        this.load.spritesheet('vacio','src/assets/Cueva/vacio.png', { frameWidth: 32, frameHeight: 32 });
+    //Cargar portales:
+    this.load.image("portal1", "src/assets/Cueva/Portal1.png");
+    this.load.image("portal2", "src/assets/Cueva/Portal2.png");
+    this.load.image("portal3", "src/assets/Cueva/Portal3.png");
+  }
 
-        //Cargar portales:
-        this.load.image('portal1', 'src/assets/Cueva/Portal1.png');
-        this.load.image('portal2', 'src/assets/Cueva/Portal2.png');
-        this.load.image('portal3', 'src/assets/Cueva/Portal3.png');
-        
+  /**
+   * Creación de los elementos de la escena principal de juego
+   */
+  create() {
+    this.game.config.keys = 2;
+    this.audioCueva = this.sound.add("cueva_audio");
+    this.audioCueva.play();
+
+    //Cueva
+    const map = this.make.tilemap({ key: "tilemap" });
+    const tileset = map.addTilesetImage("PatronCueva", "tiles");
+
+    var suelo = map.createLayer("suelo", tileset);
+    var layer = map.createLayer("obstaculos", tileset);
+
+    layer.setCollisionByExclusion([-1, 0]);
+
+    //Prota
+
+    this.player = new Prota(this, 975, 1450);
+
+    this.physics.add.collider(this.player, layer);
+    this.player.setDepth(2);
+
+    //NPCs
+
+    this.bruja3 = new NPC(this, 1555, 390, 0, 0, 16, 15, 15);
+    this.bruja3.createSprite("bruja3");
+
+    this.motos = new NPC(this, 1595, 1100, 1, 5, 7, 13, 20);
+    this.motos.createSprite("motos");
+
+    this.gato = new NPC(this, 690, 1360, 2, 5, 0, 13, 20);
+    this.gato.createSprite("gato");
+
+    //Objetos interactuables
+
+    this.estanteria = new NPC(this, 400, 390, 3, 8, 15, 25, 27);
+    this.estanteria.createSprite("vacio");
+
+    this.caldero = new NPC(this, 465, 400, 4, 8, 15, 15, 20);
+    this.caldero.createSprite("vacio");
+
+    this.portal1 = this.physics.add.sprite(1030, 540, "portal1").setScale(0.6); //El rojo (pociones)
+    this.portal1.setSize(50, 50);
+    this.portal1.body.offset.x = 90;
+    this.portal1.body.offset.y = 150;
+    this.portal1.setVisible(false);
+
+    this.portal2 = this.physics.add.sprite(805, 730, "portal2").setScale(0.6); //El verde (Pinball)
+    this.portal2.setSize(50, 50);
+    this.portal2.body.offset.x = 90;
+    this.portal2.body.offset.y = 150;
+    this.portal2.setVisible(false);
+
+    this.portal3 = this.physics.add.sprite(1252, 730, "portal3").setScale(0.6); //El azul(cabra)
+    this.portal3.setSize(50, 50);
+    this.portal3.body.offset.x = 90;
+    this.portal3.body.offset.y = 150;
+    this.portal3.setVisible(false);
+
+    this.cartel1 = this.physics.add.sprite(1040, 535, "vacio").setScale(1);
+    this.cartel2 = this.physics.add.sprite(815, 725, "vacio").setScale(1);
+    this.cartel3 = this.physics.add.sprite(1265, 725, "vacio").setScale(1);
+
+    this.portalesVisibles = false; //Para saber si estan visibles o no
+
+    this.dialogBox = new DialogoBox(this, 0x000000);
+    this.dialogBox.createBox();
+
+    this.dialogBoxBruja3 = new DialogoBox(this, 0x205b17);
+    this.dialogBoxBruja3.createBox();
+
+    //Teclas para dialogo
+    this.espacio = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
+    this.escape = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ESC
+    );
+
+    this.addOverlap(
+      this.player,
+      this.bruja3,
+      this.dialogBox.getDialogo(0),
+      "María",
+      this.dialogBoxBruja3
+    );
+    this.addOverlap(
+      this.player,
+      this.motos,
+      this.dialogBox.getDialogo(1),
+      "Pablo Motos",
+      this.dialogBox
+    );
+    this.addOverlap(
+      this.player,
+      this.gato,
+      this.dialogBox.getDialogo(2),
+      "Gato",
+      this.dialogBox
+    );
+    this.addOverlap(
+      this.player,
+      this.estanteria,
+      this.dialogBox.getDialogo(3),
+      "Amaia",
+      this.dialogBox
+    );
+    this.addOverlap(
+      this.player,
+      this.caldero,
+      this.dialogBox.getDialogo(4),
+      "Amaia",
+      this.dialogBox
+    );
+    this.addOverlap(
+      this.player,
+      this.cartel1,
+      this.dialogBox.getDialogo(5),
+      "Amaia",
+      this.dialogBox
+    );
+    this.addOverlap(
+      this.player,
+      this.cartel2,
+      this.dialogBox.getDialogo(6),
+      "Amaia",
+      this.dialogBox
+    );
+    this.addOverlap(
+      this.player,
+      this.cartel3,
+      this.dialogBox.getDialogo(7),
+      "Amaia",
+      this.dialogBox
+    );
+
+    this.addOverlapPortales(
+      this.player,
+      this.portal1,
+      this.dialogBox.getDialogo(8),
+      "Amaia"
+    );
+    this.addOverlapPortales(
+      this.player,
+      this.portal2,
+      this.dialogBox.getDialogo(8),
+      "Amaia"
+    );
+    this.addOverlapPortales(
+      this.player,
+      this.portal3,
+      this.dialogBox.getDialogo(8),
+      "Amaia"
+    );
+
+    //Movimientos
+    this.anims.create({
+      key: "right_amaia",
+      frames: this.anims.generateFrameNumbers("amaia", { start: 12, end: 15 }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "stop_right_amaia",
+      frames: this.anims.generateFrameNumbers("amaia", { start: 15, end: 15 }),
+      frameRate: 1,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "left_amaia",
+      frames: this.anims.generateFrameNumbers("amaia", { start: 8, end: 11 }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "stop_left_amaia",
+      frames: this.anims.generateFrameNumbers("amaia", { start: 11, end: 11 }),
+      frameRate: 1,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "up_amaia",
+      frames: this.anims.generateFrameNumbers("amaia", { start: 4, end: 7 }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "down_amaia",
+      frames: this.anims.generateFrameNumbers("amaia", { start: 0, end: 3 }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "stop_down_amaia",
+      frames: this.anims.generateFrameNumbers("amaia", { start: 3, end: 3 }),
+      frameRate: 1,
+      repeat: -1,
+    });
+
+    this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.cameras.main.startFollow(this.player, true);
+
+    //Tecla enter para minijuegos
+    this.enter = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ENTER
+    );
+
+    this.player.anims.play("stop_up_amaia", true);
+
+    if (this.game.config.minijuego == 1) {
+      this.portal1.setVisible(true);
+      this.portal2.setVisible(true);
+      this.portal3.setVisible(true);
+      this.portalesVisibles = true;
+      this.player.setPosition(980, 700);
     }
-	
-	/**
-	* Creación de los elementos de la escena principal de juego
-	*/
-	create(){
-        
-        this.game.config.keys = 2;
-        this.audioCueva = this.sound.add('cueva_audio');
-        this.audioCueva.play();
+  }
 
-        //Cueva
-        const map = this.make.tilemap({ key: 'tilemap' })
-		    const tileset = map.addTilesetImage('PatronCueva', 'tiles')
-		
-		    var suelo = map.createLayer('suelo', tileset)
-        var layer = map.createLayer('obstaculos', tileset)
+  addOverlap(player, npc, dialogo, nombre, dialogBox) {
+    this.physics.add.overlap(player, npc, () => {
+      dialogBox.setPosicion(npc.x, npc.y);
 
-      
+      dialogBox.setNombre(nombre);
+      if (Phaser.Input.Keyboard.JustDown(this.espacio)) {
+        dialogBox.visible(true);
+        this.player.setHablando(true);
+        this.player.resetMov();
 
-        layer.setCollisionByExclusion([-1 , 0]);
+        if (length < dialogo.length) {
+          dialogBox.setTexto(dialogo[length]);
+          length++;
+        } else {
+          if (nombre == "María") {
+            this.portal1.setVisible(true);
+            this.portal2.setVisible(true);
+            this.portal3.setVisible(true);
+            this.portalesVisibles = true;
+          }
 
-        //Prota
-          
-        this.player = new Prota(this, 975, 1450);
-
-        this.physics.add.collider(this.player, layer);
-        this.player.setDepth(2);
-        
-        //NPCs
-       
-        this.bruja3 = new NPC(this,1555,390, 0,0,16,15,15);
-        this.bruja3.createSprite('bruja3');
-
-        this.motos = new NPC(this, 1595, 1100, 1, 5, 7, 13, 20);
-        this.motos.createSprite('motos');
-
-        this.gato = new NPC(this,690,1360,2,5,0,13,20);
-        this.gato.createSprite('gato');
-
-        //Objetos interactuables
-        
-        this.estanteria = new NPC(this, 400, 390, 3, 8, 15, 25, 27);
-        this.estanteria.createSprite('vacio');
-        
-        this.caldero = new NPC(this, 465, 400, 4, 8, 15, 15, 20);
-        this.caldero.createSprite('vacio');
-
-        this.portal1 = this.physics.add.sprite(1030, 540, 'portal1').setScale(0.6); //El rojo (pociones)
-        this.portal1.setSize(50,50);
-        this.portal1.body.offset.x = 90;
-        this.portal1.body.offset.y = 150;
-        this.portal1.setVisible(false);
-
-        this.portal2 = this.physics.add.sprite(805, 730, 'portal2').setScale(0.6); //El verde (Pinball)
-        this.portal2.setSize(50,50);
-        this.portal2.body.offset.x = 90;
-        this.portal2.body.offset.y = 150;
-        this.portal2.setVisible(false);
-
-        this.portal3 = this.physics.add.sprite(1252, 730, 'portal3').setScale(0.6); //El azul(cabra)
-        this.portal3.setSize(50,50);
-        this.portal3.body.offset.x = 90;
-        this.portal3.body.offset.y = 150;
-        this.portal3.setVisible(false);
-
-        this.cartel1 = this.physics.add.sprite(1040, 535, 'vacio').setScale(1);
-        this.cartel2 = this.physics.add.sprite(815, 725, 'vacio').setScale(1);
-        this.cartel3 = this.physics.add.sprite(1265, 725, 'vacio').setScale(1);
-
-        this.portalesVisibles = false; //Para saber si estan visibles o no
-
-        this.dialogBox = new DialogoBox(this, 0x000000);
-        this.dialogBox.createBox();
-        
-        this.dialogBoxBruja3 = new DialogoBox(this, 0x205b17);
-        this.dialogBoxBruja3.createBox();
-        
-        //Teclas para dialogo
-        this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
-
-        this.addOverlap(this.player,this.bruja3, this.dialogBox.getDialogo(0),"María",this.dialogBoxBruja3 );
-        this.addOverlap(this.player,this.motos, this.dialogBox.getDialogo(1),"Pablo Motos",this.dialogBox );
-        this.addOverlap(this.player,this.gato, this.dialogBox.getDialogo(2), "Gato",this.dialogBox );
-        this.addOverlap(this.player,this.estanteria, this.dialogBox.getDialogo(3),"Amaia",this.dialogBox );
-        this.addOverlap(this.player,this.caldero, this.dialogBox.getDialogo(4),"Amaia",this.dialogBox );
-        this.addOverlap(this.player,this.cartel1, this.dialogBox.getDialogo(5),"Amaia",this.dialogBox );
-        this.addOverlap(this.player,this.cartel2, this.dialogBox.getDialogo(6),"Amaia",this.dialogBox );
-        this.addOverlap(this.player,this.cartel3, this.dialogBox.getDialogo(7),"Amaia",this.dialogBox );
-
-        this.addOverlapPortales(this.player,this.portal1,this.dialogBox.getDialogo(8),"Amaia" );
-        this.addOverlapPortales(this.player,this.portal2,this.dialogBox.getDialogo(8),"Amaia" );
-        this.addOverlapPortales(this.player,this.portal3,this.dialogBox.getDialogo(8),"Amaia" );
-      
-
-
-        //Movimientos
-        this.anims.create({
-            key: 'right_amaia',
-            frames: this.anims.generateFrameNumbers('amaia', { start: 12, end: 15 }),
-            frameRate: 4,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'stop_right_amaia',
-            frames: this.anims.generateFrameNumbers('amaia', { start: 15, end: 15 }),
-            frameRate: 1,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'left_amaia',
-            frames: this.anims.generateFrameNumbers('amaia', { start: 8, end: 11 }),
-            frameRate: 4,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'stop_left_amaia',
-            frames: this.anims.generateFrameNumbers('amaia', { start: 11, end: 11 }),
-            frameRate: 1,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'up_amaia',
-            frames: this.anims.generateFrameNumbers('amaia', { start: 4, end: 7 }),
-            frameRate: 4,
-            repeat: -1
-        });
-
-
-        this.anims.create({
-            key: 'down_amaia',
-            frames: this.anims.generateFrameNumbers('amaia', { start: 0, end: 3 }),
-            frameRate: 4,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'stop_down_amaia',
-            frames: this.anims.generateFrameNumbers('amaia', { start: 3, end: 3 }),
-            frameRate: 1,
-            repeat: -1
-        });
-        
-        this.cursors = this.input.keyboard.createCursorKeys();
-
-        this.cameras.main.startFollow(this.player, true);
-
-
-        //Tecla enter para minijuegos
-        this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-
-        this.player.anims.play('stop_up_amaia', true);
-
-        if(this.game.config.minijuego == 1){
-          this.portal1.setVisible(true);
-          this.portal2.setVisible(true);
-          this.portal3.setVisible(true);
-          this.portalesVisibles = true;
-          this.player.setPosition(980, 700);
-
+          dialogBox.visible(false);
+          this.player.setHablando(false);
+          length = 0;
         }
-
-    }
-
-    addOverlap(player, npc, dialogo, nombre, dialogBox) {
-
-        this.physics.add.overlap(player, npc, () => {
-        dialogBox.setPosicion(npc.x, npc.y);
-          
-          dialogBox.setNombre(nombre);
-          if(Phaser.Input.Keyboard.JustDown(this.espacio)) {
-            dialogBox.visible(true);
-            this.player.setHablando(true);
-            this.player.resetMov();
-
-            if (length < dialogo.length) {
-              dialogBox.setTexto(dialogo[length]);
-              length++;
-            }
-
-            else{
-            if(nombre == "María"){
-                this.portal1.setVisible(true);
-                this.portal2.setVisible(true);
-                this.portal3.setVisible(true);
-                this.portalesVisibles = true;
-            }
-            
-            dialogBox.visible(false);
-            this.player.setHablando(false);
-            length = 0;
-            }
-
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.escape)){
-            dialogBox.visible(false);
-            this.player.setHablando(false);
-            length = 0;
-        }      
-
-        });
-    }
-
-    addOverlapPortales(player, portal, dialogo, nombre) {
-          this.physics.add.overlap(player, portal, () => {
-
-            this.dialogBox.setPosicion(portal.x - 45, portal.y - 60);
-        
-            this.dialogBox.setNombre(nombre);
-            
-            if(Phaser.Input.Keyboard.JustDown(this.espacio) && this.portalesVisibles) {
-
-              this.dialogBox.visible(true);
-                this.player.setHablando(true);
-                this.player.resetMov();
-                enPortal = true;
-                this.portal = portal;
-                if(this.portal.x == this.portal1.x && this.game.config.keys != 2){
-                    this.dialogBox.setTexto("No deberia de entrar hasta que no tenga las otras \n2 piezas...");
-                } 
-                else{
-                this.dialogBox.setTexto(dialogo[0]);
-                }
-            }
-        });
-    }
-
-    salirPortal(){
-      this.dialogBox.visible(false);
+      } else if (Phaser.Input.Keyboard.JustDown(this.escape)) {
+        dialogBox.visible(false);
         this.player.setHablando(false);
-        enPortal = false;
         length = 0;
-    }
+      }
+    });
+  }
+
+  addOverlapPortales(player, portal, dialogo, nombre) {
+    this.physics.add.overlap(player, portal, () => {
+      this.dialogBox.setPosicion(portal.x - 45, portal.y - 60);
+
+      this.dialogBox.setNombre(nombre);
+
+      if (
+        Phaser.Input.Keyboard.JustDown(this.espacio) &&
+        this.portalesVisibles
+      ) {
+        this.dialogBox.visible(true);
+        this.player.setHablando(true);
+        this.player.resetMov();
+        enPortal = true;
+        this.portal = portal;
+        if (this.portal.x == this.portal1.x && this.game.config.keys != 2) {
+          this.dialogBox.setTexto(
+            "No deberia de entrar hasta que no tenga las otras \n2 piezas..."
+          );
+        } else {
+          this.dialogBox.setTexto(dialogo[0]);
+        }
+      }
+    });
+  }
+
+  salirPortal() {
+    this.dialogBox.visible(false);
+    this.player.setHablando(false);
+    enPortal = false;
+    length = 0;
+  }
 
   //Loop del juego
   update() {
-
-    if(!this.player.isHablando() && !enPortal){
+    if (!this.player.isHablando() && !enPortal) {
       this.player.checkMovement(this.cursors);
     }
 
@@ -295,17 +352,16 @@ export default class Cueva extends Phaser.Scene {
         this.scene.start("avoidthepotions");
       } else if (this.portal == this.portal2) {
         this.scene.stop(this);
-        this.scene.start('Pinball');
+        this.scene.start("PinballLevel1");
       } else if (this.portal == this.portal3) {
         this.scene.stop(this);
-        this.scene.start('goatrun_nivel1');
+        this.scene.start("goatrun_nivel1");
       }
     } else if (Phaser.Input.Keyboard.JustDown(this.escape) && enPortal) {
       this.salirPortal(this.dialogBox);
     }
-    if (!this.audioCueva.isPlaying){
+    if (!this.audioCueva.isPlaying) {
       this.audioCueva.play();
     }
   }
 }
-

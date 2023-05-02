@@ -2,9 +2,9 @@ const HALF = 400 - 5;
 const FLIPPERS_Y = 520;
 
 const config = {
-  level: "PinballLevel1",
-  nextLevel: "PinballLevel2",
-  gravity: 0.9,
+  level: "PinballLevel2",
+  nextLevel: "cueva",
+  gravity: 1.1,
   assets: [
     {
       label: "background",
@@ -16,21 +16,15 @@ const config = {
     },
     {
       label: "rock",
-      url: "./src/assets/Pinball/rock.png",
+      url: "./src/assets/Pinball/rock2.png",
     },
   ],
   ball: { x: 130, y: 0 },
-  flippers: [
-    { x: HALF + 90, y: FLIPPERS_Y, direction: "right", key: "RIGHT" },
-    { x: HALF - 90, y: FLIPPERS_Y, direction: "left", key: "LEFT" },
-  ],
+  flippers: [{ x: HALF + 90, y: FLIPPERS_Y, direction: "right", key: "SPACE" }],
   bumpers: [
-    { x: 200, y: 180 },
-    { x: 400, y: 180 },
-    { x: 600, y: 180 },
-    { x: 250, y: 130 },
-    { x: 550, y: 130 },
-    { x: 400, y: 110 },
+    { x: 210, y: 150 },
+    { x: 590, y: 150 },
+    { x: 400, y: 90 },
   ],
   walls: [
     {
@@ -47,7 +41,7 @@ const config = {
     },
     { x: HALF, y: -10, slope: 1.571, bar: "0 0 0 830 10 830 10 0" }, // horizontal wall above
   ],
-  scoring: { goal: 100, hitPoints: 10, lifes: 3 },
+  scoring: { goal: 150, hitPoints: 10, lifes: 5 },
 };
 
 export default config;
