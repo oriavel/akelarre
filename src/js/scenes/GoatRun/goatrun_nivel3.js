@@ -112,8 +112,9 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
         if (this.enterKey.isDown) {
           // Reinicia el juego
           console.log("gana");
-          if (this.game.config.keys < 2) {
+          if (!this.game.config.key3) {
             this.game.config.keys++;
+            this.game.config.key3 = true;
           }
           this.music.stop();
           this.scene.stop(this.key);

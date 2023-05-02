@@ -647,6 +647,7 @@ export default class AvoidThePotions extends Phaser.Scene {
         );
         this.hasGanado = true;
         this.game.config.keys++;
+        this.game.config.key3 = true;
         this.amaia.gana();
         this.hasGanado = true;
       }
