@@ -7,6 +7,7 @@ export default class Level extends Phaser.Scene {
   constructor(
     level,
     nextLevel,
+    keyHint,
     gravity,
     assets, // array of assets and images to preload { label, url }
     ball, // ball position {x,y}
@@ -33,6 +34,7 @@ export default class Level extends Phaser.Scene {
     this.SCORING = scoring;
     this.ASSETS = assets;
     this.NEXT_LEVEL = nextLevel;
+    this.HINT = keyHint;
   }
 
   preload() {
@@ -52,6 +54,20 @@ export default class Level extends Phaser.Scene {
       this.GHEIGHT / background.height
     );
     background.alpha = 0.3; // Set background opacity to 50%
+
+    // Key hint text
+    const hint = this.add.text(
+      this.game.config.width - 95,
+      this.game.config.height - 35,
+      this.HINT,
+      {
+        font: "14px Arial",
+        fill: "#b304cb",
+        align: "right",
+      }
+    );
+    hint.setOrigin(0.5, 0.5);
+
     // Init scoring
     this.score = new Score(
       this,
@@ -59,12 +75,14 @@ export default class Level extends Phaser.Scene {
       this.SCORING.hitPoints,
       this.SCORING.lifes
     );
+
     // Sound
     this.music = this.sound.add("music");
     this.music.play({
       volume: 0.2,
       loop: true,
     });
+
     // Init game elements
     this.ball = new Ball(this, this.BALL.x, this.BALL.y);
     this.add.existing(this.ball);
