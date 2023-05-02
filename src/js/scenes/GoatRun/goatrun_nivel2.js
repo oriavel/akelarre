@@ -19,6 +19,16 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
     this.platforms.create(400, 565, "ground2").setScale(2).refreshBody();
   }
 
+  createBackground() {
+    this.background = this.add
+      .tileSprite(0, 0, 800, 500, "cave2")
+      .setOrigin(0)
+      .setScrollFactor(0, 1);
+    this.platforms = this.physics.add.staticGroup();
+    this.platforms.create(400, 500, "ground2").setScale(2).refreshBody();
+    this.platforms.create(400, 565, "ground2").setScale(2).refreshBody();
+  }
+
   createInitialScreen() {
     //Pantallita del texto
     this.graphics = this.add.graphics({
@@ -34,6 +44,12 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
       this.graphics.x + 150,
       this.graphics.y + 30,
       "Nivel 2: pulsa Enter para comenzar",
+      { font: "24px Arial", fill: "#ffffff" }
+    );
+    this.text_ = this.add.text(
+      this.graphics.x + 150,
+      this.graphics.y + 30,
+      "",
       { font: "24px Arial", fill: "#ffffff" }
     );
     this.enterKey = this.input.keyboard.addKey(
@@ -94,6 +110,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
       this.isInvulnerable = false;
       setTimeout(() => {
         if (!this.firstTime) {
+          this.music.stop();
           this.scene.stop("goatrun_nivel2");
           this.physics.pause();
           this.scene.start("goatrun_nivel3");

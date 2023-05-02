@@ -39,6 +39,7 @@ export default class Level extends Phaser.Scene {
     this.ASSETS.forEach((asset) => {
       this.load.image(asset.label, asset.url);
     });
+    this.load.audio("music", "src/audio/brujasPinball.mp3");
   }
 
   create() {
@@ -58,7 +59,12 @@ export default class Level extends Phaser.Scene {
       this.SCORING.hitPoints,
       this.SCORING.lifes
     );
-
+    // Sound
+    this.music = this.sound.add("music");
+    this.music.play({
+      volume: 0.2,
+      loop: true,
+    });
     // Init game elements
     this.ball = new Ball(this, this.BALL.x, this.BALL.y);
     this.add.existing(this.ball);
@@ -83,6 +89,7 @@ export default class Level extends Phaser.Scene {
   }
 
   update() {
+    console.log(this.game.config.keys);
     if (!this.over) {
       this.ball.update(); // Check if the ball falls out of the screen
     }

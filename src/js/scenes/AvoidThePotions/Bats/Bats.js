@@ -68,6 +68,7 @@ export default class Bats extends Phaser.Physics.Arcade.Sprite {
     else{
       amaia.nKills++;
       this.death();
+      amaia.pain_sound();
       amaia.isHurt = "HIT";
       amaia.lives--;
     }
