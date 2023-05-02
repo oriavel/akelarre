@@ -1,6 +1,6 @@
-import Prota from "./Prota.js";
-import DialogoBox from "../Secuencias/dialogos.js";
-import NPC from "./NPC.js";
+import Prota from './Prota.js'
+import DialogoBox from '../Secuencias/dialogos.js'
+
 /**
  * Escena de Título.
  * @extends Phaser.Scene
@@ -56,210 +56,162 @@ export default class Cueva extends Phaser.Scene {
     var suelo = map.createLayer("suelo", tileset);
     var layer = map.createLayer("obstaculos", tileset);
 
-    layer.setCollisionByExclusion([-1, 0]);
+    layer.setCollisionByExclusion([-1 , 0]);
 
     //Prota
-
+      
     this.player = new Prota(this, 975, 1450);
 
     this.physics.add.collider(this.player, layer);
     this.player.setDepth(2);
-
+    
     //NPCs
 
-    this.bruja3 = new NPC(this, 1555, 390, 0, 0, 16, 15, 15);
-    this.bruja3.createSprite("bruja3");
+    this.bruja3 = this.physics.add.sprite(1555,390, 'bruja1').setScale(2);
+    this.bruja3.setSize(15, 15);
+    this.bruja3.setDepth(1);
+    this.bruja3.body.offset.y = 16;
+    this.bruja3.body.immovable = true;
 
-    this.motos = new NPC(this, 1595, 1100, 1, 5, 7, 13, 20);
-    this.motos.createSprite("motos");
-
-    this.gato = new NPC(this, 690, 1360, 2, 5, 0, 13, 20);
-    this.gato.createSprite("gato");
+    this.motos = this.physics.add.sprite(1595, 1100, 'motos').setScale(2);
+    this.motos.setSize(15, 15);
+    this.motos.setDepth(1);
+    this.motos.body.offset.y = 16;
+    this.motos.body.immovable = true;
+    
+    this.gato = this.physics.add.sprite(690,1360, 'gato').setScale(2);
+    this.gato.setSize(15, 15);
+    this.gato.setDepth(1);
+    this.gato.body.offset.y = 16;
+    this.gato.body.immovable = true;
 
     //Objetos interactuables
+    
+    this.estanteria = this.physics.add.sprite(400, 390, 'vacio').setScale(2);
+    this.estanteria.setSize(15, 15);
+    this.estanteria.setDepth(1);
+    this.estanteria.body.offset.y = 16;
+    this.estanteria.body.immovable = true;
 
-    this.estanteria = new NPC(this, 400, 390, 3, 8, 15, 25, 27);
-    this.estanteria.createSprite("vacio");
+    this.caldero = this.physics.add.sprite(465, 400, 'vacio').setScale(2);
+    this.caldero.setSize(15, 15);
+    this.caldero.setDepth(1);
+    this.caldero.body.offset.y = 16;
+    this.caldero.body.immovable = true;
 
-    this.caldero = new NPC(this, 465, 400, 4, 8, 15, 15, 20);
-    this.caldero.createSprite("vacio");
-
-    this.portal1 = this.physics.add.sprite(1030, 540, "portal1").setScale(0.6); //El rojo (pociones)
-    this.portal1.setSize(50, 50);
+   
+    this.portal1 = this.physics.add.sprite(1030, 540, 'portal1').setScale(0.6); //El rojo (pociones)
+    this.portal1.setSize(50,50);
     this.portal1.body.offset.x = 90;
     this.portal1.body.offset.y = 150;
     this.portal1.setVisible(false);
 
-    this.portal2 = this.physics.add.sprite(805, 730, "portal2").setScale(0.6); //El verde (Pinball)
-    this.portal2.setSize(50, 50);
+    this.portal2 = this.physics.add.sprite(805, 730, 'portal2').setScale(0.6); //El verde (Pinball)
+    this.portal2.setSize(50,50);
     this.portal2.body.offset.x = 90;
     this.portal2.body.offset.y = 150;
     this.portal2.setVisible(false);
 
-    this.portal3 = this.physics.add.sprite(1252, 730, "portal3").setScale(0.6); //El azul(cabra)
-    this.portal3.setSize(50, 50);
+    this.portal3 = this.physics.add.sprite(1252, 730, 'portal3').setScale(0.6); //El azul(cabra)
+    this.portal3.setSize(50,50);
     this.portal3.body.offset.x = 90;
     this.portal3.body.offset.y = 150;
     this.portal3.setVisible(false);
 
-    this.cartel1 = this.physics.add.sprite(1040, 535, "vacio").setScale(1);
-    this.cartel2 = this.physics.add.sprite(815, 725, "vacio").setScale(1);
-    this.cartel3 = this.physics.add.sprite(1265, 725, "vacio").setScale(1);
+    this.cartel1 = this.physics.add.sprite(1040, 535, 'vacio').setScale(1);
+    this.cartel2 = this.physics.add.sprite(815, 725, 'vacio').setScale(1);
+    this.cartel3 = this.physics.add.sprite(1265, 725, 'vacio').setScale(1);
 
     this.portalesVisibles = false; //Para saber si estan visibles o no
 
     this.dialogBox = new DialogoBox(this, 0x000000);
     this.dialogBox.createBox();
-
+    
     this.dialogBoxBruja3 = new DialogoBox(this, 0x205b17);
     this.dialogBoxBruja3.createBox();
-
+    
     //Teclas para dialogo
-    this.espacio = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE
-    );
-    this.escape = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.ESC
-    );
+    this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-    this.addOverlap(
-      this.player,
-      this.bruja3,
-      this.dialogBox.getDialogo(0),
-      "María",
-      this.dialogBoxBruja3
-    );
-    this.addOverlap(
-      this.player,
-      this.motos,
-      this.dialogBox.getDialogo(1),
-      "Pablo Motos",
-      this.dialogBox
-    );
-    this.addOverlap(
-      this.player,
-      this.gato,
-      this.dialogBox.getDialogo(2),
-      "Gato",
-      this.dialogBox
-    );
-    this.addOverlap(
-      this.player,
-      this.estanteria,
-      this.dialogBox.getDialogo(3),
-      "Amaia",
-      this.dialogBox
-    );
-    this.addOverlap(
-      this.player,
-      this.caldero,
-      this.dialogBox.getDialogo(4),
-      "Amaia",
-      this.dialogBox
-    );
-    this.addOverlap(
-      this.player,
-      this.cartel1,
-      this.dialogBox.getDialogo(5),
-      "Amaia",
-      this.dialogBox
-    );
-    this.addOverlap(
-      this.player,
-      this.cartel2,
-      this.dialogBox.getDialogo(6),
-      "Amaia",
-      this.dialogBox
-    );
-    this.addOverlap(
-      this.player,
-      this.cartel3,
-      this.dialogBox.getDialogo(7),
-      "Amaia",
-      this.dialogBox
-    );
 
-    this.addOverlapPortales(
-      this.player,
-      this.portal1,
-      this.dialogBox.getDialogo(8),
-      "Amaia"
-    );
-    this.addOverlapPortales(
-      this.player,
-      this.portal2,
-      this.dialogBox.getDialogo(8),
-      "Amaia"
-    );
-    this.addOverlapPortales(
-      this.player,
-      this.portal3,
-      this.dialogBox.getDialogo(8),
-      "Amaia"
-    );
+    this.addOverlap(this.player,this.bruja3, this.dialogBox.getDialogo(0),"María",this.dialogBoxBruja3 );
+    this.addOverlap(this.player,this.motos, this.dialogBox.getDialogo(1),"Pablo Motos",this.dialogBox );
+    this.addOverlap(this.player,this.gato, this.dialogBox.getDialogo(2), "Gato",this.dialogBox );
+    this.addOverlap(this.player,this.estanteria, this.dialogBox.getDialogo(3),"Amaia",this.dialogBox );
+    this.addOverlap(this.player,this.caldero, this.dialogBox.getDialogo(4),"Amaia",this.dialogBox );
+    this.addOverlap(this.player,this.cartel1, this.dialogBox.getDialogo(5),"Amaia",this.dialogBox );
+    this.addOverlap(this.player,this.cartel2, this.dialogBox.getDialogo(6),"Amaia",this.dialogBox );
+    this.addOverlap(this.player,this.cartel3, this.dialogBox.getDialogo(7),"Amaia",this.dialogBox );
+
+    this.addOverlapPortales(this.player,this.portal1,this.dialogBox.getDialogo(8),"Amaia" );
+    this.addOverlapPortales(this.player,this.portal2,this.dialogBox.getDialogo(8),"Amaia" );
+    this.addOverlapPortales(this.player,this.portal3,this.dialogBox.getDialogo(8),"Amaia" );
+  
+
 
     //Movimientos
     this.anims.create({
-      key: "right_amaia",
-      frames: this.anims.generateFrameNumbers("amaia", { start: 12, end: 15 }),
-      frameRate: 4,
-      repeat: -1,
+        key: 'right_amaia',
+        frames: this.anims.generateFrameNumbers('amaia', { start: 12, end: 15 }),
+        frameRate: 4,
+        repeat: -1
     });
 
     this.anims.create({
-      key: "stop_right_amaia",
-      frames: this.anims.generateFrameNumbers("amaia", { start: 15, end: 15 }),
-      frameRate: 1,
-      repeat: -1,
+        key: 'stop_right_amaia',
+        frames: this.anims.generateFrameNumbers('amaia', { start: 15, end: 15 }),
+        frameRate: 1,
+        repeat: -1
     });
 
     this.anims.create({
-      key: "left_amaia",
-      frames: this.anims.generateFrameNumbers("amaia", { start: 8, end: 11 }),
-      frameRate: 4,
-      repeat: -1,
+        key: 'left_amaia',
+        frames: this.anims.generateFrameNumbers('amaia', { start: 8, end: 11 }),
+        frameRate: 4,
+        repeat: -1
     });
 
     this.anims.create({
-      key: "stop_left_amaia",
-      frames: this.anims.generateFrameNumbers("amaia", { start: 11, end: 11 }),
-      frameRate: 1,
-      repeat: -1,
+        key: 'stop_left_amaia',
+        frames: this.anims.generateFrameNumbers('amaia', { start: 11, end: 11 }),
+        frameRate: 1,
+        repeat: -1
     });
 
     this.anims.create({
-      key: "up_amaia",
-      frames: this.anims.generateFrameNumbers("amaia", { start: 4, end: 7 }),
-      frameRate: 4,
-      repeat: -1,
+        key: 'up_amaia',
+        frames: this.anims.generateFrameNumbers('amaia', { start: 4, end: 7 }),
+        frameRate: 4,
+        repeat: -1
+    });
+
+
+    this.anims.create({
+        key: 'down_amaia',
+        frames: this.anims.generateFrameNumbers('amaia', { start: 0, end: 3 }),
+        frameRate: 4,
+        repeat: -1
     });
 
     this.anims.create({
-      key: "down_amaia",
-      frames: this.anims.generateFrameNumbers("amaia", { start: 0, end: 3 }),
-      frameRate: 4,
-      repeat: -1,
+        key: 'stop_down_amaia',
+        frames: this.anims.generateFrameNumbers('amaia', { start: 3, end: 3 }),
+        frameRate: 1,
+        repeat: -1
     });
-
-    this.anims.create({
-      key: "stop_down_amaia",
-      frames: this.anims.generateFrameNumbers("amaia", { start: 3, end: 3 }),
-      frameRate: 1,
-      repeat: -1,
-    });
-
+    
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.cameras.main.startFollow(this.player, true);
 
+
     //Tecla enter para minijuegos
-    this.enter = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.ENTER
-    );
+    this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-    this.player.anims.play("stop_up_amaia", true);
+    this.player.anims.play('stop_up_amaia', true);
 
-    if (this.game.config.minijuego == 1) {
+    if(this.game.config.minijuego == 1){
       this.portal1.setVisible(true);
       this.portal2.setVisible(true);
       this.portal3.setVisible(true);
