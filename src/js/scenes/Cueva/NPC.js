@@ -30,5 +30,7 @@ export default class NPC extends Phaser.GameObjects.Sprite{
         this.body.offset.y = this.offsetY;
         this.body.offset.x = this.offsetX;
     }
-    
+    getDialogo(){
+        return this.dialog;
+    }
 }
