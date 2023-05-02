@@ -7,17 +7,27 @@ export default class Score {
 
     this.lifes = lifes; // substract one when ball falls out
     this.score = 0; // add +HIT_POINTS when ball hits bumpers
-    this.scoreText = this.scene.add.text(20, 50, "Score: " + this.score, {
-      font: "24px Arial",
-      fill: "#ffffff",
-    });
-    this.lifeText = this.scene.add.text(20, 20, "Vidas: " + this.lifes, {
-      font: "24px Arial",
-      fill: "#ffffff",
-    });
+    this.scoreText = this.scene.add.text(
+      20,
+      scene.game.config.height - 95,
+      "Score: " + this.score + "/" + this.GOAL,
+      {
+        font: "20px Arial",
+        fill: "#ffffff",
+      }
+    );
+    this.lifeText = this.scene.add.text(
+      20,
+      scene.game.config.height - 60,
+      "Vidas: " + this.lifes,
+      {
+        font: "20px Arial",
+        fill: "#ffffff",
+      }
+    );
   }
   updateTexts() {
-    this.scoreText.setText("Score: " + this.score);
+    this.scoreText.setText("Score: " + this.score + "/" + this.GOAL);
     this.lifeText.setText("Vidas: " + this.lifes);
   }
   decreaseLife(l = 1) {
@@ -25,7 +35,7 @@ export default class Score {
       this.lifes -= l;
       this.updateTexts();
       if (this.lifes === 0) {
-        this.scene.gameOver();
+        this.scene.gameOver(false);
       }
     }
   }
