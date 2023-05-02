@@ -1,7 +1,3 @@
-/**
- * Escena de Título.
- * @extends Phaser.Scene
- */
 import Witch from "./witch.js";
 import Bats from "./Bats/Bats.js";
 import GoldenBat from "./Bats/GoldenBats.js";
@@ -12,10 +8,6 @@ import PotionPink from "./Potions/PotionPink.js";
 import Amaia from "./amaia.js";
 
 export default class AvoidThePotions extends Phaser.Scene {
-  /**
-   * Escena principal.
-   * @extends Phaser.Scene
-   */
   constructor() {
     super({ key: "avoidthepotions" });
   }
@@ -147,6 +139,12 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     this.loadMiniMalos();
     this.loadImages();
+
+    this.load.audio('break_potion_audio', 'src/audio/potion_break.mp3');
+    this.load.audio('bat_death_audio','src/audio/bat_death.mp3');
+    this.load.audio('fire_audio','src/audio/fire1.mp3');
+    this.load.audio('gameMusic_audio','src/audio/avoidThePotion.ogg');
+    this.load.audio('ough_audio','src/audio/ough.mp3');
   }
 
   create() {
@@ -376,7 +374,7 @@ export default class AvoidThePotions extends Phaser.Scene {
     // Variable donde almaceno los fuegos de las pociones
     this.fireGroup = this.physics.add.group();
     // Duración de la partida
-    this.tiempoInicio = 62000;
+    this.tiempoInicio = 60000;
     this.temporizador = this.tiempoInicio;
     // Texto en pantalla
     this.livesLeft = this.add.text(16, 16, "Lives: " + this.amaia.lives, {
@@ -426,9 +424,11 @@ export default class AvoidThePotions extends Phaser.Scene {
     this.startGame = false;
     this.finishedGame = false;
 
-    this.break_potion_audio = cargarSonido("/src/audio/potion_break.mp3");
-    this.bat_death_audio = cargarSonido("/src/audio/bat_death.mp3");
-    this.fire_audio = cargarSonido("/src/audio/fire1.mp3");
+    this.break_potion_audio =this.sound.add('break_potion_audio');
+    this.bat_death_audio = this.sound.add('bat_death_audio');
+    this.fire_audio = this.sound.add('fire_audio');
+    this.gameMusic_audio = this.sound.add('gameMusic_audio');
+    this.ough_audio = this.sound.add('ough_audio');
   }
 
   update() {
@@ -438,14 +438,19 @@ export default class AvoidThePotions extends Phaser.Scene {
       this.graphics.setVisible(false);
       this.startGame = true;
       this.tiempoInicio += this.time.now;
+      this.gameMusic_audio.play();
     }
     else if(this.finishedGame){
       if(this.enterKey.isDown){
+        this.gameMusic_audio.pause();
+        this.gameMusic_audio.currentTime = 0;
         this.witch.death();
         this.amaia.death();
         this.create();
       }
       else if(Phaser.Input.Keyboard.JustDown(this.escape)){
+        this.gameMusic_audio.pause();
+        this.gameMusic_audio.currentTime = 0;
         this.scene.stop("avoidthepotions");
         this.scene.start("cueva");
       }
@@ -621,14 +626,17 @@ export default class AvoidThePotions extends Phaser.Scene {
       this.batGroup.getChildren().forEach(function (bat) {
         bat.death();
      }, this);
+
       if (this.amaia.lives < 1) {
         this.amaia.setVisible(false);
+        this.text.setPosition(this.graphics.x + 70, this.graphics.y + 30);
         this.text.setText(
-          "Has perdido, para volver a intentarlo pulsa Enter, \n para salir pulsa ESCAPE"
+          "Has perdido, para volver a intentarlo pulsa Enter, \n                     para salir pulsa ESCAPE"
         );
       } else {
+        this.text.setPosition(this.graphics.x + 70, this.graphics.y + 30);
         this.text.setText(
-          "Has Ganado! Si quieres volver a jugar pulsa Enter, \n para salir pulsa ESCAPE"
+          "Has Ganado! Si quieres volver a jugar pulsa Enter, \n                     para salir pulsa ESCAPE"
         );
         this.amaia.gana();
       }

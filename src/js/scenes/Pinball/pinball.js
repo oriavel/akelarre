@@ -1,3 +1,9 @@
+import Flipper from "./elements/Flipper.js";
+import Ball from "./elements/Ball.js";
+import Bumper from "./elements/Bumpers.js";
+import Wall from "./elements/Wall.js";
+import Score from "./elements/Score.js";
+
 export default class Pinball extends Phaser.Scene {
   constructor() {
     super({
@@ -6,110 +12,128 @@ export default class Pinball extends Phaser.Scene {
         default: "matter",
         matter: {
           debug: true,
-          gravity: { y: 0.5 },
+          gravity: { y: 0.9 },
         },
       },
     });
   }
 
-  initPhysics() {
-    this.X = 300;
-    this.Y = 400;
-    this.LEVER = 64;
-    this.WIDTH = 112;
-    this.HEIGHT = 32;
-    this.STIFFNESS = 0.1;
-    this.MIN = Phaser.Math.DegToRad(32);
-    this.MAX = Phaser.Math.DegToRad(-15);
-  }
-
-  flip(isDown) {
-    this.tweens.add({
-      targets: [this.tweener],
-      x: isDown ? this.MAX : this.MIN,
-      duration: 50,
-      onUpdateScope: this,
-      onUpdate: () => {
-        this.lever.setPosition(
-          this.X - Math.cos(this.tweener.x) * this.LEVER,
-          this.Y - Math.sin(this.tweener.x) * this.LEVER
-        );
-      },
-    });
+  preload() {
+    this.load.image("ball", "./src/assets/Pinball/ball.png");
+    this.load.image("background", "./src/assets/Backgrounds/stary-night.webp");
   }
 
   create() {
-    this.initPhysics();
-
-    // add rectangle and its physics
-    this.rectangle = this.add.rectangle(
-      this.X,
-      this.Y,
-      this.WIDTH,
-      this.HEIGHT,
-      0x5a0571
-    );
-    this.flipper = this.matter.add.gameObject(this.rectangle, {
-      friction: 1,
-    });
-    // tweens: manipulate properties of objects to any given value
-    this.tweener = {
-      x: this.MIN,
-    };
-
-    // Sensor to move the flipper more naturally and constraint how it moves
-    this.lever = this.matter.add
-      .image(
-        this.X - Math.cos(this.tweener.x) * this.LEVER,
-        this.Y - Math.sin(this.tweener.x) * this.LEVER,
-        null,
-        null,
-        {
-          isSensor: true,
-          isStatic: true,
-        }
-      )
-      .setVisible(false);
-
-    // fixed point in the middle of the flipper
-    this.matter.add.worldConstraint(this.flipper, 0, 1, {
-      pointA: new Phaser.Math.Vector2(this.X, this.Y),
-      pointB: new Phaser.Math.Vector2(),
-    });
-
-    this.matter.add.constraint(
-      this.flipper,
-      this.lever.body,
-      0,
-      this.STIFFNESS,
-      {
-        pointA: new Phaser.Math.Vector2(
-          (this.WIDTH - this.HEIGHT) / 2 + this.LEVER,
-          0
-        ),
-      }
+    this.INIT_POS = { x: 130, y: 0 };
+    this.FLIPPERS_Y = 520;
+    this.HALF = this.game.config.width / 2;
+    const background = this.add.image(0, 0, "background").setOrigin(0, 0);
+    background.setScale(
+      this.game.config.width / background.width,
+      this.game.config.height / background.height
     );
 
-    // add ball
-    this.circle = this.add.circle(this.X, 0, 16, 0xa3ff00);
-    this.ball = this.matter.add.gameObject(this.circle).setCircle(16);
+    this.score = new Score(this, 1000, 10, 3); // Initialize game score and lifes
+    this.initGameElements();
+    this.initFlipperKeys();
+  }
 
-    // input key for flipper
-    var space = this.input.keyboard.addKey("space");
+  initFlipperKeys() {
+    // Initialize keyboard controls
+    this.leftKey = this.input.keyboard.addKey("LEFT");
+    this.rightKey = this.input.keyboard.addKey("RIGHT");
 
-    space.on("down", () => {
-      this.flip(true);
+    this.leftKey.on("down", () => {
+      this.leftFlipper.flip(true);
     });
+    this.leftKey.on("up", () => {
+      this.leftFlipper.flip(false);
+    });
+    this.rightKey.on("down", () => {
+      this.rightFlipper.flip(true);
+    });
+    this.rightKey.on("up", () => {
+      this.rightFlipper.flip(false);
+    });
+  }
 
-    space.on("up", () => {
-      this.flip(false);
+  initGameElements() {
+    // Initialize game physics
+    this.ball = new Ball(this, this.INIT_POS.x, this.INIT_POS.y, 16, 0xa3ff00);
+    this.leftFlipper = new Flipper(
+      this,
+      this.HALF - 70,
+      this.FLIPPERS_Y,
+      "left"
+    );
+    this.rightFlipper = new Flipper(
+      this,
+      this.HALF + 70,
+      this.FLIPPERS_Y,
+      "right"
+    );
+    this.leftWall = new Wall(
+      this,
+      this.HALF - 245,
+      this.FLIPPERS_Y - 235,
+      -0.4
+    );
+    this.rightWall = new Wall(
+      this,
+      this.HALF + 250,
+      this.FLIPPERS_Y - 235,
+      0.4
+    );
+    const bumperPositions = [
+      { x: 200, y: 180 },
+      { x: 400, y: 180 },
+      { x: 600, y: 180 },
+      { x: 250, y: 130 },
+      { x: 550, y: 130 },
+      { x: 400, y: 110 },
+    ];
+    this.bumpers = bumperPositions.map((position) => {
+      return new Bumper(this, position.x, position.y);
     });
   }
 
   update() {
-    if (Math.abs(this.ball.y) > this.game.config.height) {
-      this.ball.setPosition(this.X, 0);
-      this.ball.setVelocity(0);
+    // Check if the ball falls out of the screen
+    if (Math.abs(this.ball.body.y) > this.game.config.height) {
+      this.ball.body.setPosition(this.INIT_POS.x, this.INIT_POS.y);
+      this.ball.body.setVelocity(0);
+      // decrease the number of lifes by 1
+      this.score.decreaseLife();
+      if (this.score.lifes <= 0) {
+        // game over - lost
+        this.gameOver(false);
+      }
     }
+
+    // check if the game is over
+    if (this.score.lifes === 0) {
+      //this.scene.start("GameOver", { score: this.score.points });
+    }
+    // update the score
+  }
+
+  gameOver(win) {
+    this.scene.pause();
+    this.game.config.backgroundColor = "#000000";
+    const gameOverText = win ? "You win!" : "Game over";
+    const gameOverStyle = {
+      font: "48px Arial",
+      fill: "#ffffff",
+      align: "center",
+    };
+    const gameOverMessage = this.add.text(
+      this.game.config.width / 2,
+      this.game.config.height / 2,
+      gameOverText,
+      gameOverStyle
+    );
+    gameOverMessage.setOrigin(0.5, 0.5);
+
+    // You could add logic here to transition to another scene or restart the game.
   }
 }
