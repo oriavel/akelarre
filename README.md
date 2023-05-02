@@ -44,7 +44,7 @@ Las pruebas que el jugador tendrá que superar consistirán en algunos minijuego
 Las pruebas consistirán en:
 - Pinball con temática de brujería, en el que habrá que alcanzar una determinada puntuación para poder superar el nivel
 - Intentar huir de la cabra. Será un reto plataforma 2d en el que el jugador no podrá detenerse y debe evitar toda clase de obstáculos para que la cabra no le alcance.
-- Esquivar proyectiles lanzados por las brujas. Estas desde arriba lanzarán hechizos hacia abajo mientras el jugador debe evitarlos mientras asciende en la cueva para poder salir. 
+- Esquivar las pociones lanzadas por las brujas. Una bruja desde arriba lanzará pociones hacia abajo, el jugador deberá evitarlas y aguantar hasta que el temporizador llegue a 0. 
 
 Cada prueba te dará un fragmento de llave, al completar los 3 los fragmentos se unirán (magia) y obtendrás la llave que te permitirá abrir la puerta de salida y huir.
 
