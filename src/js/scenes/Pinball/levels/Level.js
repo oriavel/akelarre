@@ -163,7 +163,7 @@ export default class Level extends Phaser.Scene {
       const enterKey = this.input.keyboard.addKey("ENTER");
       if (this.game.config.keys < 2) {
         // this.NEXT_LEVEL = "cueva" &&
-        this.game.config.keys.keys++;
+        this.game.config.keys++;
         let newKey = this.add.text(
           this.GWIDTH / 2,
           this.GHEIGHT / 2 - 100,

@@ -45,7 +45,6 @@ export default class Cueva extends Phaser.Scene {
    * Creación de los elementos de la escena principal de juego
    */
   create() {
-    this.game.config.keys = 2;
     this.audioCueva = this.sound.add("cueva_audio");
     this.audioCueva.play();
 
@@ -67,7 +66,7 @@ export default class Cueva extends Phaser.Scene {
     
     //NPCs
 
-    this.bruja3 = this.physics.add.sprite(1555,390, 'bruja1').setScale(2);
+    this.bruja3 = this.physics.add.sprite(1555,390, 'bruja3').setScale(2);
     this.bruja3.setSize(15, 15);
     this.bruja3.setDepth(1);
     this.bruja3.body.offset.y = 16;
