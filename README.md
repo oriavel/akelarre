@@ -68,7 +68,7 @@ En cada prueba los controles cambian:
 
 ### 5. CAPTURAS DEL JUEGO/BOCETOS
 Protagonista dentro de la cueva
-![image](https://user-images.githubusercontent.com/79701191/228315741-d2f071ae-3d8b-43b0-a3f0-52384c78392b.png)
+![image](https://i.imgur.com/X3vyOzh_d.webp?maxwidth=760&fidelity=grand)
 
 GoatRun!
 
