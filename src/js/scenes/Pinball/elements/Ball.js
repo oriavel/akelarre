@@ -1,10 +1,9 @@
 export default class Ball {
-  constructor(scene, x, y, radius, color) {
+  constructor(scene, x, y, radius = 16) {
     this.scene = scene;
     this.x = x;
     this.y = y;
     this.radius = radius;
-    this.color = color;
 
     // add the ball to the scene
     this.image = this.scene.physics.add
@@ -37,5 +36,12 @@ export default class Ball {
   destroy() {
     this.image.destroy();
     this.body.destroy();
+  }
+  update() {
+    if (Math.abs(this.body.y) > this.scene.game.config.height) {
+      this.body.setPosition(this.x, this.y); // bring to the initial position
+      this.body.setVelocity(0); // reset velocity
+      this.scene.score.decreaseLife(); // decrease life
+    }
   }
 }

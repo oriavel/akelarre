@@ -1,5 +1,5 @@
 export default class Flipper {
-  constructor(scene, x, y, direction) {
+  constructor(scene, x, y, direction, key) {
     this.scene = scene;
     this.x = x;
     this.y = y;
@@ -11,7 +11,6 @@ export default class Flipper {
     this.BOUNCE = 1.5; // When something hits it bounces with this power
     this.ANGLE = 25;
 
-
     // Left or right direction
     if (this.direction == "right") {
       this.MIN = Phaser.Math.DegToRad(-this.ANGLE);
@@ -22,6 +21,7 @@ export default class Flipper {
     }
 
     this.init();
+    this.addKey(key);
   }
 
   init() {
@@ -33,9 +33,11 @@ export default class Flipper {
       this.HEIGHT,
       0x5a0571
     );
-    this.flipper = this.scene.matter.add.gameObject(this.rectangle, {
-      friction: 1,
-    }).setBounce(this.BOUNCE);
+    this.flipper = this.scene.matter.add
+      .gameObject(this.rectangle, {
+        friction: 1,
+      })
+      .setBounce(this.BOUNCE);
 
     // tweens: manipulate properties of objects to any given value
     this.tweener = {
@@ -74,6 +76,16 @@ export default class Flipper {
         ),
       }
     );
+  }
+
+  addKey(key) {
+    this.key = this.scene.input.keyboard.addKey(key);
+    this.key.on("down", () => {
+      this.flip(true);
+    });
+    this.key.on("up", () => {
+      this.flip(false);
+    });
   }
 
   flip(isDown) {
