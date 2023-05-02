@@ -81,23 +81,23 @@ export default class Dialogos{
         idArray.push(idBruja3);
         const dialogosBruja = [
             "¡Ah! Hola...",
-            "Mis hermanas me han mandado quedarme aqui vigilandote, no  \nme esperaba que me encontraras...",
+            "Mis hermanas me han mandado quedarme aquí vigilándote, no  \nme esperaba que me encontraras...",
             "... Lo siento mucho por ti, es una pena que tu vida vaya a \nacabar tan pronto por nuestra culpa.",
             "A mis hermanas les encanta realizar sacrificios humanos pero \nla verdad es que a mi no me gusta nada...",
-            "Ojala pudiera dejarte ir, pero mis hermanas de dan demasiado \nmiedo...",
-            "¡Espera! He tenido una idea, yo no puedo dejarte salir, \n¡Pero si que puedo abrir los portales que llevan a las llaves!",
+            "Ojalá pudiera dejarte ir, pero mis hermanas de dan demasiado \nmiedo...",
+            "¡Espera! He tenido una idea, yo no puedo dejarte salir, \n¡Pero sí que puedo abrir los portales que llevan a las llaves!",
             "Por desgracia tu huida seguirá siendo algo muy dificil de \nconseguir...",
-            "Tras los portales se encuentran tres pruebas muy dificiles \nque tendrás que superar si quieres conseguir las llaves.",
+            "Tras los portales se encuentran tres pruebas muy difíciles \nque tendrás que superar si quieres conseguir las llaves.",
             "Estoy segura de que podrás lograrlo, y si no pues bueno... \nIbas a morir de todas formas...",
             "Voy a abrir los portales, ¡Consigue las llaves deprisa! Si \nmis hermanas terminan los preparativos antes de que huyas...",
             "No quiero ni imaginarme como harían para que tu sacrificio \nfuera incluso más doloroso, pero seguro que ellas sabrían como.",
             "No te preocupes por lo que me pueda pasar a mi cuando se \nenteren de que abrí los portales.",
             "¡Ya iba siendo hora de que les plantase cara a mis hermanas!",
-            "Los portales ya están abiertos, ¡Mucha suerte! Y que Belzebut \neste contigo...",
+            "Los portales ya están abiertos, ¡Mucha suerte! Y que Belzebut \nesté contigo...",
             "¡Ah, espera! Casi se me olvida, porfavor no entres en el \nPortal rojo de el centro hasta que no tengas las otras piezas",
             "Por ese portal solo puede entrar Sorgina, \nMi hermana mayor y la más malvada.",
-            "Ahí guarda la ultima pieza de llave, no confia en nosotras \npara salvaguardarla...",
-            "Cuando entres estoy seguro de que se enterará, ¡Has de \ncogerla rapido y correr como si tu vida dependiera de ello!",
+            "Ahí guarda la ultima pieza de llave, no confía en nosotras \npara salvaguardarla...",
+            "Cuando entres estoy seguro de que se enterará, ¡Has de \ncogerla rápido y correr como si tu vida dependiera de ello!",
             "Al fin y al cabo, tu vida depende de ello..."
         ];
         dialogos.push(dialogosBruja);
@@ -105,17 +105,17 @@ export default class Dialogos{
         var idMotos = 1; 
         idArray.push(idMotos);
         const dialogosMotos = [
-            "Ey nena, ¿Qué hace una chica como tu en un sitio como este?",
+            "Ey nena, ¿Qué hace una chica como tú en un sitio como este?",
             "Ja ja ja ja, *coff* *coff*...",
-            "¿Yo? Pues nada, estaba dandome un paseo de turisteo cuando \nderrepente vi a las mozas estas recogiendo plantas por la zona.",
-            "Con lo buenas que están me paré para hablarlas a ver si caia \nalguna 'minita', ya sabes ja ja ja.",
-            "Cuando me dijeron que querían llevarme a la cueva yo tan \ninocente pensé que habia triunfado, ¡Y mirame ahora!",
+            "¿Yo? Pues nada, estaba dándome un paseo de turisteo cuando \nde repente vi a las mozas estas recogiendo plantas por la zona.",
+            "Con lo buenas que están me paré para hablarlas a ver si caía \nalguna 'minita', ya sabes ja ja ja.",
+            "Cuando me dijeron que querían llevarme a la cueva yo tan \ninocente pensé que había triunfado, ¡Y mírame ahora!",
             "Me dijeron que iban a ofrecerme a su Dios, pero creo que al \nfinal pude convencerlas de que estaba demasiado bueno \npara eso.",
             "Desde ese momento me han dejado aquí en una esquina, no se \na que esperan para dejarme ir ja ja ja ja...",
             "¿No tendrás unas galletas dinosaurus por ahí o algo no? \nMe muero de hambre.",
             "Aunque ahora que te tengo delante me apetecen otras cosas \ntambién ja ja ja *coff* *coff*",
-            "Deduzco que a ti tambien te han capturado para un \nsacrificio ¿No?",
-            "Que te parece nena, ¿Hacemos que nuestros ultimos momentos \nvivos sean divertidos? ;)"
+            "Deduzco que a ti también te han capturado para un \nsacrificio ¿No?",
+            "Qué te parece nena, ¿Hacemos que nuestros últimos momentos \nvivos sean divertidos? ;)"
         ];
         dialogos.push(dialogosMotos);
 
@@ -124,20 +124,20 @@ export default class Dialogos{
         const dialogosGato =[
             "¡Hola, Bienvenida a la cueva!",
             "Soy el fiel amigo y servidor de las brujas, \n¡Y me lo paso pipa viendo los sacrificios humanos que hacen!",
-            "Tu eres la siguiente en la lista. Veo que eres \nmuy joven, pobrecita que poco has vivido...",
-            "JA JA JA JA JA, ¡Que pringada!",
+            "Tú eres la siguiente en la lista. Veo que eres \nmuy joven, pobrecita que poco has vivido...",
+            "JA JA JA JA JA, ¡Qué pringada!",
             "Te aviso de antemano de que no hay escapatoria, la salida\nestá bloqueada por una puerta mágica que necesita 3 llaves.",
             "¡Y no pienso decirte donde están! JA JA JA JA",
-            "Disfruta de tus ultimos momentos paseando por \nla cueva si quieres.",
-            "O quedate quieta hasta que vuelvan mis amas, \n¡Me da completamente igual!"
+            "Disfruta de tus últimos momentos paseando por \nla cueva si quieres.",
+            "O quédate quieta hasta que vuelvan mis amas, \n¡Me da completamente igual!"
         ];
         dialogos.push(dialogosGato);
 
         var idEst = 3; 
         idArray.push(idEst);
         const dialogosEstanteria =[
-            "Hay un montón de libros de hechiceria y herbologia...",
-            "'El necronomicon', 'Sacrificios101', \n'Plantas venenosas y como usarlas'...",
+            "Hay un montón de libros de hechicería y herbología...",
+            "'El necronomicón', 'Sacrificios101', \n'Plantas venenosas y cómo usarlas'...",
             "Que mal rollo..."
         ];
         dialogos.push(dialogosEstanteria);
@@ -146,7 +146,7 @@ export default class Dialogos{
         idArray.push(idCald);
         const dialogosCaldero =[
             "Supongo que con esto hacen sus pociones, que esteriotípico",
-            "Esta burbujeando, me pregunto que efecto \ntendría si lo bebo",
+            "Está burbujeando, me pregunto que efecto \ntendría si lo bebo",
             "Huele fatal..."
         ];
         dialogos.push(dialogosCaldero);
@@ -154,8 +154,8 @@ export default class Dialogos{
         var idCartel1 = 5; 
         idArray.push(idCartel1);
         const dialogoCartel1 =[
-            "Pone '¡Os tengo dicho que a este portal solo entro yo!,\nHe puesto una alarma de lo harta que me teneis.'",
-            "'Considerar este cartel como un último aviso, a la \nproxima que vea dentro le caerá una lluvia de pociones rojas.'",
+            "Pone '¡Os tengo dicho que a este portal sólo entro yo!,\nHe puesto una alarma de lo harta que me teneis.'",
+            "'Considerar este cartel como un último aviso, a la \npróxima que vea dentro le caerá una lluvia de pociones rojas.'",
             "'-Sorgina.'",
             "Estoy acojonadísima."
         ];
@@ -164,9 +164,9 @@ export default class Dialogos{
         var idCartel2 = 6; 
         idArray.push(idCartel2);
         const dialogoCartel2 =[
-            "Pone 'Ranking:' '1º Sorgina: 999.999.999 pts' \n'2ºGraciana: 450.900.000 pts'",
-            "'3ºMaría: 5 pts'",
-            "Supongo que aparte de sacrificando humanos se entretienen \njugando a otra cosa, me siento mal por María..."
+            "Pone 'Ranking:' '1º Sorgina: 999.999.999 pts' \n'2º Graciana: 450.900.000 pts'",
+            "'3º María: 5 pts'",
+            "Supongo que a parte de sacrificando humanos se entretienen \njugando a otra cosa, me siento mal por María..."
         ];
         dialogos.push(dialogoCartel2);
 
@@ -181,7 +181,7 @@ export default class Dialogos{
         var idPortales = 8; 
         idArray.push(idPortales);
         const dialogoPortales =[
-            "¿Quiero entrar en el portal ya?\n(Presiona ENTER para entrar y ESC si aún no estas preparado)."
+            "¿Quiero entrar en el portal ya?\n(Presiona ENTER para entrar y ESC si aún no estás preparado)."
         ];
         dialogos.push(dialogoPortales);
 
@@ -193,10 +193,10 @@ export default class Dialogos{
             "...",
             "¿Pasa algo, María?",
             "¡N- No Sorgina, para nada!",
-            "Eso pensaba, ¡Estupendo! Ahora solo queda terminar los \npreparativos para el ritual, ¡Graciana, vamos!",
+            "Eso pensaba, ¡Estupendo! Ahora sólo queda terminar los \npreparativos para el ritual, ¡Graciana, vamos!",
             "¡ji ji ji, que ganas!",
             "...",
-            "¡María!, ya sabes que hacer, ¿Verdad?",
+            "¡María!, ya sabes qué hacer, ¿Verdad?",
             "S-Si hermana, ¡Voy!",
             "",
             "...",
@@ -208,22 +208,28 @@ export default class Dialogos{
         idArray.push(idFinal);
         const dialogoFinal = [ //Sorgina: 0, 2, 4, 6, 8, 9, 12, 13, 15, 16. Graciana: 1, 5, 7, 14, 17. Maria: 3, 11, 18. Amaia: 10
         "Ugh...Estoy agotada...",
+<<<<<<< Updated upstream
         "¡Hermana! ¿Que ha pasado? No me digas que esta humana...", 
         "¡Silencio Graciana!...esta humana es mucho mas habil \nde lo que nunca me habría imaginado...",
         "No se como has podido abrir los portales, pero me has impresionado.",
+=======
+        "¡Hermana! ¿Qué ha pasado? No me digas que esta humana...", 
+        "¡Silencio Graciana!... esta humana es mucho mas hábil \nde lo que nunca me habría imaginado...",
+        "No se cómo has podido abrir los portales, \npero me has impresionado.",
+>>>>>>> Stashed changes
         "...",
-        "Hermana...¿Que quieres que hagamos ahora?",
-        "Cuando nuestro señor recibe una ofrenda no solo \nabsorbe el cuerpo de el sacrificio, también su mente.",
+        "Hermana...¿Qué quieres que hagamos ahora?",
+        "Cuando nuestro señor recibe una ofrenda no sólo \nabsorbe el cuerpo de el sacrificio, también su mente.",
         "Entonces, si seguimos con el plan y sacrificamos \na esta chica...",
         "Vería como perdí contra esta humana. \n¡No puedo permitirlo!",
-        "Tu, chica, puedes irte.",
+        "Tú, chica, puedes irte.",
         "¿Cómo?",
         "!!",
         "No te pienses que te dejo ir sin más.\nEn cuanto salgas de esta cueva no recordarás nada \nde lo acontecido.",
         "Te olvidarás de nosotras y de la cueva,\ncomo si nunca hubiera pasado nada.",
         "Pero...",
         "¡Silencio! Considera esto como premio por \nhaber conseguido las llaves",
-        "Verte solo me recuerda la humillación de la derrota,\n¡Vete ya antes de que cambie de opinión!",
+        "Verte sólo me recuerda la humillación de la derrota,\n¡Vete ya antes de que cambie de opinión!",
         "...",
         "¡A-Adios!..."
         ];
