@@ -156,6 +156,7 @@ export default class Level extends Phaser.Scene {
     });
 
     exitKey.on("down", () => {
+      this.music.pause()
       this.scene.stop();
       this.scene.start("cueva");
     });
