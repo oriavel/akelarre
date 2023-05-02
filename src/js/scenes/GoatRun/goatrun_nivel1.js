@@ -43,7 +43,7 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
         //Pantallita del texto
         this.graphics = this.add.graphics({x: this.game.config.width/15, y: this.game.config.height/3});
         this.graphics.fillStyle(0x000000, 0.8);
-        this.graphics.fillRect(0, 0, 700, 100);
+        this.graphics.fillRect(0, 0, 700, 150);
         this.graphics.lineStyle(4, 0x000000, 1);
         this.graphics.strokeRect(0, 0, 700, 100);
         //El texto
@@ -93,6 +93,7 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
             this.isInvulnerable = false;
             setTimeout(() => {
                 if(!this.firstTime){
+                    this.music.stop();
                     this.scene.stop('goatrun_nivel1');
                     this.physics.pause();
                     this.scene.start('goatrun_nivel2');

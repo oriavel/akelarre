@@ -1,9 +1,10 @@
 export default class Dialogos{
-    constructor(scene) {
+    constructor(scene, color) {
         this.scene = scene;
+        this.color = color;
         // Agregar la clase al juego
         scene.add.existing(this);
-      
+        
         // Agregar la física al objeto
         scene.physics.add.existing(this);
         this.scene.physics.add.collider(this, this.scene.layer, null,null, this);
@@ -23,7 +24,7 @@ export default class Dialogos{
 
         //Gráfico adicional
         this.graphicsNombre = this.scene.add.graphics({x: this.graphics.x, y: this.graphics.y - 30});
-        this.graphicsNombre.fillStyle(0x000000, 0.8);
+        this.graphicsNombre.fillStyle(this.color, 0.8);
         this.graphicsNombre.fillRect(0, 0, 150, 30);
         this.graphicsNombre.lineStyle(4, 0x000000, 1);
         this.graphicsNombre.strokeRect(0, 0, 150, 30);
@@ -67,9 +68,7 @@ export default class Dialogos{
         this.text.setPosition(x - 350,y + 170);
         this.textNombre.setPosition(this.graphicsNombre.x + 50, this.graphicsNombre.y + 15);
     }
-    getNombre(){
-        return this.textNombre.text;
-    }
+
     getDialogo(index){
         var i = 0;
         var found = false;
@@ -199,24 +198,20 @@ export default class Dialogos{
             "¡María!, ya sabes qué hacer, ¿Verdad?",
             "S-Si hermana, ¡Voy!",
             "",
+            "",
             "...",
             "En menuda me he metido...",
+            ""
         ];
         dialogos.push(dialogoIntro);
 
         var idFinal = 10;
         idArray.push(idFinal);
-        const dialogoFinal = [ //Sorgina: 0, 2, 4, 6, 8, 9, 12, 13, 15, 16. Graciana: 1, 5, 7, 14, 17. Maria: 3, 11, 18. Amaia: 10
+        const dialogoFinal = [ //Sorgina: 0, 2, 3, 6, 8, 9, 12, 13, 15, 16. Graciana: 1, 5, 7, 14, 17. Maria: 4, 11, 18. Amaia: 10
         "Ugh...Estoy agotada...",
-<<<<<<< Updated upstream
-        "¡Hermana! ¿Que ha pasado? No me digas que esta humana...", 
-        "¡Silencio Graciana!...esta humana es mucho mas habil \nde lo que nunca me habría imaginado...",
-        "No se como has podido abrir los portales, pero me has impresionado.",
-=======
         "¡Hermana! ¿Qué ha pasado? No me digas que esta humana...", 
         "¡Silencio Graciana!... esta humana es mucho mas hábil \nde lo que nunca me habría imaginado...",
         "No se cómo has podido abrir los portales, \npero me has impresionado.",
->>>>>>> Stashed changes
         "...",
         "Hermana...¿Qué quieres que hagamos ahora?",
         "Cuando nuestro señor recibe una ofrenda no sólo \nabsorbe el cuerpo de el sacrificio, también su mente.",

@@ -78,6 +78,8 @@ export default class BaseGoatRun extends Phaser.Scene {
             { frameWidth: 100, frameHeight: 53 }
         );
 
+        this.load.audio('music', 'src/audio/background_cave.mp3');
+
     
         let i;
         // Fire columns. 1-14
@@ -221,6 +223,13 @@ export default class BaseGoatRun extends Phaser.Scene {
             repeat: -1
           });
 
+        this.music = this.sound.add('music');
+        this.music.play({
+            volume: 0.2,
+            loop: true
+        });
+        
+
         this.heart1.anims.play('heart_filled', true);
         this.heart2.anims.play('heart_filled', true);
         this.heart3.anims.play('heart_filled', true);
@@ -333,6 +342,7 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         if (this.enterKey.isDown) {
             this.text.setVisible(false);
+            this.text_.setVisible(false);
             this.graphics.setVisible(false);
             this.text_.setVisible(false);
             this.startGame = true;
@@ -400,11 +410,13 @@ export default class BaseGoatRun extends Phaser.Scene {
         }
         else if (this.restart){
             if (this.enterKey.isDown) { // Reinicia el juego
+                this.music.stop();
                 this.scene.stop(this.key);
                 this.scene.start('goatrun_nivel1');
             }
             
             else if (this.escape.isDown) {// (this.escape.isDown){ // Vuelve a la cueva
+                this.music.stop();
                 this.scene.stop(this.key);
                 this.scene.start('cueva');
             }
