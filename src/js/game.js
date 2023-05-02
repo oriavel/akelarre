@@ -21,6 +21,9 @@ let config = {
   width: 800,
   height: 600,
   keys: 0, //Piezas de llaves para los minijuegos
+  key1: false,
+  key2: false,
+  key3: false,
   minijuego: 0,
   pixelArt: true,
   scale: {
