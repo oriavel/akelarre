@@ -12,7 +12,7 @@ export default class Score {
       scene.game.config.height - 95,
       "Score: " + this.score + "/" + this.GOAL,
       {
-        font: "24px Arial",
+        font: "20px Arial",
         fill: "#ffffff",
       }
     );
@@ -21,7 +21,7 @@ export default class Score {
       scene.game.config.height - 60,
       "Vidas: " + this.lifes,
       {
-        font: "24px Arial",
+        font: "20px Arial",
         fill: "#ffffff",
       }
     );

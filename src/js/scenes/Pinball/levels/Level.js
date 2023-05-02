@@ -1,9 +1,8 @@
-import Flipper from "./elements/Flipper.js";
-import Ball from "./elements/Ball.js";
-import Bumper from "./elements/Bumpers.js";
-import Wall from "./elements/Wall.js";
-import Score from "./elements/Score.js";
-
+import Flipper from "../elements/Flipper.js";
+import Ball from "../elements/Ball.js";
+import Bumper from "../elements/Bumpers.js";
+import Wall from "../elements/Wall.js";
+import Score from "../elements/Score.js";
 export default class Level extends Phaser.Scene {
   constructor(
     level,
@@ -34,8 +33,6 @@ export default class Level extends Phaser.Scene {
     this.SCORING = scoring;
     this.ASSETS = assets;
     this.NEXT_LEVEL = nextLevel;
-    this.GWIDTH = this.game.config.width;
-    this.GHEIGHT = this.game.config.height;
   }
 
   preload() {
@@ -45,6 +42,8 @@ export default class Level extends Phaser.Scene {
   }
 
   create() {
+    this.GWIDTH = this.game.config.width;
+    this.GHEIGHT = this.game.config.height;
     this.over = false;
     const background = this.add.image(0, 0, "background").setOrigin(0, 0);
     background.setScale(
@@ -135,11 +134,11 @@ export default class Level extends Phaser.Scene {
       this.scene.stop();
       this.scene.start("cueva");
     });
-    if (!isWin) {
-      console.log(this.game.config);
+    if (isWin) {
       const enterKey = this.input.keyboard.addKey("ENTER");
-      if ((this.NEXT_LEVEL = "cueva" && this.game.config.keys < 2)) {
-        this.game.config.keys++;
+      if (this.game.config.keys < 2) {
+        // this.NEXT_LEVEL = "cueva" &&
+        this.game.config.keys.keys++;
         let newKey = this.add.text(
           this.GWIDTH / 2,
           this.GHEIGHT / 2 - 100,

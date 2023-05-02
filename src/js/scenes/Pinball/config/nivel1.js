@@ -4,7 +4,7 @@ const FLIPPERS_Y = 520;
 const config = {
   level: "PinballLevel1",
   nextLevel: "PinballLevel2",
-  gravity: 0.9,
+  gravity: 1,
   assets: [
     {
       label: "background",
@@ -25,12 +25,12 @@ const config = {
     { x: HALF - 90, y: FLIPPERS_Y, direction: "left", key: "LEFT" },
   ],
   bumpers: [
-    { x: 200, y: 180 },
-    { x: 400, y: 180 },
-    { x: 600, y: 180 },
-    { x: 250, y: 130 },
-    { x: 550, y: 130 },
-    { x: 400, y: 110 },
+    { x: 200, y: 190 },
+    { x: 400, y: 190 },
+    { x: 600, y: 190 },
+    { x: 250, y: 140 },
+    { x: 550, y: 140 },
+    { x: 400, y: 120 },
   ],
   walls: [
     {

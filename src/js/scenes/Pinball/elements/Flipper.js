@@ -4,11 +4,12 @@ export default class Flipper {
     this.x = x;
     this.y = y;
     this.LEVER = 50;
-    this.WIDTH = 110;
+    this.WIDTH = 120;
     this.HEIGHT = 10;
     this.STIFFNESS = 0.1;
-    this.BOUNCE = 1.5; // When something hits it bounces with this power
+    this.BOUNCE = 1.2; // When something hits it bounces with this power
     this.ANGLE = 25;
+    this.COLOR = 0xa3ff00;
 
     // Left or right direction
     if (direction == "right") {
@@ -30,7 +31,7 @@ export default class Flipper {
       this.y,
       this.WIDTH,
       this.HEIGHT,
-      0x5a0571
+      this.COLOR
     );
     this.flipper = this.scene.matter.add
       .gameObject(this.rectangle, {

@@ -3,7 +3,6 @@ export default class Bumper {
     this.scene = scene;
     this.x = x;
     this.y = y;
-    this.color = 0xefb243;
     this.radius = 20;
 
     this.circle = this.scene.physics.add

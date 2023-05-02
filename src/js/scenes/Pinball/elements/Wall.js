@@ -3,7 +3,7 @@ export default class Wall {
     this.scene = scene;
     this.x = x;
     this.y = y;
-    this.color = 0xefb243;
+    this.color = 0x5d5959;
     this.angle = angle;
     // add enclosing side bars
     this.poly = this.scene.add.polygon(this.x, this.y, bar, this.color, 1);
