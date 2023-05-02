@@ -92,6 +92,7 @@ export default class GoatRun_Nivel1 extends BaseGoatRun {
             this.isInvulnerable = false;
             setTimeout(() => {
                 if(!this.firstTime){
+                    this.music.stop();
                     this.scene.stop('goatrun_nivel1');
                     this.physics.pause();
                     this.scene.start('goatrun_nivel2');

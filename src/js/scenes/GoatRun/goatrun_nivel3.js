@@ -36,6 +36,7 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
 
         if (this.enterKey.isDown) {
             this.text.setVisible(false);
+            this.text_.setVisible(false);
             this.graphics.setVisible(false);
             this.startGame = true;
         }
@@ -117,6 +118,7 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
                     if(this.game.config.keys < 2){
                         this.game.config.keys++;
                     }
+                    this.music.stop();
                     this.scene.stop(this.key);
                     this.scene.start('cueva');
                 } 
@@ -124,11 +126,13 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
             else{
                 if (this.enterKey.isDown) { // Reinicia el juego
                     console.log("pierde");
+                    this.music.stop();
                     this.scene.stop(this.key);
                     this.scene.start('goatrun_nivel1');
                 }
                 
                 else if (this.cursors.left.isDown) {// (this.escape.isDown){ // Vuelve a la cueva
+                    this.music.stop();
                     this.scene.stop(this.key);
                     this.scene.start('cueva');
                 }
@@ -154,6 +158,7 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
         this.graphics.strokeRect(0, 0, 700, 100);
         //El texto
         this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 3: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
+        this.text_ = this.add.text(this.graphics.x + 150, this.graphics.y+30, "", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 

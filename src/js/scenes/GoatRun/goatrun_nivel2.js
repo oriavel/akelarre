@@ -48,6 +48,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
         this.graphics.strokeRect(0, 0, 700, 100);
         //El texto
         this.text = this.add.text(this.graphics.x + 150, this.graphics.y+30, "Nivel 2: pulsa Enter para comenzar", { font: "24px Arial", fill: "#ffffff" });
+        this.text_ = this.add.text(this.graphics.x + 150, this.graphics.y+30, "", { font: "24px Arial", fill: "#ffffff" });
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 
@@ -99,6 +100,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
             this.isInvulnerable = false;
             setTimeout(() => {
                 if(!this.firstTime){
+                    this.music.stop();
                     this.scene.stop('goatrun_nivel2');
                     this.physics.pause();
                     this.scene.start('goatrun_nivel3');
