@@ -424,10 +424,7 @@ export default class AvoidThePotions extends Phaser.Scene {
     this.startGame = false;
     this.finishedGame = false;
     this.hasGanado = false;
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
     this.break_potion_audio =this.sound.add('break_potion_audio');
     this.bat_death_audio = this.sound.add('bat_death_audio');
     this.fire_audio = this.sound.add('fire_audio');
