@@ -39,7 +39,7 @@ export default class Cueva extends Phaser.Scene {
         this.load.image('portal1', 'src/assets/Portal1.png');
         this.load.image('portal2', 'src/assets/Portal2.png');
         this.load.image('portal3', 'src/assets/Portal3.png');
-
+        
     }
 	
 	/**
@@ -48,7 +48,9 @@ export default class Cueva extends Phaser.Scene {
 	create(){
         
         this.game.config.keys = 2;
-        
+        this.audioCueva = this.sound.add('cueva_audio');
+        this.audioCueva.play();
+
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		    const tileset = map.addTilesetImage('PatronCueva', 'tiles')
@@ -68,30 +70,23 @@ export default class Cueva extends Phaser.Scene {
         this.player.setDepth(2);
         
         //NPCs
-        this.bruja3 = this.physics.add.sprite(1555, 390, 'bruja3').setScale(2);
-        this.bruja3.setSize(15, 15);
-        this.bruja3.setDepth(1);
-        this.bruja3.body.offset.y = 16;
-        //this.bruja3.body.immovable = true;
+       
+        this.bruja3 = new NPC(this,1555,390, 0,0,16,15,15);
+        this.bruja3.createSprite('bruja3');
 
         this.motos = new NPC(this, 1595, 1100, 1, 5, 7, 13, 20);
         this.motos.createSprite('motos');
 
-        this.gato = this.physics.add.sprite(690, 1360, 'gato').setScale(2);
-        this.gato.setSize(13, 20);
-        this.gato.setDepth(1);
-        this.gato.body.offset.x = 5;
-        //this.gato.body.offset.y = 7;
-        this.gato.body.immovable = true;
+        this.gato = new NPC(this,690,1360,2,5,0,13,20);
+        this.gato.createSprite('gato');
 
         //Objetos interactuables
-        this.estanteria = this.physics.add.sprite(400, 390, 'vacio').setScale(2);
-        this.estanteria.setSize(25,27);
-        this.estanteria.body.offset.x = 8;
         
-        this.caldero = this.physics.add.sprite(465, 400, 'vacio').setScale(2);
-        this.caldero.setSize(15,20);
-        this.caldero.body.offset.x = 8;
+        this.estanteria = new NPC(this, 400, 390, 3, 8, 15, 25, 27);
+        this.estanteria.createSprite('vacio');
+        
+        this.caldero = new NPC(this, 465, 400, 4, 8, 15, 15, 20);
+        this.caldero.createSprite('vacio');
 
         this.portal1 = this.physics.add.sprite(1030, 540, 'portal1').setScale(0.6); //El rojo (pociones)
         this.portal1.setSize(50,50);
@@ -127,7 +122,6 @@ export default class Cueva extends Phaser.Scene {
         this.espacio = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.escape = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-        
 
         this.addOverlap(this.player,this.bruja3, this.dialogBox.getDialogo(0),"María",this.dialogBoxBruja3 );
         this.addOverlap(this.player,this.motos, this.dialogBox.getDialogo(1),"Pablo Motos",this.dialogBox );
@@ -205,8 +199,6 @@ export default class Cueva extends Phaser.Scene {
 
         this.player.anims.play('stop_up_amaia', true);
 
-        
-        console.log(this.game.config.keys);
         if(this.game.config.minijuego == 1){
           this.portal1.setVisible(true);
           this.portal2.setVisible(true);
@@ -231,8 +223,6 @@ export default class Cueva extends Phaser.Scene {
 
             if (length < dialogo.length) {
               dialogBox.setTexto(dialogo[length]);
-              console.log(dialogo[length]);
-              console.log(length);
               length++;
             }
 
@@ -292,9 +282,7 @@ export default class Cueva extends Phaser.Scene {
 
   //Loop del juego
   update() {
-    //console.log(this.player.x);
-    //console.log(this.player.y);
-    
+
     if(!this.player.isHablando() && !enPortal){
       this.player.checkMovement(this.cursors);
     }
@@ -303,6 +291,9 @@ export default class Cueva extends Phaser.Scene {
 
     if (Phaser.Input.Keyboard.JustDown(this.enter) && enPortal) {
       enPortal = false;
+      this.game.config.minijuego = 1;
+      this.audioCueva.pause();
+      this.audioCueva.currentTime = 0;
       if (this.portal == this.portal1 && this.game.config.keys == 2) {
         this.scene.stop(this);
         this.scene.start("avoidthepotions");
@@ -316,7 +307,9 @@ export default class Cueva extends Phaser.Scene {
     } else if (Phaser.Input.Keyboard.JustDown(this.escape) && enPortal) {
       this.salirPortal(this.dialogBox);
     }
-
+    if (!this.audioCueva.isPlaying){
+      this.audioCueva.play();
+    }
   }
 }
 
