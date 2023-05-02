@@ -457,8 +457,6 @@ export default class AvoidThePotions extends Phaser.Scene {
         this.scene.stop("avoidthepotions");
         if(this.hasGanado) this.scene.start("final");
         else this.scene.start("cueva");
-        
-        
       }
     }
 

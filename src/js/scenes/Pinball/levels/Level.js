@@ -156,14 +156,12 @@ export default class Level extends Phaser.Scene {
     });
 
     exitKey.on("down", () => {
-      this.music.pause()
       this.scene.stop();
       this.scene.start("cueva");
     });
     if (isWin) {
       const enterKey = this.input.keyboard.addKey("ENTER");
-      if (!this.game.config.key1) {
-        // this.NEXT_LEVEL = "cueva" &&
+      if ((this.NEXT_LEVEL === "cueva" && !this.game.config.key1)) {
         this.game.config.keys++;
         this.game.config.key1 = true;
         let newKey = this.add.text(
@@ -190,6 +188,6 @@ export default class Level extends Phaser.Scene {
       message.instructions,
       { fontSize: "20px", fill: "#fff" }
     );
-    instructionsText.setOrigin(0.5, 0.5);
-  }
+    instructionsText.setOrigin(0.5, 0.5);
+  }
 }

@@ -45,6 +45,7 @@ export default class Cueva extends Phaser.Scene {
    * Creación de los elementos de la escena principal de juego
    */
   create() {
+    console.log(this.game.config.keys);
     this.audioCueva = this.sound.add("cueva_audio");
     this.audioCueva.play();
 
