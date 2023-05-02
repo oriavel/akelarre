@@ -76,7 +76,7 @@ GoatRun!
 
 Pinball
 
-![image](https://imgur.com/EhbQrdY)
+![image](https://i.imgur.com/EhbQrdY_d.webp?maxwidth=760&fidelity=grand)
 
 Avoid the Potions 
 
