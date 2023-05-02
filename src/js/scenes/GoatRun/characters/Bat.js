@@ -29,7 +29,7 @@ export default class Bat extends Phaser.GameObjects.Sprite {
 
     // Detecta a que distancia está del personaje para bajar e ir a por ella
     movimiento_bats(){
-        if(Math.abs(this.scene.player.body.position.x - this.body.position.x) < 400){
+        if(Math.abs(this.scene.player.body.position.x - this.body.position.x) < 430){
             if(this.body.position.y > 215){
                 this.body.velocity.y += 0.4; 
             }
