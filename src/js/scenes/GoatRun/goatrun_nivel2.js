@@ -105,7 +105,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
   }
 
   checkLevel() {
-    if (this.distance > 15000) {
+    if (this.distance > 2000) {
       this.changeScene();
       this.isInvulnerable = false;
       setTimeout(() => {
