@@ -6,20 +6,7 @@ const config = {
   nextLevel: "cueva",
   keyHint: "Presiona espacio para \n mover el flipper",
   gravity: 1.1,
-  assets: [
-    {
-      label: "background",
-      url: "./src/assets/Backgrounds/cave.jpg",
-    },
-    {
-      label: "ball",
-      url: "./src/assets/Pinball/ball.png",
-    },
-    {
-      label: "bumper2",
-      url: "./src/assets/Pinball/rock2.png",
-    },
-  ],
+  assets: [],
   ball: { x: 260, y: 0 },
   flippers: [{ x: HALF - 170, y: FLIPPERS_Y, direction: "left", key: "SPACE" }],
   bumpers: [

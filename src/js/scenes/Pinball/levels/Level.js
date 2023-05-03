@@ -107,7 +107,6 @@ export default class Level extends Phaser.Scene {
   }
 
   update() {
-    console.log(this.game.config.keys);
     if (!this.over) {
       this.ball.update(); // Check if the ball falls out of the screen
     }
@@ -115,79 +114,81 @@ export default class Level extends Phaser.Scene {
 
   gameOver(isWin) {
     // Add black rectangle to cover the screen
-    this.over = true;
-    const graphics = this.add.graphics();
-    graphics.fillStyle(0x000000, 0.9);
-    graphics.fillRect(0, 0, this.GWIDTH, this.GHEIGHT);
+    if (!this.over) {
+      this.over = true;
+      const graphics = this.add.graphics();
+      graphics.fillStyle(0x000000, 0.9);
+      graphics.fillRect(0, 0, this.GWIDTH, this.GHEIGHT);
 
-    // Display game over text
-    const message = isWin
-      ? {
-          banner: "You Win!",
-          instructions:
-            "Presiona: \nR para volver a jugar, \nESC para salir, \nENTER para continuar",
+      // Display game over text
+      const message = isWin
+        ? {
+            banner: "You Win!",
+            instructions:
+              "Presiona: \nR para volver a jugar, \nESC para salir, \nENTER para continuar",
+          }
+        : {
+            banner: "Game Over",
+            instructions:
+              "Presiona: \nR para volver a intentar, \nESC para salir",
+          };
+
+      const gameOverText = this.add.text(
+        this.GWIDTH / 2,
+        this.GHEIGHT / 2,
+        message.banner,
+        { fontSize: "64px", fill: "#8811b6" }
+      );
+      gameOverText.setOrigin(0.5, 0.5);
+
+      const status = this.add.text(
+        this.GWIDTH / 2,
+        this.GHEIGHT / 2 - 200,
+        this.score.scoreText._text + "\n" + this.score.lifeText._text,
+        { font: "28px Arial", fill: "#fff", align: "center" }
+      );
+      status.setOrigin(0.5, 0.5);
+      // Add keyboard input to restart or exit
+      const restartKey = this.input.keyboard.addKey("R");
+      const exitKey = this.input.keyboard.addKey("ESC");
+      restartKey.on("down", () => {
+        this.scene.restart();
+      });
+
+      exitKey.on("down", () => {
+        this.scene.stop();
+        this.scene.start("cueva");
+      });
+      if (isWin) {
+        const enterKey = this.input.keyboard.addKey("ENTER");
+        if (this.NEXT_LEVEL === "cueva" && !this.game.config.key1) {
+          this.game.config.keys++;
+          this.game.config.key1 = true;
+          let newKey = this.add.text(
+            this.GWIDTH / 2,
+            this.GHEIGHT / 2 - 100,
+            "Alaaaa, de tanto golpear rocas has \nencontrado una llave oculta entre ellas \n\nAhora tienes " +
+              this.game.config.keys +
+              " llaves!",
+            { font: "16px Arial", fill: "#a3ff00", align: "center" }
+          );
+          newKey.setOrigin(0.5, 0.5);
         }
-      : {
-          banner: "Game Over",
-          instructions:
-            "Presiona: \nR para volver a intentar, \nESC para salir",
-        };
 
-    const gameOverText = this.add.text(
-      this.GWIDTH / 2,
-      this.GHEIGHT / 2,
-      message.banner,
-      { fontSize: "64px", fill: "#8811b6" }
-    );
-    gameOverText.setOrigin(0.5, 0.5);
-
-    const status = this.add.text(
-      this.GWIDTH / 2,
-      this.GHEIGHT / 2 - 200,
-      this.score.scoreText._text + "\n" + this.score.lifeText._text,
-      { font: "28px Arial", fill: "#fff", align: "center" }
-    );
-    status.setOrigin(0.5, 0.5);
-    // Add keyboard input to restart or exit
-    const restartKey = this.input.keyboard.addKey("R");
-    const exitKey = this.input.keyboard.addKey("ESC");
-    restartKey.on("down", () => {
-      this.scene.restart();
-    });
-
-    exitKey.on("down", () => {
-      this.scene.stop();
-      this.scene.start("cueva");
-    });
-    if (isWin) {
-      const enterKey = this.input.keyboard.addKey("ENTER");
-      if (this.NEXT_LEVEL === "cueva" && !this.game.config.key1) {
-        this.game.config.keys++;
-        this.game.config.key1 = true;
-        let newKey = this.add.text(
-          this.GWIDTH / 2,
-          this.GHEIGHT / 2 - 100,
-          "Alaaaa, de tanto golpear rocas has \nencontrado una llave oculta entre ellas \n\nAhora tienes " +
-            this.game.config.keys +
-            " llaves!",
-          { font: "16px Arial", fill: "#a3ff00", align: "center" }
-        );
-        newKey.setOrigin(0.5, 0.5);
+        enterKey.on("down", () => {
+          this.scene.stop();
+          this.scene.start(this.NEXT_LEVEL);
+        });
       }
 
-      enterKey.on("down", () => {
-        this.scene.stop();
-        this.scene.start(this.NEXT_LEVEL);
-      });
+      // Display instructions to the player
+      const instructionsText = this.add.text(
+        this.GWIDTH / 2,
+        this.GHEIGHT - 70,
+        message.instructions,
+        { font: "20px Arial", fill: "#fff" }
+      );
+      instructionsText.setOrigin(0.5, 0.5);
     }
-
-    // Display instructions to the player
-    const instructionsText = this.add.text(
-      this.GWIDTH / 2,
-      this.GHEIGHT - 70,
-      message.instructions,
-      { font: "20px Arial", fill: "#fff" }
-    );
-    instructionsText.setOrigin(0.5, 0.5);
   }
 }
