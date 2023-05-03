@@ -20,6 +20,7 @@ export default class GoldenBat extends Bats {
     //////////this.tipo = "default";
     this.sumaVida = 1;
     //this.create();
-
+    if(x < 100) this.setFlipX(true);
+    else this.setFlipX(false);
   }
 }

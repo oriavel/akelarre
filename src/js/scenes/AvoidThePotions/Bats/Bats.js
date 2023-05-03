@@ -21,6 +21,8 @@ export default class Bats extends Phaser.Physics.Arcade.Sprite {
     //////////this.tipo = "default";
     this.sumaVida = 0;
     //this.create();
+    if(x < 100) this.setFlipX(true);
+    else this.setFlipX(false);
 
   }
 
@@ -30,6 +32,8 @@ export default class Bats extends Phaser.Physics.Arcade.Sprite {
     // Cambia las direcciones de los murciélagos al chocar con los laterales
     if (this.body.position.x < 0 || this.body.position.x > this.scene.game.config.width -20) {
       this.body.velocity.x *= -1;
+      if(this.body.position.x < 0 ) this.setFlipX(true);
+      else this.setFlipX(false);
     }
     this.scene.physics.collide(this.scene.amaia, this, this.batCollisionHandler, null, this);
   }
