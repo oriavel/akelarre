@@ -16,7 +16,7 @@ const config = {
       url: "./src/assets/Pinball/ball.png",
     },
     {
-      label: "rock",
+      label: "bumper",
       url: "./src/assets/Pinball/rock.png",
     },
   ],

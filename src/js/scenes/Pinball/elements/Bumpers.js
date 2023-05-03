@@ -6,7 +6,7 @@ export default class Bumper {
     this.radius = 20;
 
     this.circle = this.scene.physics.add
-      .image(this.x, this.y, "rock")
+      .image(this.x, this.y, "bumper")
       .setDisplaySize(this.radius * 2, this.radius * 2)
       .setCircle(1);
 

@@ -102,11 +102,4 @@ export default class Flipper {
       },
     });
   }
-
-  destroy() {
-    this.flipper.destroy();
-    this.rectangle.destroy();
-    this.lever.destroy();
-    this.tweener.destroy();
-  }
 }
