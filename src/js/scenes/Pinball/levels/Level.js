@@ -145,7 +145,7 @@ export default class Level extends Phaser.Scene {
       this.GWIDTH / 2,
       this.GHEIGHT / 2 - 200,
       this.score.scoreText._text + "\n" + this.score.lifeText._text,
-      { fontSize: "28px", fill: "#fff", align: "center" }
+      { font: "28px Arial", fill: "#fff", align: "center" }
     );
     status.setOrigin(0.5, 0.5);
     // Add keyboard input to restart or exit
@@ -161,7 +161,7 @@ export default class Level extends Phaser.Scene {
     });
     if (isWin) {
       const enterKey = this.input.keyboard.addKey("ENTER");
-      if ((this.NEXT_LEVEL === "cueva" && !this.game.config.key1)) {
+      if (this.NEXT_LEVEL === "cueva" && !this.game.config.key1) {
         this.game.config.keys++;
         this.game.config.key1 = true;
         let newKey = this.add.text(
@@ -170,7 +170,7 @@ export default class Level extends Phaser.Scene {
           "Alaaaa, de tanto golpear rocas has \nencontrado una llave oculta entre ellas \n\nAhora tienes " +
             this.game.config.keys +
             " llaves!",
-          { fontSize: "16px", fill: "#a3ff00", align: "center" }
+          { font: "16px Arial", fill: "#a3ff00", align: "center" }
         );
         newKey.setOrigin(0.5, 0.5);
       }
@@ -186,8 +186,8 @@ export default class Level extends Phaser.Scene {
       this.GWIDTH / 2,
       this.GHEIGHT - 70,
       message.instructions,
-      { fontSize: "20px", fill: "#fff" }
+      { font: "20px Arial", fill: "#fff" }
     );
-    instructionsText.setOrigin(0.5, 0.5);
-  }
+    instructionsText.setOrigin(0.5, 0.5);
+  }
 }
