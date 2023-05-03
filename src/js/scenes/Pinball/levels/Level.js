@@ -152,10 +152,12 @@ export default class Level extends Phaser.Scene {
       const restartKey = this.input.keyboard.addKey("R");
       const exitKey = this.input.keyboard.addKey("ESC");
       restartKey.on("down", () => {
+        this.music.stop();
         this.scene.restart();
       });
 
       exitKey.on("down", () => {
+        this.music.stop();
         this.scene.stop();
         this.scene.start("cueva");
       });
@@ -176,6 +178,7 @@ export default class Level extends Phaser.Scene {
         }
 
         enterKey.on("down", () => {
+          this.music.stop();
           this.scene.stop();
           this.scene.start(this.NEXT_LEVEL);
         });

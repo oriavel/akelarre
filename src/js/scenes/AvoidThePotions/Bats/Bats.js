@@ -13,7 +13,7 @@ export default class Bats extends Phaser.Physics.Arcade.Sprite {
     // Configurar las propiedades de la física
     this.body.setCollideWorldBounds(false);
 
-    this.play("bat").setScale(1.4);
+    this.play("batA").setScale(1.4);
     this.setSize(15,15);
     this.body.allowGravity = false;
     this.body.velocity.x = 200;
