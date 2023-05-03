@@ -29,7 +29,7 @@ export default class AvoidThePotions extends Phaser.Scene {
   loadMiniMalos() {
     // Mini malos
     this.load.spritesheet(
-      "bat",
+      "batA",
       this.assetsUrl + "AvoidThePotions/bat_spritesheet.png",
       { frameWidth: 31, frameHeight: 32 }
     );
@@ -112,10 +112,10 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     // poner un fondo decente
     this.load.image(
-      "cave",
+      "caveA",
       this.assetsUrl + "AvoidThePotions/cueva_potions.png"
     );
-    this.load.image("ground", this.assetsUrl + "AvoidThePotions/platform2.png");
+    this.load.image("groundA", this.assetsUrl + "AvoidThePotions/platform2.png");
 
     // Hacer una amaia original TODO
     this.load.spritesheet("amaia", this.assetsUrl + "Personajes/Prota.png", {
@@ -149,7 +149,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 
   create() {
     this.background = this.add
-      .tileSprite(0, 0, 800, 500, "cave")
+      .tileSprite(0, 0, 800, 500, "caveA")
       .setOrigin(0)
       .setScale(1.95);
     this.anims.create({
@@ -198,8 +198,8 @@ export default class AvoidThePotions extends Phaser.Scene {
       frameRate: 20,
     });
     this.anims.create({
-      key: "bat",
-      frames: this.anims.generateFrameNumbers("bat", { start: 0, end: 3 }),
+      key: "batA",
+      frames: this.anims.generateFrameNumbers("batA", { start: 0, end: 3 }),
       frameRate: 5,
       repeat: -1,
     });
@@ -341,7 +341,7 @@ export default class AvoidThePotions extends Phaser.Scene {
 
     //Crea el suelo
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(400, 564, "ground").setScale(2).refreshBody();
+    this.platforms.create(400, 564, "groundA").setScale(2).refreshBody();
 
     // Crea el sprite para el personaje "amaia"
     this.amaia = new Amaia(this, 300, 400);
