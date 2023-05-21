@@ -7,7 +7,12 @@ import PotionRed from "./Potions/PotionRed.js";
 import PotionPink from "./Potions/PotionPink.js";
 import Amaia from "./amaia.js";
 
+/**
+ * Escena de Título.
+ * @extends Phaser.Scene
+ */
 export default class AvoidThePotions extends Phaser.Scene {
+  
   constructor() {
     super({ key: "avoidthepotions" });
   }
@@ -137,17 +142,24 @@ export default class AvoidThePotions extends Phaser.Scene {
       { frameWidth: 50, frameHeight: 32 }
     );
 
+    this.load.spritesheet('vidasImg', 
+      'src/assets/GoatRun/hearts.png',
+      { frameWidth: 28, frameHeight: 24 }
+    );
+
     this.loadMiniMalos();
     this.loadImages();
-
+      
     this.load.audio('break_potion_audio', 'src/audio/potion_break.mp3');
     this.load.audio('bat_death_audio','src/audio/bat_death.mp3');
     this.load.audio('fire_audio','src/audio/fire1.mp3');
     this.load.audio('gameMusic_audio','src/audio/avoidThePotion.ogg');
     this.load.audio('ough_audio','src/audio/ough.mp3');
+    console.log("que");
   }
 
   create() {
+    console.log("es esto");
     this.background = this.add
       .tileSprite(0, 0, 800, 500, "caveA")
       .setOrigin(0)
@@ -277,6 +289,17 @@ export default class AvoidThePotions extends Phaser.Scene {
       repeat: -1,
     });
     this.anims.create({
+      key: 'heart_filled',
+      frames: [ { key: 'vidasImg', frame: 1 } ],
+      frameRate: 20
+    });
+
+    this.anims.create({
+      key: 'heart_empty',
+      frames: [ { key: 'vidasImg', frame: 0 } ],
+      frameRate: 20
+    });
+    this.anims.create({
       key: "amaia_running_left",
       frames: this.anims.generateFrameNumbers("amaia", { start: 8, end: 11 }),
       frameRate: 7,
@@ -353,6 +376,11 @@ export default class AvoidThePotions extends Phaser.Scene {
     // Inicialización de las variables para controlar la aparición de murciélagos
     this.nextBatTime = 0;
 
+    // Creamos los corazones para representar las vidas
+    this.heart1 = this.add.sprite(680, 30, 'vidasImg');
+    this.heart2 = this.add.sprite(710, 30, 'vidasImg');
+    this.heart3 = this.add.sprite(740, 30, 'vidasImg');
+    this.heart1.setVisible = false;
     // Crea un grupo para las pociones
     this.potionGroup = this.add.group({
       classType: Potion,
@@ -376,15 +404,9 @@ export default class AvoidThePotions extends Phaser.Scene {
     // Duración de la partida
     this.tiempoInicio = 60000;
     this.temporizador = this.tiempoInicio;
-    // Texto en pantalla
-    this.livesLeft = this.add.text(16, 16, "Lives: " + this.amaia.lives, {
-      fontSize: "32px",
-      fill: "white",
-      fontFamily: "font",
-    });
     this.timeLeft = this.add.text(
-      this.game.config.width - 250,
-      16,
+      25,
+      12,
       "Time Left: " +
         Math.floor(this.temporizador / 60000) +
         "m " +
@@ -434,7 +456,27 @@ export default class AvoidThePotions extends Phaser.Scene {
 
   update() {
 
-    this.livesLeft.setText("Lives: " + this.amaia.lives);
+    //Controlamos los corazones de las vidas (maximo de vidas = 3)
+    if(this.amaia.lives == 3){
+      this.heart1.anims.play('heart_filled', true);
+      this.heart2.anims.play('heart_filled', true);
+      this.heart3.anims.play('heart_filled', true);
+    }
+    else if(this.amaia.lives == 2){
+      this.heart1.anims.play('heart_empty', true);
+      this.heart2.anims.play('heart_filled', true);
+      this.heart3.anims.play('heart_filled', true);
+    }
+    else if(this.amaia.lives == 1){
+      this.heart1.anims.play('heart_empty', true);
+      this.heart2.anims.play('heart_empty', true);
+      this.heart3.anims.play('heart_filled', true);
+    }
+    else if(this.amaia.lives == 0){
+      this.heart1.anims.play('heart_empty', true);
+      this.heart2.anims.play('heart_empty', true);
+      this.heart3.anims.play('heart_empty', true);
+    }
     if (!this.startGame && this.enterKey.isDown && !this.finishedGame) {
       this.text.setVisible(false);
       this.graphics.setVisible(false);
