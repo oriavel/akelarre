@@ -1,4 +1,3 @@
-import AvoidThePotions from "../avoidthepotions.js";
 
 export default class Bats extends Phaser.Physics.Arcade.Sprite {
 
@@ -54,8 +53,7 @@ export default class Bats extends Phaser.Physics.Arcade.Sprite {
   batCollisionHandler(amaia, bat) {
     // si al chocar amaia no se encuentra por encima del murcielago, la que sufre daño es ella
     if(amaia.y < bat.y-35){
-
-      this.scene.amaia.lives += this.sumaVida;
+      if(this.scene.amaia.lives < 3) this.scene.amaia.lives += this.sumaVida;
       // El murciélago muere
       this.death();
 
