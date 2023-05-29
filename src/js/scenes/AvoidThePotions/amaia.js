@@ -19,7 +19,7 @@ export default class Amaia extends Phaser.GameObjects.Sprite{
         this.inversedControlsTimer = 0;
         this.jumpTimer = 0;
         this.nKills = 0;
-        this.lives = 2;
+        this.lives = 3;
         this.isHurt = "none";
     }    
     setSprite(){

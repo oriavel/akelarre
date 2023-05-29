@@ -24,6 +24,7 @@ let config = {
   key1: false,
   key2: false,
   key3: false,
+  dGatoInicio: false, //Para el dialogo al principio del juego de el gato llamandote
   minijuego: 0,
   pixelArt: true,
   scale: {
