@@ -227,12 +227,14 @@ export default class Cueva extends Phaser.Scene {
     dialogBox.setPosicion(975, 1450);
     dialogBox.setNombre(nombre);
     dialogBox.visible(true);
+    this.player.setHablando(true);
     if (length < dialogo.length) {
       dialogBox.setTexto(dialogo[length]);
       length++;
     }
     else{
       dialogBox.visible(false);
+      this.player.setHablando(false);
       this.game.config.dGatoInicio = true;
       length = 0;
     }
@@ -316,17 +318,27 @@ export default class Cueva extends Phaser.Scene {
     this.player.setSprite();
 
     if (Phaser.Input.Keyboard.JustDown(this.enter) && enPortal) {
-      enPortal = false;
-      this.game.config.minijuego = 1;
-      this.audioCueva.pause();
-      this.audioCueva.currentTime = 0;
+
       if (this.portal == this.portal1 && this.game.config.keys == 2) {
+        enPortal = false;
+        this.game.config.minijuego = 1;
+        this.audioCueva.pause();
+        this.audioCueva.currentTime = 0;
         this.scene.stop(this);
         this.scene.start("avoidthepotions");
+        
       } else if (this.portal == this.portal2) {
+        enPortal = false;
+        this.game.config.minijuego = 1;
+        this.audioCueva.pause();
+        this.audioCueva.currentTime = 0;
         this.scene.stop(this);
         this.scene.start("PinballLevel1");
       } else if (this.portal == this.portal3) {
+        enPortal = false;
+        this.game.config.minijuego = 1;
+        this.audioCueva.pause();
+        this.audioCueva.currentTime = 0;
         this.scene.stop(this);
         this.scene.start("goatrun_nivel1");
       }
