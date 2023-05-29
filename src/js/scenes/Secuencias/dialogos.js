@@ -229,7 +229,15 @@ export default class Dialogos{
         "¡A-Adios!..."
         ];
         dialogos.push(dialogoFinal);
-        
+
+        var idGatoIni = 11;
+        idArray.push(idGatoIni);
+        const dialogoGatoIni = [ 
+        "¡Eh, tú!",
+        "¡Si, tú, humana!",
+        "¡Ven a hablar conmigo :)! \nSoy el apuesto gato a tu izquierda."
+        ];
+        dialogos.push(dialogoGatoIni);
 
         while(!found && i < idArray.length){
             if(index == idArray[i])

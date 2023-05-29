@@ -78,11 +78,11 @@ export default class Cueva extends Phaser.Scene {
     this.motos.setDepth(1);
     this.motos.body.offset.y = 16;
     this.motos.body.immovable = true;
-    
+
     this.gato = this.physics.add.sprite(690,1360, 'gato').setScale(2);
     this.gato.setSize(15, 15);
     this.gato.setDepth(1);
-    this.gato.body.offset.y = 16;
+    this.gato.body.offset.y = 8;
     this.gato.body.immovable = true;
 
     //Objetos interactuables
@@ -218,6 +218,24 @@ export default class Cueva extends Phaser.Scene {
       this.portalesVisibles = true;
       this.player.setPosition(980, 700);
     }
+    if(!this.game.config.dGatoInicio){
+      this.dialogoInicio(this.dialogBox.getDialogo(11), this.dialogBox, "gato"); //Para asegurar que se ve bien al gato
+    }
+  }
+
+  dialogoInicio(dialogo, dialogBox, nombre){ //Dialogo que asegura que se ve al gato
+    dialogBox.setPosicion(975, 1450);
+    dialogBox.setNombre(nombre);
+    dialogBox.visible(true);
+    if (length < dialogo.length) {
+      dialogBox.setTexto(dialogo[length]);
+      length++;
+    }
+    else{
+      dialogBox.visible(false);
+      this.game.config.dGatoInicio = true;
+      length = 0;
+    }
   }
 
   addOverlap(player, npc, dialogo, nombre, dialogBox) {
@@ -270,7 +288,7 @@ export default class Cueva extends Phaser.Scene {
         this.portal = portal;
         if (this.portal.x == this.portal1.x && this.game.config.keys != 2) {
           this.dialogBox.setTexto(
-            "No deberia de entrar hasta que no tenga las otras \n2 piezas..."
+            "No deberia de entrar hasta que no tenga las otras \n2 piezas... \n(Pulsa ESC para salir)"
           );
         } else {
           this.dialogBox.setTexto(dialogo[0]);
@@ -288,6 +306,9 @@ export default class Cueva extends Phaser.Scene {
 
   //Loop del juego
   update() {
+    if(!this.game.config.dGatoInicio && Phaser.Input.Keyboard.JustDown(this.espacio)){
+      this.dialogoInicio(this.dialogBox.getDialogo(11), this.dialogBox, "gato");
+    }
     if (!this.player.isHablando() && !enPortal) {
       this.player.checkMovement(this.cursors);
     }
