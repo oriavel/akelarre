@@ -42,6 +42,14 @@ export default class Level extends Phaser.Scene {
       this.load.image(asset.label, asset.url);
     });
     this.load.audio("music", "src/audio/brujasPinball.mp3");
+
+    // Lifes
+    this.load.spritesheet("hearts", "src/assets/GoatRun/hearts.png", {
+      frameWidth: 28,
+      frameHeight: 24,
+    });
+    this.load.image("heart", "src/assets/GoatRun/heart.png");
+    this.load.image("heart-filled", "src/assets/GoatRun/heart-filled.png");
   }
 
   create() {
@@ -144,7 +152,7 @@ export default class Level extends Phaser.Scene {
       const status = this.add.text(
         this.GWIDTH / 2,
         this.GHEIGHT / 2 - 200,
-        this.score.scoreText._text + "\n" + this.score.lifeText._text,
+        this.score.scoreText._text,
         { font: "28px Arial", fill: "#fff", align: "center" }
       );
       status.setOrigin(0.5, 0.5);
