@@ -16,6 +16,8 @@ export default class Score {
         fill: "#ffffff",
       }
     );
+
+    // print lifes
     const xHrt = 40;
     const yHrt = scene.game.config.height - 50;
     this.heart1 = this.scene.add.sprite(xHrt, yHrt, "hearts");

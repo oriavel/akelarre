@@ -48,7 +48,7 @@ const config = {
     },
     { x: HALF, y: -10, slope: 1.571, bar: "0 0 0 830 10 830 10 0" }, // horizontal wall above
   ],
-  scoring: { goal: 100, hitPoints: 10, lifes: 3 },
+  scoring: { goal: 100, hitPoints: 10 },
 };
 
 export default config;
