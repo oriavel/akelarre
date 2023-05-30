@@ -55,6 +55,9 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
     this.enterKey = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.ENTER
     );
+    this.escape = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ESC
+    );
   }
 
   createEnemies() {
@@ -105,7 +108,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
   }
 
   checkLevel() {
-    if (this.distance > 15000) {
+    if (this.distance > 4000) {
       this.changeScene();
       this.isInvulnerable = false;
       setTimeout(() => {

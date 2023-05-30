@@ -249,7 +249,7 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         this.createInitialScreen();
 
-        this.scoreText = this.add.text(16, 16, 'Distance: 0/15000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
+        this.scoreText = this.add.text(16, 16, 'Distance: 0/4000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.hechizoText = this.add.text(16, 46, 'Hechizo de gravedad - Activado', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.hechizoText.setVisible(false);
 
@@ -354,9 +354,9 @@ export default class BaseGoatRun extends Phaser.Scene {
                 this.firstStart = false;
             }
             if(!this.amaiaIsDeath){
-                this.background.tilePositionX += 0.15;
+                this.background.tilePositionX += 0.8;
                 this.distance += 1;
-                this.scoreText.setText('Distance: ' + (this.distance || '') + '/15000');
+                this.scoreText.setText('Distance: ' + (this.distance || '') + '/4000');
                 this.movimientoEnemies();
                 
                     if(this.cursors.up.isDown){
@@ -470,7 +470,7 @@ export default class BaseGoatRun extends Phaser.Scene {
     // Comprueba que ha llegado a la distancia necesaria para pasarse el nivel
     checkLevel(){
         /* CADA CLASE HEREDADA HACE SU PROPIO CAMBIO DE NIVEL
-        if (this.distance > 15000){
+        if (this.distance > 14000){
             this.changeScene();
             this.isInvulnerable = false;
             setTimeout(() => {

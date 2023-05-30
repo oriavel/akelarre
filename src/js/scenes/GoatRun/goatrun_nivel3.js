@@ -41,9 +41,9 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
         this.firstStart = false;
       }
       if (!this.amaiaIsDeath) {
-        this.background.tilePositionX += 0.15;
+        this.background.tilePositionX += 0.8;
         this.distance += 1;
-        this.scoreText.setText("Distance: " + (this.distance || "") + "/15000");
+        this.scoreText.setText("Distance: " + (this.distance || "") + "/4000");
         this.movimientoEnemies();
 
         if (this.cursors.up.isDown) {
@@ -126,7 +126,7 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
           console.log("pierde");
           this.music.stop();
           this.scene.stop(this.key);
-          this.scene.start("goatrun_nivel1");
+          this.scene.start("goatrun_nivel3");
         } else if (this.cursors.left.isDown) {
           // (this.escape.isDown){ // Vuelve a la cueva
           this.music.stop();
@@ -173,6 +173,9 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
     );
     this.enterKey = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.ENTER
+    );
+    this.escape = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ESC
     );
   }
 
@@ -238,7 +241,7 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
   }
 
   checkLevel() {
-    if (this.distance > 15000) {
+    if (this.distance > 4000) {
       this.changeScene();
       this.isInvulnerable = false;
       setTimeout(() => {
