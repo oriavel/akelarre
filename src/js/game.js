@@ -13,6 +13,7 @@ import Portada from "./scenes/Secuencias/Portada.js";
 import PantallaFinal from "./scenes/Secuencias/pantallaFinal.js";
 import PinballLevel1 from "./scenes/Pinball/levels/PinballLevel1.js";
 import PinballLevel2 from "./scenes/Pinball/levels/PinballLevel2.js";
+import PinballLevel3 from "./scenes/Pinball/levels/PinballLevel3.js";
 
 let config = {
   type: Phaser.CANVAS,
@@ -54,18 +55,19 @@ let config = {
   },
 
   scene: [
-    // Portada,
-    // Contexto,
-    // Intro,
-    // Cueva,
+    Portada,
+    Contexto,
+    Intro,
+    Cueva,
     PinballLevel1,
     PinballLevel2,
-    // AvoidThePotions,
-    // GoatRun_Nivel1,
-    // GoatRun_Nivel2,
-    // GoatRun_Nivel3,
-    // Final,
-    // PantallaFinal,
+    PinballLevel3,
+    AvoidThePotions,
+    GoatRun_Nivel1,
+    GoatRun_Nivel2,
+    GoatRun_Nivel3,
+    Final,
+    PantallaFinal,
   ],
 
   title: "Akelarre",
