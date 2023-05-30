@@ -4,7 +4,7 @@ const FLIPPERS_Y = 520;
 const config = {
   level: "PinballLevel1",
   nextLevel: "PinballLevel2",
-  keyHint: "Presiona las flechas para \n mover los flippers",
+  keyHint: "Presiona espacio para \n mover los flippers",
   gravity: 1,
   assets: [
     {
@@ -22,8 +22,8 @@ const config = {
   ],
   ball: { x: 130, y: 0 },
   flippers: [
-    { x: HALF + 90, y: FLIPPERS_Y, direction: "right", key: "RIGHT" },
-    { x: HALF - 90, y: FLIPPERS_Y, direction: "left", key: "LEFT" },
+    { x: HALF + 90, y: FLIPPERS_Y, direction: "right", key: "SPACE" },
+    { x: HALF - 90, y: FLIPPERS_Y, direction: "left", key: "SPACE" },
   ],
   bumpers: [
     { x: 200, y: 190 },
