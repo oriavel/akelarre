@@ -4,7 +4,6 @@ const FLIPPERS_Y = 520;
 const config = {
   level: "PinballLevel1",
   nextLevel: "PinballLevel2",
-  //keyHint: "Presiona ESPACIO \npara mover el flipper",
   gravity: 1,
   assets: [
     {
