@@ -41,9 +41,11 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
         this.firstStart = false;
       }
       if (!this.amaiaIsDeath) {
-        this.background.tilePositionX += 0.15;
+        this.background.tilePositionX += 0.8;
         this.distance += 1;
-        this.scoreText.setText("Distance: " + (this.distance || "") + "/8000");
+
+        this.scoreText.setText("Distance: " + (this.distance || "") + "/4000");
+
         this.movimientoEnemies();
 
         if (this.cursors.up.isDown) {
@@ -175,6 +177,9 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
     this.enterKey = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.ENTER
     );
+    this.escape = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ESC
+    );
   }
 
   createEnemies() {
@@ -232,7 +237,9 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
   }
 
   checkLevel() {
-    if (this.distance > 8000) {
+
+    if (this.distance > 4000) {
+
       this.changeScene();
       this.isInvulnerable = false;
       setTimeout(() => {
