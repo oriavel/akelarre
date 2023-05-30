@@ -37,6 +37,7 @@ export default class Intro extends Phaser.Scene {
         this.game.config.key1 =  false;
         this.game.config.key2 =  false;
         this.game.config.key3 =  false;
+        this.game.config.dGatoInicio =  false;
         //Cueva
         const map = this.make.tilemap({ key: 'tilemap' })
 		const tileset = map.addTilesetImage('PatronCueva', 'tiles')

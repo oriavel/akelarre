@@ -71,7 +71,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
         var numAleatorio = Math.random();
         if (numAleatorio < 0.5) {
           // Generamos una piedra
-          var objeto = new Rock(self, 950, 350, "rock2", self.player, 2);
+          var objeto = new Rock(self, 950, 355, "rock2", self.player, 2);
           self.rocks.add(objeto);
         } else {
           // Generamos un murcielago
@@ -105,7 +105,7 @@ export default class GoatRun_Nivel2 extends BaseGoatRun {
   }
 
   checkLevel() {
-    if (this.distance > 15000) {
+    if (this.distance > 8000) {
       this.changeScene();
       this.isInvulnerable = false;
       setTimeout(() => {
