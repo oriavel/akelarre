@@ -3,9 +3,8 @@ const FLIPPERS_Y = 520;
 
 const config = {
   level: "PinballLevel2",
-  nextLevel: "cueva",
-  keyHint: "Presiona espacio para \n mover el flipper",
-  gravity: 1.1,
+  nextLevel: "PinballLevel3",
+  gravity: 1,
   assets: [],
   ball: { x: 260, y: 0 },
   flippers: [{ x: HALF - 170, y: FLIPPERS_Y, direction: "left", key: "SPACE" }],
@@ -30,7 +29,7 @@ const config = {
     },
     { x: HALF, y: -10, slope: 1.571, bar: "0 0 0 830 10 830 10 0" }, // horizontal wall above
   ],
-  scoring: { goal: 100, hitPoints: 10, lifes: 7 },
+  scoring: { goal: 100, hitPoints: 10 },
 };
 
 export default config;
