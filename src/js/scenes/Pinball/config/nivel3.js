@@ -2,8 +2,8 @@ const HALF = 400 - 5;
 const FLIPPERS_Y = 520;
 
 const config = {
-  level: "PinballLevel1",
-  nextLevel: "PinballLevel2",
+  level: "PinballLevel3",
+  nextLevel: "cueva",
   //keyHint: "Presiona ESPACIO \npara mover el flipper",
   gravity: 1,
   assets: [
@@ -20,28 +20,25 @@ const config = {
       url: "./src/assets/Pinball/rock.png",
     },
   ],
-  ball: { x: 130, y: 0 },
+  ball: { x: 110, y: 0 },
   flippers: [
-    { x: HALF + 90, y: FLIPPERS_Y, direction: "right", key: "SPACE" },
-    { x: HALF - 90, y: FLIPPERS_Y, direction: "left", key: "SPACE" },
+    { x: HALF + 110, y: FLIPPERS_Y, direction: "right", key: "SPACE" },
+    { x: HALF - 110, y: FLIPPERS_Y, direction: "left", key: "SPACE" },
   ],
   bumpers: [
     { x: 200, y: 190 },
-    { x: 400, y: 190 },
     { x: 600, y: 190 },
-    { x: 250, y: 140 },
-    { x: 550, y: 140 },
-    { x: 400, y: 120 },
+    { x: 400, y: 90 },
   ],
   walls: [
     {
-      x: HALF - 257,
+      x: HALF - 277,
       y: FLIPPERS_Y - 255,
       slope: -0.45,
       bar: "0 0 0 600 10 600 10 0",
     },
     {
-      x: HALF + 265,
+      x: HALF + 285,
       y: FLIPPERS_Y - 255,
       slope: 0.45,
       bar: "0 0 0 600 10 600 10 0",

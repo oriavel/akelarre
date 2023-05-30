@@ -7,7 +7,7 @@ export default class Level extends Phaser.Scene {
   constructor(
     level,
     nextLevel,
-    keyHint,
+    //keyHint,
     gravity,
     assets, // array of assets and images to preload { label, url }
     ball, // ball position {x,y}
@@ -34,7 +34,7 @@ export default class Level extends Phaser.Scene {
     this.SCORING = scoring;
     this.ASSETS = assets;
     this.NEXT_LEVEL = nextLevel;
-    this.HINT = keyHint;
+    this.HINT = "hola"; // TODO
   }
 
   preload() {
