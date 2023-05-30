@@ -43,7 +43,9 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
       if (!this.amaiaIsDeath) {
         this.background.tilePositionX += 0.8;
         this.distance += 1;
+
         this.scoreText.setText("Distance: " + (this.distance || "") + "/4000");
+
         this.movimientoEnemies();
 
         if (this.cursors.up.isDown) {
@@ -75,12 +77,13 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
         } else if (!this.changeCollider) {
           this.player.colliderNormal();
         }
-
+        /*
         if (this.cursors.left.isDown) {
           // Prueba para comprobar animación de muerte
           this.deathScene();
           this.amaiaIsDeath = true;
         }
+        */
 
         if (this.hechizado == true) {
           this.hechizoText.setVisible(true);
@@ -126,7 +129,7 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
           console.log("pierde");
           this.music.stop();
           this.scene.stop(this.key);
-          this.scene.start("goatrun_nivel3");
+          this.scene.start("goatrun_nivel1");
         } else if (this.cursors.left.isDown) {
           // (this.escape.isDown){ // Vuelve a la cueva
           this.music.stop();
@@ -194,19 +197,12 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
         if (numAleatorio < 0.5) {
           // Generamos una piedra
           var nA = Math.random();
-          if (nA > 0.5) {
+          if (nA > 0.4) {
             var objeto = new Rock(self, 950, 350, "rock3", self.player, 3);
             self.rocks.add(objeto);
           } else {
             // 1 de cada 2 aproximadamente son rocas que te matan (llenas de fuego)
-            var objeto = new FireRock(
-              self,
-              950,
-              350,
-              "fire_column_1",
-              self.player,
-              3
-            );
+            var objeto = new FireRock(self, 950, 350, "fire_column_1", self.player, 3);
             self.rocks.add(objeto);
           }
         } else {
@@ -241,7 +237,9 @@ export default class GoatRun_Nivel3 extends BaseGoatRun {
   }
 
   checkLevel() {
+
     if (this.distance > 4000) {
+
       this.changeScene();
       this.isInvulnerable = false;
       setTimeout(() => {

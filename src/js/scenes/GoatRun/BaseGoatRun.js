@@ -98,14 +98,14 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         this.createBackground();
 
-        this.player = new Player_Goatrun(this, 320, 400, 'amaia_goatrun');
+        this.player = new Player_Goatrun(this, 320, 420, 'amaia_goatrun');
         this.physics.world.gravity.y = 400;
 
         this.heart1 = this.add.sprite(680, 30, 'hearts');
         this.heart2 = this.add.sprite(710, 30, 'hearts');
         this.heart3 = this.add.sprite(740, 30, 'hearts');
         
-        this.goat = this.physics.add.sprite(70, 280, 'goat');
+        this.goat = this.physics.add.sprite(70, 370, 'goat');
         this.goat.setSize(90, 180);
 
         this.createEnemies();
@@ -249,7 +249,9 @@ export default class BaseGoatRun extends Phaser.Scene {
 
         this.createInitialScreen();
 
+
         this.scoreText = this.add.text(16, 16, 'Distance: 0/4000', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
+
         this.hechizoText = this.add.text(16, 46, 'Hechizo de gravedad - Activado', { fontSize: '32px', fill: '#000', fontFamily: 'font'});
         this.hechizoText.setVisible(false);
 
@@ -276,15 +278,10 @@ export default class BaseGoatRun extends Phaser.Scene {
     /*
         - Nivel 1, parecido al de dinosaurio de google, aparecen rapido y con frecuencia pero sin dificultad alguna. 
         Tambien aparece de vez en cuando un hechizo que te libera un poco de la gravedad durante 10 segundoss
-        DONE
-
 
         - Nivel 2, aparecen más rápidos y hay murcielagos que quitan dos vidas
-        DONE
-
 
         - Nivel 3, aparecen más frecuentes y algunas rocas tienen fuego, que te matan directamente
-        DONE
     */
 
     createEnemies(){
@@ -354,11 +351,14 @@ export default class BaseGoatRun extends Phaser.Scene {
                 this.firstStart = false;
             }
             if(!this.amaiaIsDeath){
+
                 this.background.tilePositionX += 0.8;
                 this.distance += 1;
                 this.scoreText.setText('Distance: ' + (this.distance || '') + '/4000');
+
                 this.movimientoEnemies();
-                
+                console.log("pos amaia: " + this.player.body.position.y);
+                console.log("pos cabra: " + this.goat.body.position.y);
                     if(this.cursors.up.isDown){
                         if(!this.jump){ // Si no está saltando
                             this.player.jumps();
@@ -384,11 +384,13 @@ export default class BaseGoatRun extends Phaser.Scene {
                     else if (!this.changeCollider){
                         this.player.colliderNormal();
                     }
-            
+                    
+                    /*
                     if(this.cursors.left.isDown){ // Prueba para comprobar animación de muerte
                         this.deathScene();
                         this.amaiaIsDeath = true;
                     }
+                    */
 
                     if(this.hechizado == true){
                         this.hechizoText.setVisible(true);

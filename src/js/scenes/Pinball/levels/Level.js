@@ -7,7 +7,6 @@ export default class Level extends Phaser.Scene {
   constructor(
     level,
     nextLevel,
-    keyHint,
     gravity,
     assets, // array of assets and images to preload { label, url }
     ball, // ball position {x,y}
@@ -34,7 +33,6 @@ export default class Level extends Phaser.Scene {
     this.SCORING = scoring;
     this.ASSETS = assets;
     this.NEXT_LEVEL = nextLevel;
-    this.HINT = keyHint;
   }
 
   preload() {
@@ -42,6 +40,15 @@ export default class Level extends Phaser.Scene {
       this.load.image(asset.label, asset.url);
     });
     this.load.audio("music", "src/audio/brujasPinball.mp3");
+
+    // Lifes
+    this.load.spritesheet("hearts", "src/assets/GoatRun/hearts.png", {
+      frameWidth: 28,
+      frameHeight: 24,
+    });
+    this.load.image("heart", "src/assets/GoatRun/heart.png");
+    this.load.image("heart-filled", "src/assets/GoatRun/heart-filled.png");
+    this.load.image("pinballHint", "src/assets/Pinball/pinballHint.png");
   }
 
   create() {
@@ -56,17 +63,14 @@ export default class Level extends Phaser.Scene {
     background.alpha = 0.3; // Set background opacity to 50%
 
     // Key hint text
-    const hint = this.add.text(
-      this.game.config.width - 95,
-      this.game.config.height - 35,
-      this.HINT,
-      {
-        font: "14px Arial",
-        fill: "#b304cb",
-        align: "right",
-      }
-    );
-    hint.setOrigin(0.5, 0.5);
+    const hint = this.add
+      .image(
+        this.game.config.width - 110,
+        this.game.config.height - 65,
+        "pinballHint"
+      )
+      .setOrigin(0.5, 0.5);
+    hint.setScale(0.7);
 
     // Init scoring
     this.score = new Score(
@@ -144,7 +148,7 @@ export default class Level extends Phaser.Scene {
       const status = this.add.text(
         this.GWIDTH / 2,
         this.GHEIGHT / 2 - 200,
-        this.score.scoreText._text + "\n" + this.score.lifeText._text,
+        this.score.scoreText._text,
         { font: "28px Arial", fill: "#fff", align: "center" }
       );
       status.setOrigin(0.5, 0.5);

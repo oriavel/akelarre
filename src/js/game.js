@@ -13,6 +13,7 @@ import Portada from "./scenes/Secuencias/Portada.js";
 import PantallaFinal from "./scenes/Secuencias/pantallaFinal.js";
 import PinballLevel1 from "./scenes/Pinball/levels/PinballLevel1.js";
 import PinballLevel2 from "./scenes/Pinball/levels/PinballLevel2.js";
+import PinballLevel3 from "./scenes/Pinball/levels/PinballLevel3.js";
 
 let config = {
   type: Phaser.CANVAS,
@@ -61,6 +62,7 @@ let config = {
     Cueva,
     PinballLevel1,
     PinballLevel2,
+    PinballLevel3,
     AvoidThePotions,
     GoatRun_Nivel1,
     GoatRun_Nivel2,
